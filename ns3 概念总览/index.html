@@ -78,7 +78,7 @@
 <link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="NS3,C++," />
+  <meta name="keywords" content="C++,NS3," />
 
 
 
@@ -95,14 +95,14 @@
 
 
 <meta name="description" content="详细内容请参考ns-3 tutorial Key Abstraction在这一节中我们复习一下ns3中仿真的几个关键概念 Node在ns3中最基本的计算设备称为：节点(node),在C++中用Node类抽象。Node类提供管理计算设备的方法。你可以将Node想成是一个你能够增加功能的电脑。可以添加如（应用）Application，（协议栈）protocol stacks，带有驱动的外设卡（peri">
-<meta name="keywords" content="NS3,C++">
+<meta name="keywords" content="C++,NS3">
 <meta property="og:type" content="article">
 <meta property="og:title" content="ns3仿真中的关键抽象">
 <meta property="og:url" content="http://yoursite.com/ns3 概念总览/index.html">
 <meta property="og:site_name" content="Fatart&#39;s blog">
 <meta property="og:description" content="详细内容请参考ns-3 tutorial Key Abstraction在这一节中我们复习一下ns3中仿真的几个关键概念 Node在ns3中最基本的计算设备称为：节点(node),在C++中用Node类抽象。Node类提供管理计算设备的方法。你可以将Node想成是一个你能够增加功能的电脑。可以添加如（应用）Application，（协议栈）protocol stacks，带有驱动的外设卡（peri">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-08-17T12:54:14.227Z">
+<meta property="og:updated_time" content="2017-08-17T13:58:14.906Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="ns3仿真中的关键抽象">
 <meta name="twitter:description" content="详细内容请参考ns-3 tutorial Key Abstraction在这一节中我们复习一下ns3中仿真的几个关键概念 Node在ns3中最基本的计算设备称为：节点(node),在C++中用Node类抽象。Node类提供管理计算设备的方法。你可以将Node想成是一个你能够增加功能的电脑。可以添加如（应用）Application，（协议栈）protocol stacks，带有驱动的外设卡（peri">
@@ -393,7 +393,8 @@
 <p>第一行 声明（declare）一个叫做node的NodeContainer，第二行使用的node对象的Create函数来创建了两个Node对象，并在内部（internally）存储了指向这些对象的指针（我们可以使用NodeContainer的成员函数 Ptr<node> Get(uint32_t n) const来得到生成node的指针）。 </node></p>
 <p>下一步我们要将创建的nodes连接起来，形成一个topology，两点之间最简单的连接形式就是点对点的链接。</p>
 <h4 id="PointToPointHelper"><a href="#PointToPointHelper" class="headerlink" title="PointToPointHelper"></a>PointToPointHelper</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">PointToPointHelper pointToPoint;</div><div class="line">pointToPoint.SetDeviceAttribute (&quot;DataRate&quot;, StringValue (&quot;5Mbps&quot;));</div><div class="line">pointToPoint.SetChannelAttribute (&quot;Delay&quot;, StringValue (&quot;2ms&quot;));</div></pre></td></tr></table></figure>
-<p>在栈stack上例化(instantiate)PointToPointHelper的一个对象pointToPoint，告诉PointToPointHelper对象当创建一个PointToPointNetDevice对象时使用5Mbps作为DataRate参数（attribute),使用2ms作为点对点信道的传输延时（propagation delay）。<br>也许我们会想pointToPoint.SetDeviceAttribute()，函数里面到底填什么<em>Attributes</em>。在PointToPointNetDevice的<a href="https://www.nsnam.org/docs/release/3.26/doxygen/classns3_1_1_point_to_point_net_device.html" target="_blank" rel="external">Attributes</a>发现有MTU,Address,DataRate,ReceiveErrorModel,InterframeGap等可以作为pointToPoint.SetDeviceAttribute参数，同样的，在PointToPointChannel的API页面找到了Delay参数。</p>
+<pre><code>在栈stack上例化(instantiate)PointToPointHelper的一个对象pointToPoint，告诉PointToPointHelper对象当创建一个PointToPointNetDevice对象时使用5Mbps作为DataRate参数（attribute),使用2ms作为点对点信道的传输延时（propagationdelay）。
+</code></pre><p>也许我们会想pointToPoint.SetDeviceAttribute()，函数里面到底填什么<em>Attributes</em>。<br>在PointToPointNetDevice的<a href="https://www.nsnam.org/docs/release/3.26/doxygen/classns3_1_1_point_to_point_net_device.html" target="_blank" rel="external">Attributes</a>发现有MTU,Address,DataRate,ReceiveErrorModel,InterframeGap等可以作为pointToPoint.SetDeviceAttribute参数，同样的，在PointToPointChannel的API页面找到了Delay参数。</p>
 <h4 id="NetDeviceContainer"><a href="#NetDeviceContainer" class="headerlink" title="NetDeviceContainer"></a>NetDeviceContainer</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">NetDeviceContainer devices;</div><div class="line">devices = pointToPoint.Install (nodes);</div></pre></td></tr></table></figure>
 <p>就像我们使用NodeContainer topology helper的对象来创建nodes，我们使用P2PHelper来进行创建、配置、安装设备。<br>我们需要有创建好的NetDevice对象列表，所以我们使用一个NetDeviceContainer来包括他们，就像我们使用一个NodeContainer来包括我们创建的节点。<br>P2Phelper的Install函数使用nodecontainer作为一个参数。在内部，一个NetDeviceContainer被创建了。对于每一个NodeContainer的node（对于P2P link确切来说时两个）来说，一个P2PNetDevice被创建了并且保存在了device container中；一个P2PChannel也被创建了并附加上两个P2P NetDevice。当对象被P2PHelper被创建的时候，在helper以往设置的参数（attribute）被用来初始化被创建对象的相关attributes.</p>
 <h4 id="InternetStackHelper"><a href="#InternetStackHelper" class="headerlink" title="InternetStackHelper"></a>InternetStackHelper</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">InternetStackHelper stack;</div><div class="line">stack.Install (nodes);</div></pre></td></tr></table></figure>
@@ -429,8 +430,7 @@
 <p>then run</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ ./waf --run scratch/myfirst</div></pre></td></tr></table></figure>
 <p>You should see some output:</p>
-<p>Waf: Entering directory <code>/home/craigdo/repos/ns-3-allinone/ns-3-dev/build&#39;
-Waf: Leaving directory</code>/home/craigdo/repos/ns-3-allinone/ns-3-dev/build’<br>‘build’ finished successfully (0.418s)<br>Sent 1024 bytes to 10.1.1.2<br>Received 1024 bytes from 10.1.1.1<br>Received 1024 bytes from 10.1.1.2</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">Waf: Entering directory `/home/craigdo/repos/ns-3-allinone/ns-3-dev/build&apos;</div><div class="line">Waf: Leaving directory `/home/craigdo/repos/ns-3-allinone/ns-3-dev/build&apos;</div><div class="line">&apos;build&apos; finished successfully (0.418s)</div><div class="line">Sent 1024 bytes to 10.1.1.2</div><div class="line">Received 1024 bytes from 10.1.1.1</div><div class="line">Received 1024 bytes from 10.1.1.2</div></pre></td></tr></table></figure>
 
       
     </div>
@@ -477,9 +477,9 @@ Waf: Leaving directory</code>/home/craigdo/repos/ns-3-allinone/ns-3-dev/build’
       
         <div class="post-tags">
           
-            <a href="/tags/NS3/" rel="tag"># NS3</a>
-          
             <a href="/tags/C/" rel="tag"># C++</a>
+          
+            <a href="/tags/NS3/" rel="tag"># NS3</a>
           
         </div>
       
@@ -501,6 +501,10 @@ Waf: Leaving directory</code>/home/craigdo/repos/ns-3-allinone/ns-3-dev/build’
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/ns3 日志模块（Logging Module）的使用/" rel="prev" title="ns3 日志模块(Logging Module)的使用">
+                ns3 日志模块(Logging Module)的使用 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -577,7 +581,7 @@ Waf: Leaving directory</code>/home/craigdo/repos/ns-3-allinone/ns-3-dev/build’
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-count">7</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
