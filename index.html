@@ -277,6 +277,212 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/ns3 概念总览/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Fatart's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/ns3 概念总览/" itemprop="url">ns3仿真中的关键抽象</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-17T18:28:25+08:00">
+                2017-08-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/NS3/" itemprop="url" rel="index">
+                    <span itemprop="name">NS3</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>详细内容请参考<a href="https://www.nsnam.org/docs/release/3.26/tutorial/html/conceptual-overview.html#key-abstractions" target="_blank" rel="external">ns-3 tutorial</a></p>
+<h1 id="Key-Abstraction"><a href="#Key-Abstraction" class="headerlink" title="Key Abstraction"></a>Key Abstraction</h1><p>在这一节中我们复习一下ns3中仿真的几个关键概念</p>
+<h2 id="Node"><a href="#Node" class="headerlink" title="Node"></a>Node</h2><p>在ns3中最基本的计算设备称为：节点(node),在C++中用<em>Node</em>类抽象。<em>Node</em>类提供管理计算设备的方法。<br>你可以将Node想成是一个你能够增加功能的电脑。可以添加如（应用）Application，（协议栈）protocol stacks，带有驱动的外设卡（peripheral）使得电脑能够有效工作。</p>
+<h2 id="Application"><a href="#Application" class="headerlink" title="Application"></a>Application</h2><p>ns-3应用（Application）运行在ns-3节点Node上驱动仿真。在C++中用<em>Application</em>类表示。我们将使用<em>UdpEchoClientApplication</em>以及<em>UdpEchoServerApplication</em>，用来产生（generate）并回传（echo）仿真网络数据包。</p>
+<h2 id="Channel"><a href="#Channel" class="headerlink" title="Channel"></a>Channel</h2><p>用来连接<em>Node</em>的对象代表了一个通信信道，在C++中使用<em>Channel</em>表示。<em>Channel</em>可以管理通信子以及子网间的连接。一个Channel可以模拟简单的线wire，专用的Channel也可以对大型网络交换机，或者无线网络情况下充满障碍物的三位空间信道进行模拟。</p>
+<h2 id="Net-Device"><a href="#Net-Device" class="headerlink" title="Net Device"></a>Net Device</h2><p>在ns3中，net device既包含软件驱动又包括硬件（如Network Devices-NICs）。用一句话概括Node，Channel，Net Device的关系：Node使用NetDevice发送packages通过channel传输到另一个node。在C++中使用<em>NetDevice</em>类表示，<em>NetDevice</em>用来管理<em>Node</em>和<em>Channel</em>对象的连接。当然，NetDevice和Channel的类型是相对应的，如<em>CsmaNetDevice</em>和<em>CsmaChannel</em>对应，<em>PointToPointNetDevice</em>和<em>PointToPointChannel</em>对应。</p>
+<h2 id="Topology-Helper"><a href="#Topology-Helper" class="headerlink" title="Topology Helper"></a>Topology Helper</h2><p>比如将<em>NetDevices</em>和<em>Nodes</em>连接，<em>NetDevices</em>和<em>Channels</em>连接，分配IP地址等待，都是ns3中的常见操作，于是我们提供了<em>Topology Helper</em>来简化操作。</p>
+<h2 id="A-First-ns-3-Script"><a href="#A-First-ns-3-Script" class="headerlink" title="A First ns-3 Script"></a>A First ns-3 Script</h2><p>文件地址： ns-3.26 -&gt;  examples -&gt; tutorial -&gt; first.cc</p>
+<h3 id="Module-Includes"><a href="#Module-Includes" class="headerlink" title="Module Includes"></a>Module Includes</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">#include &quot;ns3/core-module.h&quot;</div><div class="line">#include &quot;ns3/network-module.h&quot;</div><div class="line">#include &quot;ns3/internet-module.h&quot;</div><div class="line">#include &quot;ns3/point-to-point-module.h&quot;</div><div class="line">#include &quot;ns3/applications-module.h&quot;</div></pre></td></tr></table></figure>
+<p>确保在之前我们已经允许实行包括实例(examples)和测试（tests）的debug build。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ ./waf -d debug --enable-examples --enable-tests configure</div><div class="line">$ ./waf</div></pre></td></tr></table></figure>
+<h3 id="Ns3-Namespace"><a href="#Ns3-Namespace" class="headerlink" title="Ns3 Namespace"></a>Ns3 Namespace</h3><p>namespace declaration</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">using namespace ns3;</div></pre></td></tr></table></figure>
+<p>ns3工程在Cplusplus命名空间<em>ns3</em>中执行，就像我们通常在C++程序中使用std命名空间一样。</p>
+<h3 id="Logging"><a href="#Logging" class="headerlink" title="Logging"></a>Logging</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">NS_LOG_COMPONENT_DEFINE (&quot;FirstScriptExample&quot;)</div></pre></td></tr></table></figure>
+<p>我们可以在<a href="https://www.nsnam.org/docs/release/3.26/doxygen/index.html" target="_blank" rel="external">API Documentation</a> 中查看这条语句的意义 。<br>位置： Modules -&gt; Core -&gt; Debugging tools -&gt; Logging<br>在Logging中点击 More可以查看details,在Macros中可以找到 NS_LOG_COMPONENT_DEFINE的宏定义。<br>总的来说这个宏定义定义了一个叫做FirstScriptExample的logging component来使能/失能 控制台消息记录功能</p>
+<h3 id="Main-Function"><a href="#Main-Function" class="headerlink" title="Main Function"></a>Main Function</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">int</div><div class="line">main (int argc, char *argv[])</div><div class="line">&#123;</div></pre></td></tr></table></figure>
+<p>c++主函数（main function）声明</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Time::SetResolution (Time::NS);</div></pre></td></tr></table></figure>
+<p>设置时间精度（resolution），只能够被改变一次，默认参数是 1ns （nanosecond）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">LogComponentEnable(&quot;UdpEchoClientApplication&quot;, LOG_LEVEL_INFO);</div><div class="line">LogComponentEnable(&quot;UdpEchoServerApplication&quot;, LOG_LEVEL_INFO);</div></pre></td></tr></table></figure>
+<p>设置使能UDP Client和Echo Server内建的回显应用的日志组件，通过查看ns-3 doxygen文档，函数形式如下 void ns3::LogComponentEnable( char const* name, enum LogLevel level), name指的是 日志组件的名称（the log component name），level, 指的是日志的等级。每一个日志组件可以有许多level的日志等级（logging verbosity/detail）。在这两行中，设置UdpEchoClientApplication和UdpEchoServerApplication为LOG_LEVEL_INFO等级，如此设置之后，当包在仿真中发送和接收的时候，应用就能够在控制台输出日志消息。</p>
+<h3 id="Topology-Helper-1"><a href="#Topology-Helper-1" class="headerlink" title="Topology Helper"></a>Topology Helper</h3><h4 id="NodeContainer"><a href="#NodeContainer" class="headerlink" title="NodeContainer"></a>NodeContainer</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">NodeContainer nodes;</div><div class="line">nodes.Create (2);</div></pre></td></tr></table></figure>
+<p><a href="https://www.nsnam.org/docs/release/3.26/doxygen/classns3_1_1_node_container.html#details" target="_blank" rel="external">NodeContainer Detailed Description</a></p>
+<p>第一行 声明（declare）一个叫做node的NodeContainer，第二行使用的node对象的Create函数来创建了两个Node对象，并在内部（internally）存储了指向这些对象的指针（我们可以使用NodeContainer的成员函数 Ptr<node> Get(uint32_t n) const来得到生成node的指针）。 </node></p>
+<p>下一步我们要将创建的nodes连接起来，形成一个topology，两点之间最简单的连接形式就是点对点的链接。</p>
+<h4 id="PointToPointHelper"><a href="#PointToPointHelper" class="headerlink" title="PointToPointHelper"></a>PointToPointHelper</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">PointToPointHelper pointToPoint;</div><div class="line">pointToPoint.SetDeviceAttribute (&quot;DataRate&quot;, StringValue (&quot;5Mbps&quot;));</div><div class="line">pointToPoint.SetChannelAttribute (&quot;Delay&quot;, StringValue (&quot;2ms&quot;));</div></pre></td></tr></table></figure>
+<p>在栈stack上例化(instantiate)PointToPointHelper的一个对象pointToPoint，告诉PointToPointHelper对象当创建一个PointToPointNetDevice对象时使用5Mbps作为DataRate参数（attribute),使用2ms作为点对点信道的传输延时（propagation delay）。<br>也许我们会想pointToPoint.SetDeviceAttribute()，函数里面到底填什么<em>Attributes</em>。在PointToPointNetDevice的<a href="https://www.nsnam.org/docs/release/3.26/doxygen/classns3_1_1_point_to_point_net_device.html" target="_blank" rel="external">Attributes</a>发现有MTU,Address,DataRate,ReceiveErrorModel,InterframeGap等可以作为pointToPoint.SetDeviceAttribute参数，同样的，在PointToPointChannel的API页面找到了Delay参数。</p>
+<h4 id="NetDeviceContainer"><a href="#NetDeviceContainer" class="headerlink" title="NetDeviceContainer"></a>NetDeviceContainer</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">NetDeviceContainer devices;</div><div class="line">devices = pointToPoint.Install (nodes);</div></pre></td></tr></table></figure>
+<p>就像我们使用NodeContainer topology helper的对象来创建nodes，我们使用P2PHelper来进行创建、配置、安装设备。<br>我们需要有创建好的NetDevice对象列表，所以我们使用一个NetDeviceContainer来包括他们，就像我们使用一个NodeContainer来包括我们创建的节点。<br>P2Phelper的Install函数使用nodecontainer作为一个参数。在内部，一个NetDeviceContainer被创建了。对于每一个NodeContainer的node（对于P2P link确切来说时两个）来说，一个P2PNetDevice被创建了并且保存在了device container中；一个P2PChannel也被创建了并附加上两个P2P NetDevice。当对象被P2PHelper被创建的时候，在helper以往设置的参数（attribute）被用来初始化被创建对象的相关attributes.</p>
+<h4 id="InternetStackHelper"><a href="#InternetStackHelper" class="headerlink" title="InternetStackHelper"></a>InternetStackHelper</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">InternetStackHelper stack;</div><div class="line">stack.Install (nodes);</div></pre></td></tr></table></figure>
+<p>The InternetStackHelper is a topology helper that is to internet stacks what the PointToPointHelper is to point-to-point net devices. The Install method takes a NodeContainer as a parameter. When it is executed, it will install an Internet Stack (TCP, UDP, IP, etc.) on each of the nodes in the node container….</p>
+<h4 id="Ipv4AddressHelper"><a href="#Ipv4AddressHelper" class="headerlink" title="Ipv4AddressHelper"></a>Ipv4AddressHelper</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Ipv4AddressHelper address;</div><div class="line">address.SetBase (&quot;10.1.1.0&quot;, &quot;255.255.255.0&quot;);</div></pre></td></tr></table></figure>
+<p>associate the devices on our nodes with IP addresses</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Ipv4InterfaceContainer interfaces = address.Assign (devices);</div></pre></td></tr></table></figure>
+<p>执行真正的地址分配，使用I跑vInterface对象对device分配IP</p>
+<p>当我们建立好了P2P网络，安装好了网络协议栈并分配了IP地址，我们需要Application来产生流量(traffic)。</p>
+<h3 id="Application-1"><a href="#Application-1" class="headerlink" title="Application"></a>Application</h3><h4 id="UdpEchoServerHelper"><a href="#UdpEchoServerHelper" class="headerlink" title="UdpEchoServerHelper"></a>UdpEchoServerHelper</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">UdpEchoServerHelper echoServer (9);</div><div class="line"></div><div class="line">ApplicationContainer serverApps = echoServer.Install (nodes.Get (1));</div><div class="line">serverApps.Start (Seconds (1.0));</div><div class="line">serverApps.Stop (Seconds (10.0));</div></pre></td></tr></table></figure>
+<p>第一行声明了一个UdpEchoServerHelper对象来帮助创建实际的application。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">ns3::UdpEchoServerHelper::UdpEchoServerHelper	(uint16_t port)</div><div class="line">port	The port the server will wait on for incoming packets</div></pre></td></tr></table></figure>
+<p>在API中使用构造函数Constructor来初始化对象，（端口）port参数为服务器等待数据包的端口号。</p>
+<p>第二行创建了真正的底层（underlying）server对象并使用Install操作将server application和node结合起来。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ApplicationContainer ns3::UdpEchoServerHelper::Install	(Ptr&lt; Node &gt; node)	const</div></pre></td></tr></table></figure>
+<p>Create a UdpEchoServerApplication on the specified Node.*</p>
+<p><strong>Parameters</strong><br>   node    The node on which to create the Application. The node is specified by a Ptr<node>.<br><strong>Returns</strong><br>   An ApplicationContainer holding the Application created,</node></p>
+<h4 id="UdpEchoClientHelper"><a href="#UdpEchoClientHelper" class="headerlink" title="UdpEchoClientHelper"></a>UdpEchoClientHelper</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">UdpEchoClientHelper echoClient (interfaces.GetAddress (1), 9);</div><div class="line">echoClient.SetAttribute (&quot;MaxPackets&quot;, UintegerValue (1));   </div><div class="line">echoClient.SetAttribute (&quot;Interval&quot;, TimeValue (Seconds (1.0)));</div><div class="line">echoClient.SetAttribute (&quot;PacketSize&quot;, UintegerValue (1024));</div><div class="line"></div><div class="line">ApplicationContainer clientApps = echoClient.Install (nodes.Get (0));</div><div class="line">clientApps.Start (Seconds (2.0));</div><div class="line">clientApps.Stop (Seconds (10.0));</div></pre></td></tr></table></figure>
+<p>参数Attribute可以在<a href="https://www.nsnam.org/docs/release/3.26/doxygen/classns3_1_1_udp_echo_client.html" target="_blank" rel="external">UdpEchoClient</a>找到。</p>
+<h3 id="Simulator"><a href="#Simulator" class="headerlink" title="Simulator"></a>Simulator</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Simulator::Run ();</div></pre></td></tr></table></figure>
+<h2 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h2><p>我们之前调用过以下函数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">serverApps.Start (Seconds (1.0));</div><div class="line">serverApps.Stop (Seconds (10.0));</div><div class="line">...</div><div class="line">clientApps.Start (Seconds (2.0));</div><div class="line">clientApps.Stop (Seconds (10.0));</div></pre></td></tr></table></figure>
+<p>我们实际上在仿真时间1.0s,2.0s,10.0规划了事件。当Simulator::Run();被调用，系统将会浏览规划好的事件并且执行他们。第1.0s,将会执行echo server应用，server也可能规划许多其他事件。然后触发2.0s的client echo应用。</p>
+<p>当所有代码规划和自动规划的事件都执行完了，</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">  Simulator::Destroy ();</div><div class="line">  return 0;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>如何运行一个程序</p>
+<p>1、在 Eclipse中配置完 external tools 和 debug tools来运行</p>
+<p>2、在shell中运行 命令来运行</p>
+<p>将first.cc复制到 scratch文件夹</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ cd ../..</div><div class="line">$ cp examples/tutorial/first.cc scratch/myfirst.cc</div></pre></td></tr></table></figure>
+<p>Now build your first example script using waf:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ ./waf</div></pre></td></tr></table></figure>
+<p>then run</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ ./waf --run scratch/myfirst</div></pre></td></tr></table></figure>
+<p>You should see some output:</p>
+<p>Waf: Entering directory <code>/home/craigdo/repos/ns-3-allinone/ns-3-dev/build&#39;
+Waf: Leaving directory</code>/home/craigdo/repos/ns-3-allinone/ns-3-dev/build’<br>‘build’ finished successfully (0.418s)<br>Sent 1024 bytes to 10.1.1.2<br>Received 1024 bytes from 10.1.1.1<br>Received 1024 bytes from 10.1.1.2</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/IO库/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1475,7 +1681,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-count">6</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -1486,7 +1692,7 @@
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-count">4</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -1497,7 +1703,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-count">7</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
