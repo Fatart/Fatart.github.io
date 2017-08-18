@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="C++,NS3," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="详细内容请参考ns-3 tutorial Overriding Default Attributes我们可以通过 command line argument 改变 ns-3 代码的机制。以下代码提供了解析（parse）command line argument和基于这些参数自动设立局部和全部变量。 12345678910intmain (int argc, char *argv[])&amp;#123;">
+<meta name="keywords" content="C++,NS3">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ns3 命令行参数Command Line Argument">
+<meta property="og:url" content="http://yoursite.com/ns3 命令行参数Command Line Argument/index.html">
+<meta property="og:site_name" content="Fatart&#39;s blog">
+<meta property="og:description" content="详细内容请参考ns-3 tutorial Overriding Default Attributes我们可以通过 command line argument 改变 ns-3 代码的机制。以下代码提供了解析（parse）command line argument和基于这些参数自动设立局部和全部变量。 12345678910intmain (int argc, char *argv[])&amp;#123;">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2017-08-18T11:12:00.507Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ns3 命令行参数Command Line Argument">
+<meta name="twitter:description" content="详细内容请参考ns-3 tutorial Overriding Default Attributes我们可以通过 command line argument 改变 ns-3 代码的机制。以下代码提供了解析（parse）command line argument和基于这些参数自动设立局部和全部变量。 12345678910intmain (int argc, char *argv[])&amp;#123;">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/ns3 命令行参数Command Line Argument/"/>
+
+
+
+
+
+  <title>ns3 命令行参数Command Line Argument | Fatart's blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Fatart's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/ns3 命令行参数Command Line Argument/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Fatart's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">ns3 命令行参数Command Line Argument</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-18T16:28:25+08:00">
+                2017-08-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/NS3/" itemprop="url" rel="index">
+                    <span itemprop="name">NS3</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>详细内容请参考<a href="https://www.nsnam.org/docs/release/3.26/tutorial/html/tweaking.html" target="_blank" rel="external">ns-3 tutorial</a></p>
+<h1 id="Overriding-Default-Attributes"><a href="#Overriding-Default-Attributes" class="headerlink" title="Overriding Default Attributes"></a>Overriding Default Attributes</h1><p>我们可以通过 command line argument 改变 ns-3 代码的机制。以下代码提供了解析（parse）command line argument和基于这些参数自动设立局部和全部变量。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">int</div><div class="line">main (int argc, char *argv[])</div><div class="line">&#123;</div><div class="line">  ...</div><div class="line"></div><div class="line">  CommandLine cmd;</div><div class="line">  cmd.Parse (argc, argv);</div><div class="line"></div><div class="line">  ...</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>使用<em>PrintHelp</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ ./waf --run &quot;scratch/myfirst --PrintHelp&quot;</div></pre></td></tr></table></figure>
+<p>控制台输出</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">Waf: Entering directory `/home/craigdo/repos/ns-3-allinone/ns-3-dev/build&apos;</div><div class="line">Waf: Leaving directory `/home/craigdo/repos/ns-3-allinone/ns-3-dev/build&apos;</div><div class="line">&apos;build&apos; finished successfully (0.413s)</div><div class="line">TcpL4Protocol:TcpStateMachine()</div><div class="line">CommandLine:HandleArgument(): Handle arg name=PrintHelp value=</div><div class="line">--PrintHelp: Print this help message.     输出帮助信息</div><div class="line">--PrintGroups: Print the list of groups.  输出group列表，如Antenna,Aodv,Core,Wifi...，是和Source directory相关的</div><div class="line">--PrintTypeIds: Print all TypeIds.        输出所有的TypeId，如ns3::PointToPointChannel，ns3::PointToPointNetDevice</div><div class="line">--PrintGroup=[group]: Print all TypeIds of group. 输出group相关TypeId</div><div class="line">--PrintAttributes=[typeid]: Print all attributes of typeid. 输出typeId相关的Attribute</div><div class="line">--PrintGlobals: Print the list of globals. 输出全局变量列表</div></pre></td></tr></table></figure>
+<p>输入</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ ./waf --run &quot;scratch/myfirst --PrintAttributes=ns3::PointToPointNetDevice&quot;</div><div class="line">$ ./waf --run &quot;scratch/myfirst --PrintAttributes=ns3::PointToPointChannel&quot;</div></pre></td></tr></table></figure>
+<p>得到PointToPointNetDevice的默认Attributes值，这个值我们同样在可以在<a href="https://www.nsnam.org/docs/release/3.26/doxygen/classns3_1_1_point_to_point_net_device.html" target="_blank" rel="external">API-Attributes</a>查询得到。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">Attributes for TypeId ns3::PointToPointNetDevice</div><div class="line">    --ns3::PointToPointNetDevice::Address=[ff:ff:ff:ff:ff:ff]</div><div class="line">        The MAC address of this device.</div><div class="line">    --ns3::PointToPointNetDevice::DataRate=[32768bps]</div><div class="line">        The default data rate for point to point links</div><div class="line">    --ns3::PointToPointNetDevice::InterframeGap=[+0.0ns]</div><div class="line">        The time to wait between packet (frame) transmissions</div><div class="line">    --ns3::PointToPointNetDevice::Mtu=[1500]</div><div class="line">        The MAC-level Maximum Transmission Unit</div><div class="line">    --ns3::PointToPointNetDevice::ReceiveErrorModel=[0]</div><div class="line">        The receiver error model used to simulate packet loss</div><div class="line">    --ns3::PointToPointNetDevice::TxQueue=[0]</div><div class="line">        A queue to use as the transmit queue in the device.</div><div class="line">        </div><div class="line">Attributes for TypeId ns3::PointToPointChannel</div><div class="line">    --ns3::PointToPointChannel::Delay=[+0.0ns]</div><div class="line">        Propagation delay through the channel</div></pre></td></tr></table></figure>
+<p>于是我们可以用command line argument来修改 TypeId相关的参数Attributes值</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ ./waf --run &quot;scratch/myfirst --ns3::PointToPointNetDevice::DataRate=5Mbps&quot;</div><div class="line"></div><div class="line">$ ./waf --run &quot;scratch/myfirst --ns3::PointToPointNetDevice::DataRate=5Mbps --ns3::PointToPointChannel::Delay=2ms --ns3::UdpEchoClient::MaxPackets=2&quot;</div></pre></td></tr></table></figure>
+<h1 id="Hooking-Your-Own-Value"><a href="#Hooking-Your-Own-Value" class="headerlink" title="Hooking Your Own Value"></a>Hooking Your Own Value</h1><p>你也可以将自己定义的变量和command line系统结合，如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">int</div><div class="line">main (int argc, char *argv[])</div><div class="line">&#123;</div><div class="line">  uint32_t nPackets = 1;</div><div class="line"></div><div class="line">  CommandLine cmd;</div><div class="line">  cmd.AddValue(&quot;nPackets&quot;, &quot;Number of packets to echo&quot;, nPackets);</div><div class="line">  cmd.Parse (argc, argv);</div><div class="line"></div><div class="line">  ...</div></pre></td></tr></table></figure>
+<p>定义了一个变量nPackets，并在设置echo参数的地方改写代码如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">echoClient.SetAttribute (&quot;MaxPackets&quot;, UintegerValue (nPackets));</div></pre></td></tr></table></figure>
+<p>此时运行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ ./waf --run &quot;scratch/myfirst --PrintHelp&quot;</div></pre></td></tr></table></figure>
+<p>输出</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">Program Arguments:</div><div class="line">    --nPackets:  Number of packets to echo [1]</div><div class="line"></div><div class="line">General Arguments:</div><div class="line">    --PrintGlobals:              Print the list of globals.</div><div class="line">    --PrintGroups:               Print the list of groups.</div><div class="line">    --PrintGroup=[group]:        Print all TypeIds of group.</div><div class="line">    --PrintTypeIds:              Print all TypeIds.</div><div class="line">    --PrintAttributes=[typeid]:  Print all attributes of typeid.</div><div class="line">    --PrintHelp:                 Print this help message.</div></pre></td></tr></table></figure>
+<p>这样我们就可以使用command line system在控制台改变nPackets的值，代码如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ ./waf --run &quot;scratch/myfirst --nPackets=2&quot;</div></pre></td></tr></table></figure>
+<p>结果输出</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">At time 2s client sent 1024 bytes to 10.1.1.2 port 9</div><div class="line">At time 2.00369s server received 1024 bytes from 10.1.1.1 port 49153</div><div class="line">At time 2.00369s server sent 1024 bytes to 10.1.1.1 port 49153</div><div class="line">At time 2.00737s client received 1024 bytes from 10.1.1.2 port 9</div><div class="line">At time 3s client sent 1024 bytes to 10.1.1.2 port 9</div><div class="line">At time 3.00369s server received 1024 bytes from 10.1.1.1 port 49153</div><div class="line">At time 3.00369s server sent 1024 bytes to 10.1.1.1 port 49153</div><div class="line">At time 3.00737s client received 1024 bytes from 10.1.1.2 port 9</div></pre></td></tr></table></figure>
+<p>可以看到client发送了两次packets</p>
+<p>我们通常使用command line argument 系统来控制全局变量和Attributes</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>Thanks For Donate!</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>Donate</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt=" WeChat Pay"/>
+        <p>WeChat Pay</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt=" Alipay"/>
+        <p>Alipay</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/C/" rel="tag"># C++</a>
+          
+            <a href="/tags/NS3/" rel="tag"># NS3</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/Reading Section -Question Types/" rel="next" title="Reading Section -Question Types">
+                <i class="fa fa-chevron-left"></i> Reading Section -Question Types
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="" />
+          <p class="site-author-name" itemprop="name"></p>
+           
+              <p class="site-description motion-element" itemprop="description">�������ɣ�������̫��</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">10</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Overriding-Default-Attributes"><span class="nav-number">1.</span> <span class="nav-text">Overriding Default Attributes</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Hooking-Your-Own-Value"><span class="nav-number">2.</span> <span class="nav-text">Hooking Your Own Value</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder"></span>
+
+  
+</div>
+
+
+  <div class="powered-by">
+    由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+  </div>
+
+  <span class="post-meta-divider">|</span>
+
+  <div class="theme-info">
+    主题 &mdash;
+    <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+      NexT.Mist
+    </a>
+  </div>
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
