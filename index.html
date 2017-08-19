@@ -277,6 +277,171 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/C++ 函数调用的const形参（parameter）和非const形参/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Fatart's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/C++ 函数调用的const形参（parameter）和非const形参/" itemprop="url">C++ 函数调用的const形参（parameter）和非const形参</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-19T20:46:25+08:00">
+                2017-08-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/C/" itemprop="url" rel="index">
+                    <span itemprop="name">C++</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h1><p>在程序设计中我们会经常调用函数，调用函数就会涉及参数的问题，那么在形参列表中const形参与非const形参对传递过来的实参有什么要求呢？<br>先来看一个简单的例子：</p>
+<p>C++函数中const形参与非const形参<br>2015-09-11 21:50 1346人阅读 评论(0) 收藏 举报<br>.<br> 分类：<br>C（53）<br>.<br>在程序设计中我们会经常调用函数，调用函数就会涉及参数的问题，那么在形参列表中const形参与非const形参对传递过来的实参有什么要求呢？<br>先来看一个简单的例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">#include &lt;iostream&gt;</div><div class="line">#include &lt;string&gt;</div><div class="line">using namespace std;</div><div class="line">void print_str(const string s)</div><div class="line">&#123;</div><div class="line">       cout&lt;&lt;s&lt;&lt;endl;</div><div class="line">&#125;</div><div class="line">int main()</div><div class="line">&#123;</div><div class="line">      print_str(&quot;hello world&quot;);</div><div class="line">      return 0;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="输出"><a href="#输出" class="headerlink" title="输出"></a>输出</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">hello world</div></pre></td></tr></table></figure>
+<h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><p>毫无疑问，const实参传递给const形参，正确调用函数，如果你将第4行代码中的const去掉，也能得到正确的结果。那么在去掉const的基础上将形参变为引用形参，会出现什么样的结果呢？看下面的代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">#include &lt;iostream&gt;</div><div class="line">#include &lt;string&gt;</div><div class="line"></div><div class="line">using namespace std;</div><div class="line">void print_str( string &amp; s)</div><div class="line">&#123;</div><div class="line">      cout&lt;&lt;s&lt;&lt;endl;</div><div class="line">&#125;</div><div class="line">int main()</div><div class="line">&#123;</div><div class="line">      print_str(&quot;hello world&quot;);</div><div class="line">      return 0;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="输出-1"><a href="#输出-1" class="headerlink" title="输出"></a>输出</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">error：将类型为 std::string&amp; 的非const引用初始化为类型为 const char*的临时变量无效</div></pre></td></tr></table></figure>
+<p>发现编译不通过，如果在第4行的string前加上一个const，就会通过编译。</p>
+<p>进一步研究我们会发现指针形参与引用形参会出现类似的情况。</p>
+<p><strong>普通形参加不加const限定符对实参没有影响，引用形参和指针形参前面没有const限定符时，实参必须是非const的，而前面有const限定符时对实参也没有什么影响。</strong></p>
+<h1 id="为什么会出现这种情况？"><a href="#为什么会出现这种情况？" class="headerlink" title="为什么会出现这种情况？"></a>为什么会出现这种情况？</h1><p>原因在于实参的传递方式不同，函数中的形参是普通形参的时，函数只是操纵的实参的副本，而无法去修改实参，实参会想，你形参反正改变不了我的值，那么你有没有const还有什么意义吗？<br>引用形参和指针形参就下不同了，函数是对实参直接操纵，没有const的形参时实参的值是可以改变的，这种情况下怎能用函数来操纵const实参呢。</p>
+<p><strong>顶层const : 指针或引用本身是个常量</strong><br><strong>底层const: 表示指针所指向的对象是个常量。</strong></p>
+<p>例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">const double *const pip = &amp;pi;</div></pre></td></tr></table></figure></p>
+<p>第一个const，底层const，不能通过pip改变指向的内容<br>第二个const，顶层cinst，修饰指针本身，指向关系不能改变</p>
+<p>在C++ primer p208中讲到重载和const形参的关系，总结：<br>顶层const不影响传入函数的对象，一个拥有顶层const的形参无法和没有顶层const的形参区分开。</p>
+<p>如 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Record lookup(Phone);</div><div class="line">Record lookup(const Phone);</div></pre></td></tr></table></figure>
+<p>形参Phone没有加应用，它只是对实参的副本，所以它加不加const是一样的，另外一方面const是顶层const</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Record lookup(Phone*);</div><div class="line">Record lookup(Phone *const);</div></pre></td></tr></table></figure>
+<p>顶层const, Phone<em> 能够改变实参，Phone </em>const同样能，不能区分</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">int calc(int&amp;, int&amp;);</div><div class="line">int calc(const int&amp;, const int&amp;);</div></pre></td></tr></table></figure>
+<p>底层const，const int&amp; 的形参不能够去改变实参的值，但int&amp;形参能够去改变实参的值，能区分</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">int calc(int*, int*);</div><div class="line">int calc(const int*, const int*);</div></pre></td></tr></table></figure>
+<p>底层const，const int<em> 的形参指针不能够去改变实参的值，但int</em>形参指针能够去改变实参的值，能区分</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/ns3 命令行参数Command Line Argument/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2227,190 +2392,13 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/C++ 类的静态成员/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Fatart's blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/C++ 类的静态成员/" itemprop="url">C++ 类的静态成员</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-14T20:46:25+08:00">
-                2017-08-14
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/C/" itemprop="url" rel="index">
-                    <span itemprop="name">C++</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>类的静态成员是和类的<strong>本身</strong>直接相关，而不是与类的各个对象保持关联，所以我们可以将类的静态成员看成是和类相关的一个全局变量，每一个类的对象又有各自的成员变量，但类的静态成员是<strong>唯一</strong>的。</p>
-<h2 id="声明静态成员"><a href="#声明静态成员" class="headerlink" title="声明静态成员"></a>声明静态成员</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">class Account&#123;</div><div class="line">    public:</div><div class="line">        void calculate() &#123;amount += amount * interestRate;&#125;</div><div class="line">        static double rate() &#123;return interestRate;&#125;</div><div class="line">        static void rate(double);</div><div class="line">    private:</div><div class="line">        std::string owner;          //每一个对象拥有一个</div><div class="line">        double amount;              //每一个对象拥有一个</div><div class="line">        static double interestRate; //一个类拥有一个</div><div class="line">        static double initRate();</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
-<h3 id="静态成员变量"><a href="#静态成员变量" class="headerlink" title="静态成员变量"></a>静态成员变量</h3><p>在类成员声明之前，加上 static 关键字。</p>
-<h3 id="静态成员函数"><a href="#静态成员函数" class="headerlink" title="静态成员函数"></a>静态成员函数</h3><p>：不能声明成const类型，不能在函数体内使用this指针</p>
-<h2 id="使用类的静态成员"><a href="#使用类的静态成员" class="headerlink" title="使用类的静态成员"></a>使用类的静态成员</h2><h3 id="1-使用类作用域运算符直接访问静态成员"><a href="#1-使用类作用域运算符直接访问静态成员" class="headerlink" title="1. 使用类作用域运算符直接访问静态成员"></a>1. 使用类作用域运算符直接访问静态成员</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">double r;</div><div class="line">r = Account::rate();</div></pre></td></tr></table></figure>
-<h3 id="2-使用类的对象，指针，引用访问静态成员"><a href="#2-使用类的对象，指针，引用访问静态成员" class="headerlink" title="2. 使用类的对象，指针，引用访问静态成员"></a>2. 使用类的对象，指针，引用访问静态成员</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">Account ac1;</div><div class="line">Account *ac2 = &amp; ac1;</div><div class="line">r = ac1.rate();</div><div class="line">r = ac2-&gt;rate();</div></pre></td></tr></table></figure>
-<h3 id="3-类的成员函数访问静态成员"><a href="#3-类的成员函数访问静态成员" class="headerlink" title="3. 类的成员函数访问静态成员"></a>3. 类的成员函数访问静态成员</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">public:</div><div class="line">        void calculate() &#123;amount += amount * interestRate;&#125;</div></pre></td></tr></table></figure>
-<p>interestRate是静态成员变量，成员函数直接使用，无需作用域运算符</p>
-<h2 id="静态成员类外初始化"><a href="#静态成员类外初始化" class="headerlink" title="静态成员类外初始化"></a>静态成员类外初始化</h2><p>一般来说，静态数据成员不属于类的任何一个对象，所以他们并不是在创建类的对象时被定义的（其不能够被类的构造函数初始化），所以一般：类内声明静态成员，类外定义</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">1. 类内声明</div><div class="line">   static double interestRate; //一个类拥有一个</div><div class="line">2. 类外定义</div><div class="line">   double Account::interestRate = 1.0;</div></pre></td></tr></table></figure>
-<p>完整的代码如下</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">class Account </div><div class="line">&#123;</div><div class="line">public:</div><div class="line">	void calculate() &#123; amount += amount * interestRate; &#125;</div><div class="line">	static double rate() &#123; return interestRate; &#125;</div><div class="line">	static void rate(double);</div><div class="line">private:</div><div class="line">	std::string owner;          //每一个对象拥有一个</div><div class="line">	double amount;              //每一个对象拥有一个</div><div class="line">	static double interestRate; //一个类拥有一个</div><div class="line">	//static double initRate();</div><div class="line">&#125;;</div><div class="line"></div><div class="line">void Account::rate(double newRate)</div><div class="line">&#123;</div><div class="line">	interestRate = newRate;</div><div class="line">&#125;</div><div class="line"></div><div class="line">double Account::interestRate = 1.0;</div></pre></td></tr></table></figure>
-<p>如果在上述代码中少了最后一行的类外静态成员变量定义，编译将会出错。</p>
-<h2 id="静态成员类内初始化"><a href="#静态成员类内初始化" class="headerlink" title="静态成员类内初始化"></a>静态成员类内初始化</h2><p>一般来说，关于C++类静态成员类外的初始化，并不会让人感到难以理解，但是提到C++静态成员的”类内初始化”那就容易迷糊了，静态成员变量不是只能类内声明吗，如何初始化？</p>
-<p>  我们来看下面的代码</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">//example.h </div><div class="line">#include&lt;iostream&gt;</div><div class="line">#include&lt;vector&gt;</div><div class="line">using namespace std;</div><div class="line">class Example&#123; </div><div class="line">public: </div><div class="line">    static double rate = 6.5;</div><div class="line">    static const int vecSize = 20;</div><div class="line">    static vector&lt;double&gt; vec(vecSize); </div><div class="line">&#125;; </div><div class="line"></div><div class="line">//example.cpp</div><div class="line">#include &quot;example.h&quot; </div><div class="line">double Example::rate;</div><div class="line">vector&lt;double&gt; Example::vec;</div></pre></td></tr></table></figure>
-<h3 id="代码分析"><a href="#代码分析" class="headerlink" title="代码分析"></a>代码分析</h3><p>我们需要判断上面的静态数据成员的声明和定义有没有错误，并解释原因。</p>
-<p>首先，要谨记：通常情况下，<strong>不</strong>应该在类内部初始化成员，无论是否为静态成员。</p>
-<p>其次，若一定要在类内初始化静态成员，那么就必须满足如下条件才行：</p>
-<h3 id="类内初始化条件"><a href="#类内初始化条件" class="headerlink" title="类内初始化条件"></a>类内初始化条件</h3><h4 id="1-静态成员的类型必须为字面值常量类型的constexpr。"><a href="#1-静态成员的类型必须为字面值常量类型的constexpr。" class="headerlink" title="1. 静态成员的类型必须为字面值常量类型的constexpr。"></a>1. 静态成员的类型必须为字面值常量类型的constexpr。</h4><p>   所谓的字面值类型就是通常遇到的：算术类型，引用，指针等。</p>
-<p>   字面值常量类型就是const型的算术类型，引用，指针等。</p>
-<p>   所谓的constexpr，就是常量表达式，指<strong>值不会改变且在编译过程中就能得到计算结果的表达式</strong>。比如字面值，或者用常量表达式初始化的const对象也是常量表达式。为了帮助用户检查自己声明/定义的变量的值是否为一个常量表达式，C++11新规定，允许将变量声明为constexpr类型，以便由编译器来进行验证变量是否为常量表达式。</p>
-<h4 id="2-给静态成员提供的初始值，必须为常量表达式"><a href="#2-给静态成员提供的初始值，必须为常量表达式" class="headerlink" title="2. 给静态成员提供的初始值，必须为常量表达式"></a>2. 给静态成员提供的初始值，必须为常量表达式</h4><p>有了这两条原则，我们就可以对上面的代码进行验证了。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">1)static double rate = 6.5;</div></pre></td></tr></table></figure>
-<p>不满足(1)，rate不是字面值常量类型，可以改成</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">static constexpr double rate = 6.5</div></pre></td></tr></table></figure>
-<p>ps: 如果我们不再这里加入constexprt修饰符的话，编译器会提示错误<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">：error: ‘constexpr’ needed for in-class initialization of static data member ‘const double Example::rate’ of non-integral type [-fpermissive]</div></pre></td></tr></table></figure></p>
-<p>大体意思就是，对于非const整数类型的初始值，如果它是常量表达式的话，我们需要手工在前面添加修饰符constexprt。<br>至于Example.cpp文件中的定义部分，由于我们已经在类内部进行了初始化，就不需要再在类外部进行定义了。如果非要定义的话，必须采用如下格式：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">//example.cpp</div><div class="line">constexpr const double Example::rate;</div></pre></td></tr></table></figure>
-<p>其中的const是可以删除的，因为constexprt本身就包含了const</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">2)static const int vecSize = 20;</div></pre></td></tr></table></figure>
-<p>vecSize是const int类型的，且为常量表达式——满足第一条；提供的初始值为20，是一个常量表达式——满足第二条！且由于是const int型的，前面可以不用修饰符constexpr</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">3）static vector&lt;double&gt; vec(vecSize);</div></pre></td></tr></table></figure>
-<p>错误！vector是模板不是字面值常量类型，所以不满足第一条。应该改为<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">static vector&lt;double&gt; vec;</div></pre></td></tr></table></figure></p>
-<p> //仅仅且只能进行声明，不能定义<br>然后在Example.cpp中进行定义：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">static vector&lt;double&gt; vec(Example::vecSize);</div></pre></td></tr></table></figure>
-<p>现在我们可以在Example.cpp中添加测试代码进行测试了：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">#include &quot;example.h&quot; </div><div class="line">vector&lt;double&gt; Example::vec(Example::vecSize);  constexpr const double Example::rate; </div><div class="line">int main()&#123; </div><div class="line">Example::vec.push_back(10.5); </div><div class="line">cout &lt;&lt; Example::vec.back() &lt;&lt; endl; </div><div class="line">cout &lt;&lt; Example::rate &lt;&lt; endl; </div><div class="line">cout &lt;&lt; Example::vecSize &lt;&lt; endl; </div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>执行结果：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">10.5 </div><div class="line">6.5 </div><div class="line">20</div></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
+  <nav class="pagination">
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+  </nav>
+
 
 
           </div>
@@ -2454,7 +2442,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">10</span>
+                <span class="site-state-item-count">11</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
