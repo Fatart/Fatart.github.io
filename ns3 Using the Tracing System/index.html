@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="C++,NS3," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="详细内容请参考ns-3 tutorial Overview我们可以使用以下代码输出，还可以使用logging 模块输出一些信息。 1std::cout &amp;lt;&amp;lt; &amp;quot;The values of x is&amp;quot; &amp;lt;&amp;lt; x &amp;lt;&amp;lt;std::endl; 但这些方式都有局限性，ns3 tracing system是一个通用（generic）输出。 ns3 tra">
+<meta name="keywords" content="C++,NS3">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ns3 命令行参数Command Line Argument">
+<meta property="og:url" content="http://yoursite.com/ns3 Using the Tracing System/index.html">
+<meta property="og:site_name" content="Fatart&#39;s blog">
+<meta property="og:description" content="详细内容请参考ns-3 tutorial Overview我们可以使用以下代码输出，还可以使用logging 模块输出一些信息。 1std::cout &amp;lt;&amp;lt; &amp;quot;The values of x is&amp;quot; &amp;lt;&amp;lt; x &amp;lt;&amp;lt;std::endl; 但这些方式都有局限性，ns3 tracing system是一个通用（generic）输出。 ns3 tra">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2017-08-21T08:59:41.151Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ns3 命令行参数Command Line Argument">
+<meta name="twitter:description" content="详细内容请参考ns-3 tutorial Overview我们可以使用以下代码输出，还可以使用logging 模块输出一些信息。 1std::cout &amp;lt;&amp;lt; &amp;quot;The values of x is&amp;quot; &amp;lt;&amp;lt; x &amp;lt;&amp;lt;std::endl; 但这些方式都有局限性，ns3 tracing system是一个通用（generic）输出。 ns3 tra">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/ns3 Using the Tracing System/"/>
+
+
+
+
+
+  <title>ns3 命令行参数Command Line Argument | Fatart's blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Fatart's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/ns3 Using the Tracing System/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Fatart's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">ns3 命令行参数Command Line Argument</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-18T16:28:25+08:00">
+                2017-08-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/NS3/" itemprop="url" rel="index">
+                    <span itemprop="name">NS3</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>详细内容请参考<a href="https://www.nsnam.org/docs/release/3.26/tutorial/html/tweaking.html" target="_blank" rel="external">ns-3 tutorial</a></p>
+<h1 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h1><p>我们可以使用以下代码输出，还可以使用logging 模块输出一些信息。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">std::cout &lt;&lt; &quot;The values of x is&quot; &lt;&lt; x &lt;&lt;std::endl;</div></pre></td></tr></table></figure>
+<p>但这些方式都有局限性，ns3 tracing system是一个通用（generic）输出。</p>
+<p>ns3 tracing system 建立在这样的概念上，独立的tracing source 和 tracing sinks，以及一个统一机制（uniform mechanism）链接 source 和 sinks.</p>
+<h2 id="ns-3-tracing-system的基本目标："><a href="#ns-3-tracing-system的基本目标：" class="headerlink" title="ns-3 tracing system的基本目标："></a>ns-3 tracing system的基本目标：</h2><ol>
+<li><p>对于基本的任务，tracing system应当允许用户对于那些常用的tracing source                          产生标准的tracing，并能能够设置哪一个对象产生tracing文件</p>
+</li>
+<li><p>中级的使用者（intermediate user）必须能够拓展tracing系统以修改输出的格式，或者在不修改ns-3 core的情况下,插入新的tracing source，</p>
+</li>
+<li>高级的用户（advanced user）能够修改仿真器来添加新的tracing source和 sink.</li>
+</ol>
+<h2 id="什么是ns-3-的-tracing-sources-and-sinks？"><a href="#什么是ns-3-的-tracing-sources-and-sinks？" class="headerlink" title="什么是ns-3 的 tracing sources and sinks？"></a>什么是ns-3 的 tracing sources and sinks？</h2><h3 id="Trace-source"><a href="#Trace-source" class="headerlink" title="Trace source"></a>Trace source</h3><p>Trace source are entities that can signal events that happen in a simulation and provide access to interesting underlying data.<br>跟踪源是可以指示在模拟中发生的事件并提供对感兴趣的底层数据的访问的实体.</p>
+<p>比如，一个trace source能够指示一个数据包什么时候被一个网络设备接收，并能为感兴趣的trace sink访问数据包的内容</p>
+<p>trace souce 本身是没有作用的，它们必须”连接到”其他的有sink提供信息并实际有用的代码</p>
+<h3 id="Trace-sink"><a href="#Trace-sink" class="headerlink" title="Trace sink"></a>Trace sink</h3><p>trace sink是 事件 和 trace source提供的数据的“消费者”。</p>
+<p>在本文中，我们将浏览一些预先定义好的source和sink，并且说明它们如何用很少的改动来配置。</p>
+<p>高级的tracing配置，包括拓展tracing命名空间和创建新的trace source间 ns3-manual 手册 和 how-to 章节。</p>
+<h1 id="ASCII-Tracing"><a href="#ASCII-Tracing" class="headerlink" title="ASCII Tracing"></a>ASCII Tracing</h1><p>我们可以在Simulator::Run()前增加以下代码以添加ASCII tracing</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">AsciiTraceHelper ascii;</div><div class="line">pointToPoint.EnableAsciiAll (ascii.CreateFileStream (&quot;myfirst.tr&quot;));</div></pre></td></tr></table></figure>
+<p>then build and run the script</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ ./waf --run scratch/myfirst</div></pre></td></tr></table></figure>
+<p>运行结束后，将在top-level 文件夹（ns3.26）创建一个<em>myfirst.tr</em>文件，并输出内容。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">At time 2s client sent 1024 bytes to 10.1.1.2 port 9</div><div class="line">At time 2.00369s server received 1024 bytes from 10.1.1.1 port 49153</div><div class="line">At time 2.00369s server sent 1024 bytes to 10.1.1.1 port 49153</div><div class="line">At time 2.00737s client received 1024 bytes from 10.1.1.2 port 9</div></pre></td></tr></table></figure>
+<h2 id="解析（parse）-ASCII-Trace"><a href="#解析（parse）-ASCII-Trace" class="headerlink" title="解析（parse） ASCII Trace"></a>解析（parse） ASCII Trace</h2><p>文件里的每一行都与一个<em>trace event</em>相关。在这个例子里，我们追踪事件是每一个point-to-point netdevice中的<em>transmit queue</em></p>
+<p>行首的符号意义如下：</p>
+<ul>
+<li>+：An enqueue operation occurred on the device queue</li>
+<li>-: A dequeue operation occurred on the device queue</li>
+<li>d: A packet was dropped, typically because the queue was full</li>
+<li>r: A packet was received by the net device</li>
+</ul>
+<h2 id="完整ASCII-trace文件如下"><a href="#完整ASCII-trace文件如下" class="headerlink" title="完整ASCII trace文件如下"></a>完整ASCII trace文件如下</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">+ </div><div class="line">2</div><div class="line">/NodeList/0/DeviceList/0/$ns3::PointToPointNetDevice/TxQueue/Enqueue </div><div class="line">ns3::PppHeader (Point-to-Point Protocol:IP (0x0021)) </div><div class="line">ns3::Ipv4Header (tos 0x0 DSCP Default ECN Not-ECT ttl 64 id 0 protocol 17 offset (bytes) 0 flags [none] </div><div class="line">length: 1052 10.1.1.1 &gt; 10.1.1.2) </div><div class="line">ns3::UdpHeader (length: 1032 49153 &gt; 9) </div><div class="line">Payload (size=1024)</div></pre></td></tr></table></figure>
+<ol>
+<li>+号表示这是一个入队操作，第二行的2表示仿真时刻是2s</li>
+<li><em>UdpEchoApplication</em>从第2s开始发送数据包。</li>
+<li>指出是那一个trace source发起（originate）这个事件（以tracing namespace格式表示），namespace root是<em>NodeList</em>，<em>NodeList/0</em>表示NodeList的第0个，在每一个node下都有DeviceList,可以看出事件是由<em>DeviceList/0</em>发起的</li>
+<li><em>$ns3::PointToPointNetDevice</em>告诉我们node 0 的 devcie 0 是一个什么类型的设备。 trace path 是<em>TxQueue/Enqueue</em></li>
+<li>数据包以P2P协议压缩，并有IPv4 Header，从10.1.1.1发起，发送到10.1.1.2，数据包有UDP Header，payload是1024bytes</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">-</div><div class="line">2</div><div class="line">/NodeList/0/DeviceList/0/$ns3::PointToPointNetDevice/TxQueue/Dequeue</div><div class="line">ns3::PppHeader (Point-to-Point Protocol: IP (0x0021)) </div><div class="line">ns3::Ipv4Header (tos 0x0 DSCP Default ECN Not-ECT ttl 64 id 0 protocol 17 offset (bytes) 0 flags [none]</div><div class="line">length: 1052 10.1.1.1 &gt; 10.1.1.2) </div><div class="line">ns3::UdpHeader (length: 1032 49153 &gt; 9) </div><div class="line">Payload (size=1024)</div></pre></td></tr></table></figure>
+<p>这里和section 1 不同之处在于dequeue，其他都一样，表示在第2秒，Node0-NetDevice0 transmit 1 packet</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">r </div><div class="line">2.00369</div><div class="line">/NodeList/1/DeviceList/0/$ns3::PointToPointNetDevice/MacRx </div><div class="line">ns3::PppHeader (Point-to-Point Protocol: IP (0x0021)) </div><div class="line">ns3::Ipv4Header (tos 0x0 DSCP Default ECN Not-ECT ttl 64 id 0 protocol 17 offset (bytes) 0 flags [none] </div><div class="line">length: 1052 10.1.1.1 &gt; 10.1.1.2) </div><div class="line">ns3::UdpHeader (length: 1032 49153 &gt; 9) </div><div class="line">Payload (size=1024)</div></pre></td></tr></table></figure>
+<ol>
+<li>r号表示这是收到数据包操作，第二行的2.00369表示仿真时刻是2.00369s</li>
+<li><em>UdpEchoServerApplication</em>从第2.00369s开始收到数据包。</li>
+<li>由NodeList 1 - Device 0 发起，可见是 server 的 netdevice 发起（originate）的</li>
+<li><em>$ns3::PointToPointNetDevice</em>告诉我们node 1 的 devcie 0 是一个什么类型的设备。 packet reception trace source 是<em>MacRx</em></li>
+<li>数据包以P2P协议压缩，并有IPv4 Header，从10.1.1.1发起，发送到10.1.1.2，数据包有UDP Header，payload是1024bytes</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">+ </div><div class="line">2.00369 </div><div class="line">/NodeList/1/DeviceList/0/$ns3::PointToPointNetDevice/TxQueue/Enqueue </div><div class="line">ns3::PppHeader (Point-to-Point Protocol: IP (0x0021)) </div><div class="line">ns3::Ipv4Header (tos 0x0 DSCP Default ECN Not-ECT ttl 64 id 0 protocol 17 offset (bytes) 0 flags [none] </div><div class="line">length: 1052 10.1.1.2 &gt; 10.1.1.1) </div><div class="line">ns3::UdpHeader (length: 1032 9 &gt; 49153) </div><div class="line">Payload (size=1024)</div></pre></td></tr></table></figure>
+<p>N1 - D0（Server NetDevice）将接收到的数据包enqueue</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">- </div><div class="line">2.00369 </div><div class="line">/NodeList/1/DeviceList/0/$ns3::PointToPointNetDevice/TxQueue/Dequeue </div><div class="line">ns3::PppHeader (Point-to-Point Protocol: IP (0x0021)) </div><div class="line">ns3::Ipv4Header (tos 0x0 DSCP Default ECN Not-ECT ttl 64 id 0 protocol 17 offset (bytes) 0 flags [none] </div><div class="line">length: 1052 10.1.1.2 &gt; 10.1.1.1) </div><div class="line">ns3::UdpHeader (length: 1032 9 &gt; 49153) </div><div class="line">Payload (size=1024)</div></pre></td></tr></table></figure>
+<p>N1 - D0（Server NetDevice）echo 一个数据包（10.1.1.2 -&gt; 10.1.1.1）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">r </div><div class="line">2.00737 </div><div class="line">/NodeList/0/DeviceList/0/$ns3::PointToPointNetDevice/MacRx </div><div class="line">ns3::PppHeader (Point-to-Point Protocol: IP (0x0021)) </div><div class="line">ns3::Ipv4Header (tos 0x0 DSCP Default ECN Not-ECT ttl 64 id 0 protocol 17 offset (bytes) 0 flags [none] </div><div class="line">length: 1052 10.1.1.2 &gt; 10.1.1.1) ns3::UdpHeader (length: 1032 9 &gt; 49153) </div><div class="line">Payload (size=1024)</div></pre></td></tr></table></figure>
+<p>client 收到了 server 的 echo packet</p>
+<p>通过ASCII trace 文件和console 控制台输出结果对照，能够非常方便地了解这个过程。</p>
+<h1 id="PCAP-Tracing"><a href="#PCAP-Tracing" class="headerlink" title="PCAP Tracing"></a>PCAP Tracing</h1><p>产生可由Wireshark打开的.pcap追踪文件</p>
+<p>同样的，我们添加代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">pointToPoint.EnablePcapAll (&quot;myfirst&quot;);</div></pre></td></tr></table></figure>
+<p>在ns3的文件夹下出现  myfirst-0-0.pacp（node 0-device 0）和myfirst-1-0.pacp（node 1-device 0）</p>
+<h2 id="使用tcpdump-读取-pacap输出"><a href="#使用tcpdump-读取-pacap输出" class="headerlink" title="使用tcpdump 读取 pacap输出"></a>使用tcpdump 读取 pacap输出</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">$ tcpdump -nn -tt -r myfirst-0-0.pcap</div><div class="line">reading from file myfirst-0-0.pcap, link-type PPP (PPP)</div><div class="line">2.000000 IP 10.1.1.1.49153 &gt; 10.1.1.2.9: UDP, length 1024      No.1</div><div class="line">2.007372 IP 10.1.1.2.9 &gt; 10.1.1.1.49153: UDP, length 1024      No.4</div><div class="line"></div><div class="line">tcpdump -nn -tt -r myfirst-1-0.pcap</div><div class="line">reading from file myfirst-1-0.pcap, link-type PPP (PPP)</div><div class="line">2.003686 IP 10.1.1.1.49153 &gt; 10.1.1.2.9: UDP, length 1024      No.2</div><div class="line">2.003686 IP 10.1.1.2.9 &gt; 10.1.1.1.49153: UDP, length 1024      No.3</div></pre></td></tr></table></figure>
+<p>从两个文件的时间顺序分析得到，流程顺序如 No.1-4</p>
+<h2 id="Reading-output-with-Wireshark"><a href="#Reading-output-with-Wireshark" class="headerlink" title="Reading output with Wireshark"></a>Reading output with Wireshark</h2><p>可以下载wireshark 软件打开文件</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>Thanks For Donate!</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>Donate</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt=" WeChat Pay"/>
+        <p>WeChat Pay</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt=" Alipay"/>
+        <p>Alipay</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/C/" rel="tag"># C++</a>
+          
+            <a href="/tags/NS3/" rel="tag"># NS3</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/ns3 命令行参数Command Line Argument/" rel="next" title="ns3 命令行参数Command Line Argument">
+                <i class="fa fa-chevron-left"></i> ns3 命令行参数Command Line Argument
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/C++ 函数调用的const形参（parameter）和非const形参/" rel="prev" title="C++ 函数调用的const形参（parameter）和非const形参">
+                C++ 函数调用的const形参（parameter）和非const形参 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="" />
+          <p class="site-author-name" itemprop="name"></p>
+           
+              <p class="site-description motion-element" itemprop="description">�������ɣ�������̫��</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Overview"><span class="nav-number">1.</span> <span class="nav-text">Overview</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#ns-3-tracing-system的基本目标："><span class="nav-number">1.1.</span> <span class="nav-text">ns-3 tracing system的基本目标：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是ns-3-的-tracing-sources-and-sinks？"><span class="nav-number">1.2.</span> <span class="nav-text">什么是ns-3 的 tracing sources and sinks？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Trace-source"><span class="nav-number">1.2.1.</span> <span class="nav-text">Trace source</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Trace-sink"><span class="nav-number">1.2.2.</span> <span class="nav-text">Trace sink</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ASCII-Tracing"><span class="nav-number">2.</span> <span class="nav-text">ASCII Tracing</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#解析（parse）-ASCII-Trace"><span class="nav-number">2.1.</span> <span class="nav-text">解析（parse） ASCII Trace</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#完整ASCII-trace文件如下"><span class="nav-number">2.2.</span> <span class="nav-text">完整ASCII trace文件如下</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#PCAP-Tracing"><span class="nav-number">3.</span> <span class="nav-text">PCAP Tracing</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#使用tcpdump-读取-pacap输出"><span class="nav-number">3.1.</span> <span class="nav-text">使用tcpdump 读取 pacap输出</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Reading-output-with-Wireshark"><span class="nav-number">3.2.</span> <span class="nav-text">Reading output with Wireshark</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder"></span>
+
+  
+</div>
+
+
+  <div class="powered-by">
+    由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+  </div>
+
+  <span class="post-meta-divider">|</span>
+
+  <div class="theme-info">
+    主题 &mdash;
+    <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+      NexT.Mist
+    </a>
+  </div>
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

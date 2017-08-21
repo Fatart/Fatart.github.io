@@ -670,6 +670,211 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/ns3 Using the Tracing System/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Fatart's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/ns3 Using the Tracing System/" itemprop="url">ns3 命令行参数Command Line Argument</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-18T16:28:25+08:00">
+                2017-08-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/NS3/" itemprop="url" rel="index">
+                    <span itemprop="name">NS3</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>详细内容请参考<a href="https://www.nsnam.org/docs/release/3.26/tutorial/html/tweaking.html" target="_blank" rel="external">ns-3 tutorial</a></p>
+<h1 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h1><p>我们可以使用以下代码输出，还可以使用logging 模块输出一些信息。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">std::cout &lt;&lt; &quot;The values of x is&quot; &lt;&lt; x &lt;&lt;std::endl;</div></pre></td></tr></table></figure>
+<p>但这些方式都有局限性，ns3 tracing system是一个通用（generic）输出。</p>
+<p>ns3 tracing system 建立在这样的概念上，独立的tracing source 和 tracing sinks，以及一个统一机制（uniform mechanism）链接 source 和 sinks.</p>
+<h2 id="ns-3-tracing-system的基本目标："><a href="#ns-3-tracing-system的基本目标：" class="headerlink" title="ns-3 tracing system的基本目标："></a>ns-3 tracing system的基本目标：</h2><ol>
+<li><p>对于基本的任务，tracing system应当允许用户对于那些常用的tracing source                          产生标准的tracing，并能能够设置哪一个对象产生tracing文件</p>
+</li>
+<li><p>中级的使用者（intermediate user）必须能够拓展tracing系统以修改输出的格式，或者在不修改ns-3 core的情况下,插入新的tracing source，</p>
+</li>
+<li>高级的用户（advanced user）能够修改仿真器来添加新的tracing source和 sink.</li>
+</ol>
+<h2 id="什么是ns-3-的-tracing-sources-and-sinks？"><a href="#什么是ns-3-的-tracing-sources-and-sinks？" class="headerlink" title="什么是ns-3 的 tracing sources and sinks？"></a>什么是ns-3 的 tracing sources and sinks？</h2><h3 id="Trace-source"><a href="#Trace-source" class="headerlink" title="Trace source"></a>Trace source</h3><p>Trace source are entities that can signal events that happen in a simulation and provide access to interesting underlying data.<br>跟踪源是可以指示在模拟中发生的事件并提供对感兴趣的底层数据的访问的实体.</p>
+<p>比如，一个trace source能够指示一个数据包什么时候被一个网络设备接收，并能为感兴趣的trace sink访问数据包的内容</p>
+<p>trace souce 本身是没有作用的，它们必须”连接到”其他的有sink提供信息并实际有用的代码</p>
+<h3 id="Trace-sink"><a href="#Trace-sink" class="headerlink" title="Trace sink"></a>Trace sink</h3><p>trace sink是 事件 和 trace source提供的数据的“消费者”。</p>
+<p>在本文中，我们将浏览一些预先定义好的source和sink，并且说明它们如何用很少的改动来配置。</p>
+<p>高级的tracing配置，包括拓展tracing命名空间和创建新的trace source间 ns3-manual 手册 和 how-to 章节。</p>
+<h1 id="ASCII-Tracing"><a href="#ASCII-Tracing" class="headerlink" title="ASCII Tracing"></a>ASCII Tracing</h1><p>我们可以在Simulator::Run()前增加以下代码以添加ASCII tracing</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">AsciiTraceHelper ascii;</div><div class="line">pointToPoint.EnableAsciiAll (ascii.CreateFileStream (&quot;myfirst.tr&quot;));</div></pre></td></tr></table></figure>
+<p>then build and run the script</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ ./waf --run scratch/myfirst</div></pre></td></tr></table></figure>
+<p>运行结束后，将在top-level 文件夹（ns3.26）创建一个<em>myfirst.tr</em>文件，并输出内容。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">At time 2s client sent 1024 bytes to 10.1.1.2 port 9</div><div class="line">At time 2.00369s server received 1024 bytes from 10.1.1.1 port 49153</div><div class="line">At time 2.00369s server sent 1024 bytes to 10.1.1.1 port 49153</div><div class="line">At time 2.00737s client received 1024 bytes from 10.1.1.2 port 9</div></pre></td></tr></table></figure>
+<h2 id="解析（parse）-ASCII-Trace"><a href="#解析（parse）-ASCII-Trace" class="headerlink" title="解析（parse） ASCII Trace"></a>解析（parse） ASCII Trace</h2><p>文件里的每一行都与一个<em>trace event</em>相关。在这个例子里，我们追踪事件是每一个point-to-point netdevice中的<em>transmit queue</em></p>
+<p>行首的符号意义如下：</p>
+<ul>
+<li>+：An enqueue operation occurred on the device queue</li>
+<li>-: A dequeue operation occurred on the device queue</li>
+<li>d: A packet was dropped, typically because the queue was full</li>
+<li>r: A packet was received by the net device</li>
+</ul>
+<h2 id="完整ASCII-trace文件如下"><a href="#完整ASCII-trace文件如下" class="headerlink" title="完整ASCII trace文件如下"></a>完整ASCII trace文件如下</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">+ </div><div class="line">2</div><div class="line">/NodeList/0/DeviceList/0/$ns3::PointToPointNetDevice/TxQueue/Enqueue </div><div class="line">ns3::PppHeader (Point-to-Point Protocol:IP (0x0021)) </div><div class="line">ns3::Ipv4Header (tos 0x0 DSCP Default ECN Not-ECT ttl 64 id 0 protocol 17 offset (bytes) 0 flags [none] </div><div class="line">length: 1052 10.1.1.1 &gt; 10.1.1.2) </div><div class="line">ns3::UdpHeader (length: 1032 49153 &gt; 9) </div><div class="line">Payload (size=1024)</div></pre></td></tr></table></figure>
+<ol>
+<li>+号表示这是一个入队操作，第二行的2表示仿真时刻是2s</li>
+<li><em>UdpEchoApplication</em>从第2s开始发送数据包。</li>
+<li>指出是那一个trace source发起（originate）这个事件（以tracing namespace格式表示），namespace root是<em>NodeList</em>，<em>NodeList/0</em>表示NodeList的第0个，在每一个node下都有DeviceList,可以看出事件是由<em>DeviceList/0</em>发起的</li>
+<li><em>$ns3::PointToPointNetDevice</em>告诉我们node 0 的 devcie 0 是一个什么类型的设备。 trace path 是<em>TxQueue/Enqueue</em></li>
+<li>数据包以P2P协议压缩，并有IPv4 Header，从10.1.1.1发起，发送到10.1.1.2，数据包有UDP Header，payload是1024bytes</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">-</div><div class="line">2</div><div class="line">/NodeList/0/DeviceList/0/$ns3::PointToPointNetDevice/TxQueue/Dequeue</div><div class="line">ns3::PppHeader (Point-to-Point Protocol: IP (0x0021)) </div><div class="line">ns3::Ipv4Header (tos 0x0 DSCP Default ECN Not-ECT ttl 64 id 0 protocol 17 offset (bytes) 0 flags [none]</div><div class="line">length: 1052 10.1.1.1 &gt; 10.1.1.2) </div><div class="line">ns3::UdpHeader (length: 1032 49153 &gt; 9) </div><div class="line">Payload (size=1024)</div></pre></td></tr></table></figure>
+<p>这里和section 1 不同之处在于dequeue，其他都一样，表示在第2秒，Node0-NetDevice0 transmit 1 packet</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">r </div><div class="line">2.00369</div><div class="line">/NodeList/1/DeviceList/0/$ns3::PointToPointNetDevice/MacRx </div><div class="line">ns3::PppHeader (Point-to-Point Protocol: IP (0x0021)) </div><div class="line">ns3::Ipv4Header (tos 0x0 DSCP Default ECN Not-ECT ttl 64 id 0 protocol 17 offset (bytes) 0 flags [none] </div><div class="line">length: 1052 10.1.1.1 &gt; 10.1.1.2) </div><div class="line">ns3::UdpHeader (length: 1032 49153 &gt; 9) </div><div class="line">Payload (size=1024)</div></pre></td></tr></table></figure>
+<ol>
+<li>r号表示这是收到数据包操作，第二行的2.00369表示仿真时刻是2.00369s</li>
+<li><em>UdpEchoServerApplication</em>从第2.00369s开始收到数据包。</li>
+<li>由NodeList 1 - Device 0 发起，可见是 server 的 netdevice 发起（originate）的</li>
+<li><em>$ns3::PointToPointNetDevice</em>告诉我们node 1 的 devcie 0 是一个什么类型的设备。 packet reception trace source 是<em>MacRx</em></li>
+<li>数据包以P2P协议压缩，并有IPv4 Header，从10.1.1.1发起，发送到10.1.1.2，数据包有UDP Header，payload是1024bytes</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">+ </div><div class="line">2.00369 </div><div class="line">/NodeList/1/DeviceList/0/$ns3::PointToPointNetDevice/TxQueue/Enqueue </div><div class="line">ns3::PppHeader (Point-to-Point Protocol: IP (0x0021)) </div><div class="line">ns3::Ipv4Header (tos 0x0 DSCP Default ECN Not-ECT ttl 64 id 0 protocol 17 offset (bytes) 0 flags [none] </div><div class="line">length: 1052 10.1.1.2 &gt; 10.1.1.1) </div><div class="line">ns3::UdpHeader (length: 1032 9 &gt; 49153) </div><div class="line">Payload (size=1024)</div></pre></td></tr></table></figure>
+<p>N1 - D0（Server NetDevice）将接收到的数据包enqueue</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">- </div><div class="line">2.00369 </div><div class="line">/NodeList/1/DeviceList/0/$ns3::PointToPointNetDevice/TxQueue/Dequeue </div><div class="line">ns3::PppHeader (Point-to-Point Protocol: IP (0x0021)) </div><div class="line">ns3::Ipv4Header (tos 0x0 DSCP Default ECN Not-ECT ttl 64 id 0 protocol 17 offset (bytes) 0 flags [none] </div><div class="line">length: 1052 10.1.1.2 &gt; 10.1.1.1) </div><div class="line">ns3::UdpHeader (length: 1032 9 &gt; 49153) </div><div class="line">Payload (size=1024)</div></pre></td></tr></table></figure>
+<p>N1 - D0（Server NetDevice）echo 一个数据包（10.1.1.2 -&gt; 10.1.1.1）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">r </div><div class="line">2.00737 </div><div class="line">/NodeList/0/DeviceList/0/$ns3::PointToPointNetDevice/MacRx </div><div class="line">ns3::PppHeader (Point-to-Point Protocol: IP (0x0021)) </div><div class="line">ns3::Ipv4Header (tos 0x0 DSCP Default ECN Not-ECT ttl 64 id 0 protocol 17 offset (bytes) 0 flags [none] </div><div class="line">length: 1052 10.1.1.2 &gt; 10.1.1.1) ns3::UdpHeader (length: 1032 9 &gt; 49153) </div><div class="line">Payload (size=1024)</div></pre></td></tr></table></figure>
+<p>client 收到了 server 的 echo packet</p>
+<p>通过ASCII trace 文件和console 控制台输出结果对照，能够非常方便地了解这个过程。</p>
+<h1 id="PCAP-Tracing"><a href="#PCAP-Tracing" class="headerlink" title="PCAP Tracing"></a>PCAP Tracing</h1><p>产生可由Wireshark打开的.pcap追踪文件</p>
+<p>同样的，我们添加代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">pointToPoint.EnablePcapAll (&quot;myfirst&quot;);</div></pre></td></tr></table></figure>
+<p>在ns3的文件夹下出现  myfirst-0-0.pacp（node 0-device 0）和myfirst-1-0.pacp（node 1-device 0）</p>
+<h2 id="使用tcpdump-读取-pacap输出"><a href="#使用tcpdump-读取-pacap输出" class="headerlink" title="使用tcpdump 读取 pacap输出"></a>使用tcpdump 读取 pacap输出</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">$ tcpdump -nn -tt -r myfirst-0-0.pcap</div><div class="line">reading from file myfirst-0-0.pcap, link-type PPP (PPP)</div><div class="line">2.000000 IP 10.1.1.1.49153 &gt; 10.1.1.2.9: UDP, length 1024      No.1</div><div class="line">2.007372 IP 10.1.1.2.9 &gt; 10.1.1.1.49153: UDP, length 1024      No.4</div><div class="line"></div><div class="line">tcpdump -nn -tt -r myfirst-1-0.pcap</div><div class="line">reading from file myfirst-1-0.pcap, link-type PPP (PPP)</div><div class="line">2.003686 IP 10.1.1.1.49153 &gt; 10.1.1.2.9: UDP, length 1024      No.2</div><div class="line">2.003686 IP 10.1.1.2.9 &gt; 10.1.1.1.49153: UDP, length 1024      No.3</div></pre></td></tr></table></figure>
+<p>从两个文件的时间顺序分析得到，流程顺序如 No.1-4</p>
+<h2 id="Reading-output-with-Wireshark"><a href="#Reading-output-with-Wireshark" class="headerlink" title="Reading output with Wireshark"></a>Reading output with Wireshark</h2><p>可以下载wireshark 软件打开文件</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/ns3 命令行参数Command Line Argument/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1916,177 +2121,6 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/从图中扣除不规则图像/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Fatart's blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/从图中扣除不规则图像/" itemprop="url">从图中扣出不规则图像</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-15T20:46:25+08:00">
-                2017-08-15
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/PS/" itemprop="url" rel="index">
-                    <span itemprop="name">PS</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="常用快捷方式"><a href="#常用快捷方式" class="headerlink" title="常用快捷方式"></a>常用快捷方式</h1><table>
-<thead>
-<tr>
-<th>快捷方式</th>
-<th>function</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Ctrl+j</td>
-<td>复制一层layer</td>
-</tr>
-<tr>
-<td>钢笔工具+Alt</td>
-<td>曲线直线更换</td>
-</tr>
-<tr>
-<td>钢笔工具+Ctrl</td>
-<td>锚点位置拖动</td>
-</tr>
-</tbody>
-</table>
-<h1 id="操作步骤"><a href="#操作步骤" class="headerlink" title="操作步骤"></a>操作步骤</h1><h3 id="1-打开文件"><a href="#1-打开文件" class="headerlink" title="1 打开文件"></a>1 打开文件</h3><p><img src="https://raw.githubusercontent.com/Fatart/Fatart.github.io/master/%E4%BB%8E%E5%9B%BE%E4%B8%AD%E6%89%A3%E9%99%A4%E4%B8%8D%E8%A7%84%E5%88%99%E5%9B%BE%E5%83%8F/1.png" alt="image"></p>
-<h3 id="2-取消layer-0的锁定"><a href="#2-取消layer-0的锁定" class="headerlink" title="2 取消layer 0的锁定"></a>2 取消layer 0的锁定</h3><h3 id="3-利用钢笔工具-取得所要的不规则图像"><a href="#3-利用钢笔工具-取得所要的不规则图像" class="headerlink" title="3 利用钢笔工具 取得所要的不规则图像"></a>3 利用钢笔工具 取得所要的不规则图像</h3><p><img src="https://raw.githubusercontent.com/Fatart/Fatart.github.io/master/%E4%BB%8E%E5%9B%BE%E4%B8%AD%E6%89%A3%E9%99%A4%E4%B8%8D%E8%A7%84%E5%88%99%E5%9B%BE%E5%83%8F/2.png" alt="image"></p>
-<h3 id="4-右击选区，选择-Make-Selection-Feather-Radius-羽化半径-0"><a href="#4-右击选区，选择-Make-Selection-Feather-Radius-羽化半径-0" class="headerlink" title="4 右击选区，选择 Make Selection,Feather Radius(羽化半径)=0"></a>4 右击选区，选择 Make Selection,Feather Radius(羽化半径)=0</h3><p><img src="https://raw.githubusercontent.com/Fatart/Fatart.github.io/master/%E4%BB%8E%E5%9B%BE%E4%B8%AD%E6%89%A3%E9%99%A4%E4%B8%8D%E8%A7%84%E5%88%99%E5%9B%BE%E5%83%8F/3.png" alt="image"><br><img src="https://raw.githubusercontent.com/Fatart/Fatart.github.io/master/%E4%BB%8E%E5%9B%BE%E4%B8%AD%E6%89%A3%E9%99%A4%E4%B8%8D%E8%A7%84%E5%88%99%E5%9B%BE%E5%83%8F/4.png" alt="image"></p>
-<h3 id="5-选择反转选区"><a href="#5-选择反转选区" class="headerlink" title="5 选择反转选区"></a>5 选择反转选区</h3><p><img src="https://raw.githubusercontent.com/Fatart/Fatart.github.io/master/%E4%BB%8E%E5%9B%BE%E4%B8%AD%E6%89%A3%E9%99%A4%E4%B8%8D%E8%A7%84%E5%88%99%E5%9B%BE%E5%83%8F/5.png" alt="image"></p>
-<h3 id="6-选中图层，按-Delete"><a href="#6-选中图层，按-Delete" class="headerlink" title="6 选中图层，按 Delete"></a>6 选中图层，按 Delete</h3><p><img src="https://raw.githubusercontent.com/Fatart/Fatart.github.io/master/%E4%BB%8E%E5%9B%BE%E4%B8%AD%E6%89%A3%E9%99%A4%E4%B8%8D%E8%A7%84%E5%88%99%E5%9B%BE%E5%83%8F/6.png" alt="image"><br><img src="https://raw.githubusercontent.com/Fatart/Fatart.github.io/master/%E4%BB%8E%E5%9B%BE%E4%B8%AD%E6%89%A3%E9%99%A4%E4%B8%8D%E8%A7%84%E5%88%99%E5%9B%BE%E5%83%8F/7.png" alt="image"></p>
-<h3 id="7-设定合适的画布大小"><a href="#7-设定合适的画布大小" class="headerlink" title="7 设定合适的画布大小"></a>7 设定合适的画布大小</h3><p>Image -&gt; Canvas Size</p>
-<h3 id="8-新建一层底层画布，并将Opacity设置为0"><a href="#8-新建一层底层画布，并将Opacity设置为0" class="headerlink" title="8 新建一层底层画布，并将Opacity设置为0"></a>8 新建一层底层画布，并将Opacity设置为0</h3><p><img src="https://raw.githubusercontent.com/Fatart/Fatart.github.io/master/%E4%BB%8E%E5%9B%BE%E4%B8%AD%E6%89%A3%E9%99%A4%E4%B8%8D%E8%A7%84%E5%88%99%E5%9B%BE%E5%83%8F/8.png" alt="image"></p>
-<h3 id="9-删除最上层选区，并保存为PNG格式"><a href="#9-删除最上层选区，并保存为PNG格式" class="headerlink" title="9 删除最上层选区，并保存为PNG格式"></a>9 删除最上层选区，并保存为PNG格式</h3><p>最终我们便得到了一张无背景的不规则图像</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/Visual Studio Shortcut/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2291,7 +2325,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-count">13</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
