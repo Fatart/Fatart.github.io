@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="C++,NS3," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="详细内容请参考ns-3 tutorial Overviewns-3的CSMA device以一个简单以太网建模。一个实际的以太网使用CSMA/CD（Carrier Sense Multiple Access with Collision Detection）方案，有着指数增加的回退backoff以竞争（contend for）共享的传输媒介。 The file opens in  second.c">
+<meta name="keywords" content="C++,NS3">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ns3 Building Topologies second.cc">
+<meta property="og:url" content="http://yoursite.com/ns3 Building Topologies/index.html">
+<meta property="og:site_name" content="Fatart&#39;s blog">
+<meta property="og:description" content="详细内容请参考ns-3 tutorial Overviewns-3的CSMA device以一个简单以太网建模。一个实际的以太网使用CSMA/CD（Carrier Sense Multiple Access with Collision Detection）方案，有着指数增加的回退backoff以竞争（contend for）共享的传输媒介。 The file opens in  second.c">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2017-08-22T08:47:46.314Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ns3 Building Topologies second.cc">
+<meta name="twitter:description" content="详细内容请参考ns-3 tutorial Overviewns-3的CSMA device以一个简单以太网建模。一个实际的以太网使用CSMA/CD（Carrier Sense Multiple Access with Collision Detection）方案，有着指数增加的回退backoff以竞争（contend for）共享的传输媒介。 The file opens in  second.c">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/ns3 Building Topologies/"/>
+
+
+
+
+
+  <title>ns3 Building Topologies second.cc | Fatart's blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Fatart's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/ns3 Building Topologies/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Fatart's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">ns3 Building Topologies second.cc</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-21T18:28:25+08:00">
+                2017-08-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/NS3/" itemprop="url" rel="index">
+                    <span itemprop="name">NS3</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>详细内容请参考<a href="https://www.nsnam.org/docs/release/3.26/tutorial/html/building-topologies.html" target="_blank" rel="external">ns-3 tutorial</a></p>
+<h1 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h1><p>ns-3的CSMA device以一个简单以太网建模。一个实际的以太网使用CSMA/CD（Carrier Sense Multiple Access with Collision Detection）方案，有着指数增加的回退backoff以竞争（contend for）共享的传输媒介。</p>
+<p>The file opens in  second.cc.</p>
+<h4 id="首先还是include-一些头文件"><a href="#首先还是include-一些头文件" class="headerlink" title="首先还是include 一些头文件"></a>首先还是include 一些头文件</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">#include &quot;ns3/core-module.h&quot;</div><div class="line">#include &quot;ns3/network-module.h&quot;</div><div class="line">#include &quot;ns3/csma-module.h&quot;</div><div class="line">#include &quot;ns3/internet-module.h&quot;</div><div class="line">#include &quot;ns3/point-to-point-module.h&quot;</div><div class="line">#include &quot;ns3/applications-module.h&quot;</div><div class="line">#include &quot;ns3/ipv4-global-routing-helper.h&quot;</div></pre></td></tr></table></figure>
+<h4 id="可见将要创建的网络拓扑如下所示"><a href="#可见将要创建的网络拓扑如下所示" class="headerlink" title="可见将要创建的网络拓扑如下所示"></a>可见将要创建的网络拓扑如下所示</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">// Default Network Topology</div><div class="line">//</div><div class="line">//       10.1.1.0</div><div class="line">// n0 -------------- n1   n2   n3   n4</div><div class="line">//    point-to-point  |    |    |    |</div><div class="line">//                    ================</div><div class="line">//                      LAN 10.1.2.0</div></pre></td></tr></table></figure>
+<p>使用命名空间，并定义Log_Component</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">using namespace ns3;</div><div class="line"></div><div class="line">NS_LOG_COMPONENT_DEFINE (&quot;SecondScriptExample&quot;);</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">bool verbose = true;</div><div class="line">uint32_t nCsma = 3;</div><div class="line"></div><div class="line">CommandLine cmd;</div><div class="line">cmd.AddValue (&quot;nCsma&quot;, &quot;Number of \&quot;extra\&quot; CSMA nodes/devices&quot;, nCsma);</div><div class="line">cmd.AddValue (&quot;verbose&quot;, &quot;Tell echo applications to log if true&quot;, verbose);</div><div class="line"></div><div class="line">cmd.Parse (argc, argv);</div><div class="line"></div><div class="line">if (verbose)</div><div class="line">  &#123;</div><div class="line">    LogComponentEnable(&quot;UdpEchoClientApplication&quot;, LOG_LEVEL_INFO);</div><div class="line">    LogComponentEnable(&quot;UdpEchoServerApplication&quot;, LOG_LEVEL_INFO);</div><div class="line">  &#125;</div><div class="line"></div><div class="line">nCsma = nCsma == 0 ? 1 : nCsma;</div></pre></td></tr></table></figure>
+<p>定义一个verbose flag来开启或关闭，UdpEchoClientApp和UdoEchoServerApp</p>
+<p>为command line argument system 添加一个 nCsma 参数，代表 其他csma设备数量</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">NodeContainer p2pNodes;</div><div class="line">p2pNodes.Create (2);</div></pre></td></tr></table></figure>
+<p>创建两个p2p node</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">NodeContainer csmaNodes;</div><div class="line">csmaNodes.Add (p2pNodes.Get (1)); //在一个p2p节点上创建一个csma节点</div><div class="line">csmaNodes.Create (nCsma);         //创建nCsma个节点</div></pre></td></tr></table></figure>
+<p>在<a href="https://www.nsnam.org/docs/release/3.26/doxygen/classns3_1_1_node_container.html#a9ed96e2ecc22e0f5a3d4842eb9bf90bf" target="_blank" rel="external">API</a>中，查看Get 函数。</p>
+<p><strong>Ptr&lt; Node &gt; ns3::NodeContainer::Get    (    uint32_t     i    )    const</strong></p>
+<p>Get the Ptr<node> stored in this container at a given index.<br>使用一个给定的index得到存在container中的Ptr<node>智能指针。</node></node></p>
+<p><strong>Parameters</strong></p>
+<p> i    the index of the requested node pointer.</p>
+<p><strong>Returns</strong></p>
+<p>the requested node pointer.</p>
+<p>Nodes can be retrieved from the container in two ways. First, directly by an index into the container, and second, using an iterator. This method is used in the direct method and is used to retrieve the indexed Ptr<appliation>.</appliation></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">uint32_t nNodes = container.GetN ();  //得到container中存在的节点数目</div><div class="line">for (uint32_t i = 0 i &lt; nNodes; ++i)</div><div class="line">  &#123;</div><div class="line">    Ptr&lt;Node&gt; p = container.Get (i)</div><div class="line">    i-&gt;method ();  // some Node method</div><div class="line">  &#125;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">PointToPointHelper pointToPoint;  </div><div class="line">pointToPoint.SetDeviceAttribute (&quot;DataRate&quot;, StringValue (&quot;5Mbps&quot;));</div><div class="line">pointToPoint.SetChannelAttribute (&quot;Delay&quot;, StringValue (&quot;2ms&quot;));</div><div class="line"></div><div class="line">NetDeviceContainer p2pDevices;</div><div class="line">p2pDevices = pointToPoint.Install (p2pNodes);</div></pre></td></tr></table></figure>
+<p>初始化一个PointToPointHelper对象，并设置Device和Channel参数，DataRate 5Mbps 和 Delay 2ms。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">CsmaHelper csma;</div><div class="line">csma.SetChannelAttribute (&quot;DataRate&quot;, StringValue (&quot;100Mbps&quot;));</div><div class="line">csma.SetChannelAttribute (&quot;Delay&quot;, TimeValue (NanoSeconds (6560)));</div><div class="line"></div><div class="line">NetDeviceContainer csmaDevices;</div><div class="line">csmaDevices = csma.Install (csmaNodes);  </div><div class="line"></div><div class="line">InternetStackHelper stack;</div><div class="line">stack.Install (p2pNodes.Get (0));</div><div class="line">stack.Install (csmaNodes);</div><div class="line"></div><div class="line">//使用IPv4AddressHelper分配Ip地址</div><div class="line"></div><div class="line">Ipv4AddressHelper address;</div><div class="line">address.SetBase (&quot;10.1.1.0&quot;, &quot;255.255.255.0&quot;);</div><div class="line">Ipv4InterfaceContainer p2pInterfaces;</div><div class="line">p2pInterfaces = address.Assign (p2pDevices);</div><div class="line"></div><div class="line">address.SetBase (&quot;10.1.2.0&quot;, &quot;255.255.255.0&quot;);</div><div class="line">Ipv4InterfaceContainer csmaInterfaces;</div><div class="line">csmaInterfaces = address.Assign (csmaDevices);</div></pre></td></tr></table></figure>
+<p>在API中查看<a href="https://www.nsnam.org/docs/release/3.26/doxygen/classns3_1_1_ipv4_address_helper.html" target="_blank" rel="external">Ipv4AddressHelper</a>,和<a href="https://www.nsnam.org/docs/release/3.26/doxygen/classns3_1_1_ipv4_interface_container.html#af501b5fa9d6e1cc316ba259609da608e" target="_blank" rel="external">Ipv4InterfaceContainer</a>.</p>
+<p>添加APP</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">UdpEchoServerHelper echoServer (9);</div><div class="line"></div><div class="line">ApplicationContainer serverApps = echoServer.Install (csmaNodes.Get (nCsma));</div><div class="line">serverApps.Start (Seconds (1.0));</div><div class="line">serverApps.Stop (Seconds (10.0));</div></pre></td></tr></table></figure>
+<p>在前文 csma container 装有一个p2p node 和 nCsma 个 extra nodes。</p>
+<p>所以</p>
+<ul>
+<li><p>.Get(0) -&gt; p2p node ptr</p>
+</li>
+<li><p>.Get(1) -&gt; 第一个csma node ptr</p>
+</li>
+<li><p>.Get(nCsma) -&gt; 第nCsma个csma node ptr,最后一个csma节点指针</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">UdpEchoClientHelper echoClient (csmaInterfaces.GetAddress (nCsma), 9);</div><div class="line">echoClient.SetAttribute (&quot;MaxPackets&quot;, UintegerValue (1));</div><div class="line">echoClient.SetAttribute (&quot;Interval&quot;, TimeValue (Seconds (1.0)));</div><div class="line">echoClient.SetAttribute (&quot;PacketSize&quot;, UintegerValue (1024));</div><div class="line"></div><div class="line">ApplicationContainer clientApps = echoClient.Install (p2pNodes.Get (0));</div><div class="line">clientApps.Start (Seconds (2.0));</div><div class="line">clientApps.Stop (Seconds (10.0));</div></pre></td></tr></table></figure>
+<p>使用全局路由</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Ipv4GlobalRoutingHelper::PopulateRoutingTables ();</div></pre></td></tr></table></figure>
+<p>开启Pcap追踪</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">pointToPoint.EnablePcapAll (&quot;second&quot;);</div><div class="line">csma.EnablePcap (&quot;second&quot;, csmaDevices.Get (1), true);</div></pre></td></tr></table></figure>
+<p>CSMA 网络是一个多点对点网络。这就意味着多个终端使用一个共享媒介。每一个终端都有一个对应的网络设备。对于这样的网络，有两种基本的方法来搜集trace信息。</p>
+<p>一种方法就是为每一个网络设备创立一个trace file并存储其发送和接收的数据包；</p>
+<p>第二种方法就是在有所设备中选择一个网络设备，并将其设为promiscuous mode（混杂模式），然后这个设备探索网络的所有数据包并存储。</p>
+<p>在代码中，我们设定 csmaDevices.Get(1)，第1个csma设备，为混杂promiscuous mode</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">  Simulator::Run ();</div><div class="line">  Simulator::Destroy ();</div><div class="line">  return 0;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>然后运行这个程序</p>
+<p>按照<a href="http://fatart.space/ns3%20%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%8F%82%E6%95%B0Command%20Line%20Argument/" target="_blank" rel="external">ns3 命令行参数Command Line Argument</a>上一篇介绍的command line argument system，输入<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ ./waf --run &quot;scratch/mysecond --PrintHelp&quot;</div></pre></td></tr></table></figure></p>
+<p>输出</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">second [Program Arguments] [General Arguments]</div><div class="line"></div><div class="line">Program Arguments:</div><div class="line">    --nCsma:    Number of &quot;extra&quot; CSMA nodes/devices [3]</div><div class="line">    --verbose:  Tell echo applications to log if true [true]</div><div class="line"></div><div class="line">General Arguments:</div><div class="line">    --PrintGlobals:              Print the list of globals.</div><div class="line">    --PrintGroups:               Print the list of groups.</div><div class="line">    --PrintGroup=[group]:        Print all TypeIds of group.</div><div class="line">    --PrintTypeIds:              Print all TypeIds.</div><div class="line">    --PrintAttributes=[typeid]:  Print all attributes of typeid.</div><div class="line">    --PrintHelp:                 Print this help message.</div></pre></td></tr></table></figure>
+<p>输出了我们在代码中定义并让cmd 系统解析的 program arguments： nCsma和verbose</p>
+<p>运行这个程序</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ ./waf --run scratch/mysecond</div></pre></td></tr></table></figure>
+<p>结果输出</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">At time 2s client sent 1024 bytes to 10.1.2.4 port 9</div><div class="line">At time 2.0078s server received 1024 bytes from 10.1.1.1 port 49153</div><div class="line">At time 2.0078s server sent 1024 bytes to 10.1.1.1 port 49153</div><div class="line">At time 2.01761s client received 1024 bytes from 10.1.2.4 port 9</div></pre></td></tr></table></figure>
+<p>在top-level文件夹下发现3个pcap文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">second-0-0.pcap  second-1-0.pcap  second-2-0.pcap</div></pre></td></tr></table></figure>
+<p>格式为<strong><name>-<node>-<device>.pacp</device></node></name></strong></p>
+<p>for example : </p>
+<ul>
+<li>second-0-0.pacp: node zero, device zero, 这是一个节点0上的 point-to-point net device</li>
+<li>second-1-0.pcap: node one,  device zero, 这是一盒节点1上的 point-to-point net device</li>
+</ul>
+<p><strong>node 0 指的是最左边的p2p节点，node1既是p2p，又是csma, node2 是第一个纯csma节点</strong></p>
+<p>在代码中，我们设定 csmaDevices.Get(1)，第1个csma设备，为混杂promiscuous mode</p>
+<p>下面我们使用tcpdump解析parse trace file</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ tcpdump -nn -tt -r second-0-0.pcap</div><div class="line">$ tcpdump -nn -tt -r second-1-0.pcap</div><div class="line">$ tcpdump -nn -tt -r second-2-0.pcap</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">reading from file second-0-0.pcap, link-type PPP (PPP)    //数据包类型为ppp（point to point类型）</div><div class="line">2.000000 IP 10.1.1.1.49153 &gt; 10.1.2.4.9: UDP, length 1024 //Node 0 p2p netdevice 在 2.0s发送    No.1</div><div class="line">2.017607 IP 10.1.2.4.9 &gt; 10.1.1.1.49153: UDP, length 1024 //client 收到服务器echo               No.9                                   </div><div class="line"></div><div class="line">reading from file second-1-0.pcap, link-type PPP (PPP)</div><div class="line">2.003686 IP 10.1.1.1.49153 &gt; 10.1.2.4.9: UDP, length 1024 </div><div class="line">// Node 1接收到了数据包（2.0s Node 0发送）,并将其传送到CSMA接口，并发送到最终目的节点           No.2 </div><div class="line">2.013921 IP 10.1.2.4.9 &gt; 10.1.1.1.49153: UDP, length 1024//(同时收到了10.1.2.4 echo信息)        No.8</div><div class="line"></div><div class="line">reading from file second-2-0.pcap, link-type EN10MB (Ethernet) //数据类型为 Ethernet</div><div class="line">2.007698 ARP, Request who-has 10.1.2.4 (ff:ff:ff:ff:ff:ff) tell 10.1.2.1, length 50  </div><div class="line">//Node 2 接收到数据包，并发送广播ARP信息请求目标10.1.2.4 MAC地址                                No.3</div><div class="line">2.007710 ARP, Reply 10.1.2.4 is-at 00:00:00:00:00:06, length 50//请求得到MAC地址                No.4                              </div><div class="line">2.007803 IP 10.1.1.1.49153 &gt; 10.1.2.4.9: UDP, length 1024  //转发信息                           No.5</div><div class="line">2.013815 ARP, Request who-has 10.1.2.1 (ff:ff:ff:ff:ff:ff) tell 10.1.2.4, length 50             No.6</div><div class="line">2.013828 ARP, Reply 10.1.2.1 is-at 00:00:00:00:00:03, length 50                                 No.7</div><div class="line">2.013921 IP 10.1.2.4.9 &gt; 10.1.1.1.49153: UDP, length 1024                                       No.8</div></pre></td></tr></table></figure>
+<h3 id="同样的可以使用cml-system改变-nCsma-参数"><a href="#同样的可以使用cml-system改变-nCsma-参数" class="headerlink" title="同样的可以使用cml system改变 nCsma 参数"></a>同样的可以使用cml system改变 nCsma 参数</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ ./waf --run &quot;scratch/mysecond --nCsma=4&quot;</div></pre></td></tr></table></figure>
+<h3 id="如果你对以一个旁观者角度在CSMA中得到trace-file不满意。你只想从一个单个device中获取trace-file。"><a href="#如果你对以一个旁观者角度在CSMA中得到trace-file不满意。你只想从一个单个device中获取trace-file。" class="headerlink" title="如果你对以一个旁观者角度在CSMA中得到trace file不满意。你只想从一个单个device中获取trace file。"></a>如果你对以一个旁观者角度在CSMA中得到trace file不满意。你只想从一个单个device中获取trace file。</h3><p>Go ahead and replace the EnablePcap calls with the calls below.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">pointToPoint.EnablePcap (&quot;second&quot;, p2pNodes.Get (0)-&gt;GetId (), 0);</div><div class="line">csma.EnablePcap (&quot;second&quot;, csmaNodes.Get (nCsma)-&gt;GetId (), 0, false);</div><div class="line">csma.EnablePcap (&quot;second&quot;, csmaNodes.Get (nCsma-1)-&gt;GetId (), 0, false);</div></pre></td></tr></table></figure>
+<h2 id="如何获得node的号码？"><a href="#如何获得node的号码？" class="headerlink" title="如何获得node的号码？"></a>如何获得node的号码？</h2><p>//       10.1.1.0<br>// n0 ————– n1   n2   n3   n4<br>//    point-to-point  |    |    |    |<br>//                    ================<br>//                      LAN 10.1.2.0</p>
+<ol>
+<li>节点在创建的时候是从0开始编号的，我们可以人工的记录节点创建的顺序,就如图上所示。</li>
+<li>使用Node对象的GetId()函数，它将会返回node ID，This unique id happens to be also the index of the Node into the NodeList.</li>
+</ol>
+<p>所以我们可以确定 nCsma = 3</p>
+<ul>
+<li>p2pNodes.Get (0)-&gt;GetId () = 0</li>
+<li>csmaNodes.Get (nCsma)-&gt;GetId () = 4;</li>
+<li>csmaNodes.Get (nCsma-1)-&gt;GetId () = 3;</li>
+</ul>
+<h3 id="清除旧的trace-file"><a href="#清除旧的trace-file" class="headerlink" title="清除旧的trace file"></a>清除旧的trace file</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ rm *.pcap</div><div class="line">$ rm *.tr</div></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>Thanks For Donate!</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>Donate</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt=" WeChat Pay"/>
+        <p>WeChat Pay</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt=" Alipay"/>
+        <p>Alipay</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/C/" rel="tag"># C++</a>
+          
+            <a href="/tags/NS3/" rel="tag"># NS3</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/ns3 Using the Tracing System/" rel="next" title="ns3 Using the Tracing System">
+                <i class="fa fa-chevron-left"></i> ns3 Using the Tracing System
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/Modal verb-would have, could have, should have/" rel="prev" title="Modal verb-would have, could have, should have">
+                Modal verb-would have, could have, should have <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="" />
+          <p class="site-author-name" itemprop="name"></p>
+           
+              <p class="site-description motion-element" itemprop="description">�������ɣ�������̫��</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">15</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Overview"><span class="nav-number">1.</span> <span class="nav-text">Overview</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#首先还是include-一些头文件"><span class="nav-number">1.0.0.1.</span> <span class="nav-text">首先还是include 一些头文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#可见将要创建的网络拓扑如下所示"><span class="nav-number">1.0.0.2.</span> <span class="nav-text">可见将要创建的网络拓扑如下所示</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#同样的可以使用cml-system改变-nCsma-参数"><span class="nav-number">1.0.1.</span> <span class="nav-text">同样的可以使用cml system改变 nCsma 参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#如果你对以一个旁观者角度在CSMA中得到trace-file不满意。你只想从一个单个device中获取trace-file。"><span class="nav-number">1.0.2.</span> <span class="nav-text">如果你对以一个旁观者角度在CSMA中得到trace file不满意。你只想从一个单个device中获取trace file。</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何获得node的号码？"><span class="nav-number">1.1.</span> <span class="nav-text">如何获得node的号码？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#清除旧的trace-file"><span class="nav-number">1.1.1.</span> <span class="nav-text">清除旧的trace file</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder"></span>
+
+  
+</div>
+
+
+  <div class="powered-by">
+    由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+  </div>
+
+  <span class="post-meta-divider">|</span>
+
+  <div class="theme-info">
+    主题 &mdash;
+    <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+      NexT.Mist
+    </a>
+  </div>
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -548,6 +548,232 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/ns3 Building Topologies/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Fatart's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/ns3 Building Topologies/" itemprop="url">ns3 Building Topologies second.cc</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-21T18:28:25+08:00">
+                2017-08-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/NS3/" itemprop="url" rel="index">
+                    <span itemprop="name">NS3</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>详细内容请参考<a href="https://www.nsnam.org/docs/release/3.26/tutorial/html/building-topologies.html" target="_blank" rel="external">ns-3 tutorial</a></p>
+<h1 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h1><p>ns-3的CSMA device以一个简单以太网建模。一个实际的以太网使用CSMA/CD（Carrier Sense Multiple Access with Collision Detection）方案，有着指数增加的回退backoff以竞争（contend for）共享的传输媒介。</p>
+<p>The file opens in  second.cc.</p>
+<h4 id="首先还是include-一些头文件"><a href="#首先还是include-一些头文件" class="headerlink" title="首先还是include 一些头文件"></a>首先还是include 一些头文件</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">#include &quot;ns3/core-module.h&quot;</div><div class="line">#include &quot;ns3/network-module.h&quot;</div><div class="line">#include &quot;ns3/csma-module.h&quot;</div><div class="line">#include &quot;ns3/internet-module.h&quot;</div><div class="line">#include &quot;ns3/point-to-point-module.h&quot;</div><div class="line">#include &quot;ns3/applications-module.h&quot;</div><div class="line">#include &quot;ns3/ipv4-global-routing-helper.h&quot;</div></pre></td></tr></table></figure>
+<h4 id="可见将要创建的网络拓扑如下所示"><a href="#可见将要创建的网络拓扑如下所示" class="headerlink" title="可见将要创建的网络拓扑如下所示"></a>可见将要创建的网络拓扑如下所示</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">// Default Network Topology</div><div class="line">//</div><div class="line">//       10.1.1.0</div><div class="line">// n0 -------------- n1   n2   n3   n4</div><div class="line">//    point-to-point  |    |    |    |</div><div class="line">//                    ================</div><div class="line">//                      LAN 10.1.2.0</div></pre></td></tr></table></figure>
+<p>使用命名空间，并定义Log_Component</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">using namespace ns3;</div><div class="line"></div><div class="line">NS_LOG_COMPONENT_DEFINE (&quot;SecondScriptExample&quot;);</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">bool verbose = true;</div><div class="line">uint32_t nCsma = 3;</div><div class="line"></div><div class="line">CommandLine cmd;</div><div class="line">cmd.AddValue (&quot;nCsma&quot;, &quot;Number of \&quot;extra\&quot; CSMA nodes/devices&quot;, nCsma);</div><div class="line">cmd.AddValue (&quot;verbose&quot;, &quot;Tell echo applications to log if true&quot;, verbose);</div><div class="line"></div><div class="line">cmd.Parse (argc, argv);</div><div class="line"></div><div class="line">if (verbose)</div><div class="line">  &#123;</div><div class="line">    LogComponentEnable(&quot;UdpEchoClientApplication&quot;, LOG_LEVEL_INFO);</div><div class="line">    LogComponentEnable(&quot;UdpEchoServerApplication&quot;, LOG_LEVEL_INFO);</div><div class="line">  &#125;</div><div class="line"></div><div class="line">nCsma = nCsma == 0 ? 1 : nCsma;</div></pre></td></tr></table></figure>
+<p>定义一个verbose flag来开启或关闭，UdpEchoClientApp和UdoEchoServerApp</p>
+<p>为command line argument system 添加一个 nCsma 参数，代表 其他csma设备数量</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">NodeContainer p2pNodes;</div><div class="line">p2pNodes.Create (2);</div></pre></td></tr></table></figure>
+<p>创建两个p2p node</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">NodeContainer csmaNodes;</div><div class="line">csmaNodes.Add (p2pNodes.Get (1)); //在一个p2p节点上创建一个csma节点</div><div class="line">csmaNodes.Create (nCsma);         //创建nCsma个节点</div></pre></td></tr></table></figure>
+<p>在<a href="https://www.nsnam.org/docs/release/3.26/doxygen/classns3_1_1_node_container.html#a9ed96e2ecc22e0f5a3d4842eb9bf90bf" target="_blank" rel="external">API</a>中，查看Get 函数。</p>
+<p><strong>Ptr&lt; Node &gt; ns3::NodeContainer::Get    (    uint32_t     i    )    const</strong></p>
+<p>Get the Ptr<node> stored in this container at a given index.<br>使用一个给定的index得到存在container中的Ptr<node>智能指针。</node></node></p>
+<p><strong>Parameters</strong></p>
+<p> i    the index of the requested node pointer.</p>
+<p><strong>Returns</strong></p>
+<p>the requested node pointer.</p>
+<p>Nodes can be retrieved from the container in two ways. First, directly by an index into the container, and second, using an iterator. This method is used in the direct method and is used to retrieve the indexed Ptr<appliation>.</appliation></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">uint32_t nNodes = container.GetN ();  //得到container中存在的节点数目</div><div class="line">for (uint32_t i = 0 i &lt; nNodes; ++i)</div><div class="line">  &#123;</div><div class="line">    Ptr&lt;Node&gt; p = container.Get (i)</div><div class="line">    i-&gt;method ();  // some Node method</div><div class="line">  &#125;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">PointToPointHelper pointToPoint;  </div><div class="line">pointToPoint.SetDeviceAttribute (&quot;DataRate&quot;, StringValue (&quot;5Mbps&quot;));</div><div class="line">pointToPoint.SetChannelAttribute (&quot;Delay&quot;, StringValue (&quot;2ms&quot;));</div><div class="line"></div><div class="line">NetDeviceContainer p2pDevices;</div><div class="line">p2pDevices = pointToPoint.Install (p2pNodes);</div></pre></td></tr></table></figure>
+<p>初始化一个PointToPointHelper对象，并设置Device和Channel参数，DataRate 5Mbps 和 Delay 2ms。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">CsmaHelper csma;</div><div class="line">csma.SetChannelAttribute (&quot;DataRate&quot;, StringValue (&quot;100Mbps&quot;));</div><div class="line">csma.SetChannelAttribute (&quot;Delay&quot;, TimeValue (NanoSeconds (6560)));</div><div class="line"></div><div class="line">NetDeviceContainer csmaDevices;</div><div class="line">csmaDevices = csma.Install (csmaNodes);  </div><div class="line"></div><div class="line">InternetStackHelper stack;</div><div class="line">stack.Install (p2pNodes.Get (0));</div><div class="line">stack.Install (csmaNodes);</div><div class="line"></div><div class="line">//使用IPv4AddressHelper分配Ip地址</div><div class="line"></div><div class="line">Ipv4AddressHelper address;</div><div class="line">address.SetBase (&quot;10.1.1.0&quot;, &quot;255.255.255.0&quot;);</div><div class="line">Ipv4InterfaceContainer p2pInterfaces;</div><div class="line">p2pInterfaces = address.Assign (p2pDevices);</div><div class="line"></div><div class="line">address.SetBase (&quot;10.1.2.0&quot;, &quot;255.255.255.0&quot;);</div><div class="line">Ipv4InterfaceContainer csmaInterfaces;</div><div class="line">csmaInterfaces = address.Assign (csmaDevices);</div></pre></td></tr></table></figure>
+<p>在API中查看<a href="https://www.nsnam.org/docs/release/3.26/doxygen/classns3_1_1_ipv4_address_helper.html" target="_blank" rel="external">Ipv4AddressHelper</a>,和<a href="https://www.nsnam.org/docs/release/3.26/doxygen/classns3_1_1_ipv4_interface_container.html#af501b5fa9d6e1cc316ba259609da608e" target="_blank" rel="external">Ipv4InterfaceContainer</a>.</p>
+<p>添加APP</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">UdpEchoServerHelper echoServer (9);</div><div class="line"></div><div class="line">ApplicationContainer serverApps = echoServer.Install (csmaNodes.Get (nCsma));</div><div class="line">serverApps.Start (Seconds (1.0));</div><div class="line">serverApps.Stop (Seconds (10.0));</div></pre></td></tr></table></figure>
+<p>在前文 csma container 装有一个p2p node 和 nCsma 个 extra nodes。</p>
+<p>所以</p>
+<ul>
+<li><p>.Get(0) -&gt; p2p node ptr</p>
+</li>
+<li><p>.Get(1) -&gt; 第一个csma node ptr</p>
+</li>
+<li><p>.Get(nCsma) -&gt; 第nCsma个csma node ptr,最后一个csma节点指针</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">UdpEchoClientHelper echoClient (csmaInterfaces.GetAddress (nCsma), 9);</div><div class="line">echoClient.SetAttribute (&quot;MaxPackets&quot;, UintegerValue (1));</div><div class="line">echoClient.SetAttribute (&quot;Interval&quot;, TimeValue (Seconds (1.0)));</div><div class="line">echoClient.SetAttribute (&quot;PacketSize&quot;, UintegerValue (1024));</div><div class="line"></div><div class="line">ApplicationContainer clientApps = echoClient.Install (p2pNodes.Get (0));</div><div class="line">clientApps.Start (Seconds (2.0));</div><div class="line">clientApps.Stop (Seconds (10.0));</div></pre></td></tr></table></figure>
+<p>使用全局路由</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Ipv4GlobalRoutingHelper::PopulateRoutingTables ();</div></pre></td></tr></table></figure>
+<p>开启Pcap追踪</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">pointToPoint.EnablePcapAll (&quot;second&quot;);</div><div class="line">csma.EnablePcap (&quot;second&quot;, csmaDevices.Get (1), true);</div></pre></td></tr></table></figure>
+<p>CSMA 网络是一个多点对点网络。这就意味着多个终端使用一个共享媒介。每一个终端都有一个对应的网络设备。对于这样的网络，有两种基本的方法来搜集trace信息。</p>
+<p>一种方法就是为每一个网络设备创立一个trace file并存储其发送和接收的数据包；</p>
+<p>第二种方法就是在有所设备中选择一个网络设备，并将其设为promiscuous mode（混杂模式），然后这个设备探索网络的所有数据包并存储。</p>
+<p>在代码中，我们设定 csmaDevices.Get(1)，第1个csma设备，为混杂promiscuous mode</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">  Simulator::Run ();</div><div class="line">  Simulator::Destroy ();</div><div class="line">  return 0;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>然后运行这个程序</p>
+<p>按照<a href="http://fatart.space/ns3%20%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%8F%82%E6%95%B0Command%20Line%20Argument/" target="_blank" rel="external">ns3 命令行参数Command Line Argument</a>上一篇介绍的command line argument system，输入<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ ./waf --run &quot;scratch/mysecond --PrintHelp&quot;</div></pre></td></tr></table></figure></p>
+<p>输出</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">second [Program Arguments] [General Arguments]</div><div class="line"></div><div class="line">Program Arguments:</div><div class="line">    --nCsma:    Number of &quot;extra&quot; CSMA nodes/devices [3]</div><div class="line">    --verbose:  Tell echo applications to log if true [true]</div><div class="line"></div><div class="line">General Arguments:</div><div class="line">    --PrintGlobals:              Print the list of globals.</div><div class="line">    --PrintGroups:               Print the list of groups.</div><div class="line">    --PrintGroup=[group]:        Print all TypeIds of group.</div><div class="line">    --PrintTypeIds:              Print all TypeIds.</div><div class="line">    --PrintAttributes=[typeid]:  Print all attributes of typeid.</div><div class="line">    --PrintHelp:                 Print this help message.</div></pre></td></tr></table></figure>
+<p>输出了我们在代码中定义并让cmd 系统解析的 program arguments： nCsma和verbose</p>
+<p>运行这个程序</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ ./waf --run scratch/mysecond</div></pre></td></tr></table></figure>
+<p>结果输出</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">At time 2s client sent 1024 bytes to 10.1.2.4 port 9</div><div class="line">At time 2.0078s server received 1024 bytes from 10.1.1.1 port 49153</div><div class="line">At time 2.0078s server sent 1024 bytes to 10.1.1.1 port 49153</div><div class="line">At time 2.01761s client received 1024 bytes from 10.1.2.4 port 9</div></pre></td></tr></table></figure>
+<p>在top-level文件夹下发现3个pcap文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">second-0-0.pcap  second-1-0.pcap  second-2-0.pcap</div></pre></td></tr></table></figure>
+<p>格式为<strong><name>-<node>-<device>.pacp</device></node></name></strong></p>
+<p>for example : </p>
+<ul>
+<li>second-0-0.pacp: node zero, device zero, 这是一个节点0上的 point-to-point net device</li>
+<li>second-1-0.pcap: node one,  device zero, 这是一盒节点1上的 point-to-point net device</li>
+</ul>
+<p><strong>node 0 指的是最左边的p2p节点，node1既是p2p，又是csma, node2 是第一个纯csma节点</strong></p>
+<p>在代码中，我们设定 csmaDevices.Get(1)，第1个csma设备，为混杂promiscuous mode</p>
+<p>下面我们使用tcpdump解析parse trace file</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ tcpdump -nn -tt -r second-0-0.pcap</div><div class="line">$ tcpdump -nn -tt -r second-1-0.pcap</div><div class="line">$ tcpdump -nn -tt -r second-2-0.pcap</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">reading from file second-0-0.pcap, link-type PPP (PPP)    //数据包类型为ppp（point to point类型）</div><div class="line">2.000000 IP 10.1.1.1.49153 &gt; 10.1.2.4.9: UDP, length 1024 //Node 0 p2p netdevice 在 2.0s发送    No.1</div><div class="line">2.017607 IP 10.1.2.4.9 &gt; 10.1.1.1.49153: UDP, length 1024 //client 收到服务器echo               No.9                                   </div><div class="line"></div><div class="line">reading from file second-1-0.pcap, link-type PPP (PPP)</div><div class="line">2.003686 IP 10.1.1.1.49153 &gt; 10.1.2.4.9: UDP, length 1024 </div><div class="line">// Node 1接收到了数据包（2.0s Node 0发送）,并将其传送到CSMA接口，并发送到最终目的节点           No.2 </div><div class="line">2.013921 IP 10.1.2.4.9 &gt; 10.1.1.1.49153: UDP, length 1024//(同时收到了10.1.2.4 echo信息)        No.8</div><div class="line"></div><div class="line">reading from file second-2-0.pcap, link-type EN10MB (Ethernet) //数据类型为 Ethernet</div><div class="line">2.007698 ARP, Request who-has 10.1.2.4 (ff:ff:ff:ff:ff:ff) tell 10.1.2.1, length 50  </div><div class="line">//Node 2 接收到数据包，并发送广播ARP信息请求目标10.1.2.4 MAC地址                                No.3</div><div class="line">2.007710 ARP, Reply 10.1.2.4 is-at 00:00:00:00:00:06, length 50//请求得到MAC地址                No.4                              </div><div class="line">2.007803 IP 10.1.1.1.49153 &gt; 10.1.2.4.9: UDP, length 1024  //转发信息                           No.5</div><div class="line">2.013815 ARP, Request who-has 10.1.2.1 (ff:ff:ff:ff:ff:ff) tell 10.1.2.4, length 50             No.6</div><div class="line">2.013828 ARP, Reply 10.1.2.1 is-at 00:00:00:00:00:03, length 50                                 No.7</div><div class="line">2.013921 IP 10.1.2.4.9 &gt; 10.1.1.1.49153: UDP, length 1024                                       No.8</div></pre></td></tr></table></figure>
+<h3 id="同样的可以使用cml-system改变-nCsma-参数"><a href="#同样的可以使用cml-system改变-nCsma-参数" class="headerlink" title="同样的可以使用cml system改变 nCsma 参数"></a>同样的可以使用cml system改变 nCsma 参数</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ ./waf --run &quot;scratch/mysecond --nCsma=4&quot;</div></pre></td></tr></table></figure>
+<h3 id="如果你对以一个旁观者角度在CSMA中得到trace-file不满意。你只想从一个单个device中获取trace-file。"><a href="#如果你对以一个旁观者角度在CSMA中得到trace-file不满意。你只想从一个单个device中获取trace-file。" class="headerlink" title="如果你对以一个旁观者角度在CSMA中得到trace file不满意。你只想从一个单个device中获取trace file。"></a>如果你对以一个旁观者角度在CSMA中得到trace file不满意。你只想从一个单个device中获取trace file。</h3><p>Go ahead and replace the EnablePcap calls with the calls below.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">pointToPoint.EnablePcap (&quot;second&quot;, p2pNodes.Get (0)-&gt;GetId (), 0);</div><div class="line">csma.EnablePcap (&quot;second&quot;, csmaNodes.Get (nCsma)-&gt;GetId (), 0, false);</div><div class="line">csma.EnablePcap (&quot;second&quot;, csmaNodes.Get (nCsma-1)-&gt;GetId (), 0, false);</div></pre></td></tr></table></figure>
+<h2 id="如何获得node的号码？"><a href="#如何获得node的号码？" class="headerlink" title="如何获得node的号码？"></a>如何获得node的号码？</h2><p>//       10.1.1.0<br>// n0 ————– n1   n2   n3   n4<br>//    point-to-point  |    |    |    |<br>//                    ================<br>//                      LAN 10.1.2.0</p>
+<ol>
+<li>节点在创建的时候是从0开始编号的，我们可以人工的记录节点创建的顺序,就如图上所示。</li>
+<li>使用Node对象的GetId()函数，它将会返回node ID，This unique id happens to be also the index of the Node into the NodeList.</li>
+</ol>
+<p>所以我们可以确定 nCsma = 3</p>
+<ul>
+<li>p2pNodes.Get (0)-&gt;GetId () = 0</li>
+<li>csmaNodes.Get (nCsma)-&gt;GetId () = 4;</li>
+<li>csmaNodes.Get (nCsma-1)-&gt;GetId () = 3;</li>
+</ul>
+<h3 id="清除旧的trace-file"><a href="#清除旧的trace-file" class="headerlink" title="清除旧的trace file"></a>清除旧的trace file</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ rm *.pcap</div><div class="line">$ rm *.tr</div></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/ns3 Using the Tracing System/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1314,7 +1540,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/Reading Section -Question Types/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/reading section -tips/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -1333,7 +1559,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/Reading Section -Question Types/" itemprop="url">Reading Section -Question Types</a></h1>
+                <a class="post-title-link" href="/reading section -tips/" itemprop="url">Reading Section -Tips</a></h1>
         
 
         <div class="post-meta">
@@ -1512,7 +1738,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/reading section -tips/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/Reading Section -Question Types/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -1531,7 +1757,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/reading section -tips/" itemprop="url">Reading Section -Tips</a></h1>
+                <a class="post-title-link" href="/Reading Section -Question Types/" itemprop="url">Reading Section -Question Types</a></h1>
         
 
         <div class="post-meta">
@@ -2112,273 +2338,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/IO库/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Fatart's blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/IO库/" itemprop="url">IO 库</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-15T20:46:25+08:00">
-                2017-08-15
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/C/" itemprop="url" rel="index">
-                    <span itemprop="name">C++</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>本节对应C++ Primer第八章</p>
-<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>C++通过定义在标准库中的类型来处理IO</p>
-<table>
-<thead>
-<tr>
-<th>说明</th>
-<th>头文件</th>
-<th>类型</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>读写基本流类型</td>
-<td>iostream</td>
-<td>istream,wsitream</td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td>ostream,wostream</td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td>iostream</td>
-</tr>
-<tr>
-<td>读写文件类型</td>
-<td>fstream</td>
-<td>ifstream,wifstream</td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td>ofstream,wofstream</td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td>fstream,wfstream</td>
-</tr>
-<tr>
-<td>读写内存string</td>
-<td>sstream</td>
-<td>istringstream,wistringstream</td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td>ostringstream,wostringstream</td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td>stringstream,wstringstream</td>
-</tr>
-</tbody>
-</table>
-<p>tips：宽字符版本的类型和函数以w开始。类型之间为 <strong>继承机制(inheritance)</strong>，基类为istream,ostream,iostream</p>
-<h1 id="IO条件状态"><a href="#IO条件状态" class="headerlink" title="IO条件状态"></a>IO条件状态</h1><p>IO类提供函数和标志用来判断流的<strong>条件状态(condition state)</strong></p>
-<table>
-<thead>
-<tr>
-<th>condition state</th>
-<th>illustration</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>strm::iostate</td>
-<td>strm是一种IO类型，iOstate是一种机器相关类型，提供表达条件状态的完整功能</td>
-</tr>
-<tr>
-<td>strm::badbit</td>
-<td>strm::badbit 用来指示流崩溃</td>
-</tr>
-<tr>
-<td>strm::failbit</td>
-<td>strm::failbit 指示一个IO操作失败</td>
-</tr>
-<tr>
-<td>strm::eofbit</td>
-<td>指出流到达了文件结束</td>
-</tr>
-<tr>
-<td>strm::goodbit</td>
-<td>流未处于错误状态。此值保证为0</td>
-</tr>
-<tr>
-<td>s.eof()</td>
-<td>若流s的eofbit置位，返回true</td>
-</tr>
-<tr>
-<td>s.fail()</td>
-<td>failbit</td>
-</tr>
-<tr>
-<td>s.bad()</td>
-<td>badbit</td>
-</tr>
-<tr>
-<td>s.good()</td>
-<td>goodbit</td>
-</tr>
-<tr>
-<td>s.clear()</td>
-<td>将流s中所有条件状态位复位，将流的状态设置为有效，返回void</td>
-</tr>
-<tr>
-<td>s.clear(flag)</td>
-<td>根据给定的flags标志，将流s中对应条件状态位复位，flag类型为strm::iostate,返回void</td>
-</tr>
-<tr>
-<td>s.setstate(flag)</td>
-<td>将流s中对应条件状态位置位</td>
-</tr>
-<tr>
-<td>s.rdstate()</td>
-<td>返回流的当前条件状态，返回值类型strm::iostate</td>
-</tr>
-</tbody>
-</table>
-<p>例：使用cin.rdstate()获得流的当前条件状态，并复位failbit和badbit标志位</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">cin.clear( cin.rdstate() &amp; ~cin.failbit &amp; ~cin.badbit);</div></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">#include &lt;iostream&gt;</div><div class="line">using std::istream;</div><div class="line"></div><div class="line">istream&amp; func(istream &amp;is)</div><div class="line">&#123;</div><div class="line">    std::string buf;</div><div class="line">    while (is &gt;&gt; buf)</div><div class="line">        std::cout &lt;&lt; buf &lt;&lt; std::endl;</div><div class="line">    is.clear();</div><div class="line">    return is;</div><div class="line">&#125;</div><div class="line"></div><div class="line">int main()</div><div class="line">&#123;</div><div class="line">    istream&amp; is = func(std::cin);</div><div class="line">    std::cout &lt;&lt; is.rdstate() &lt;&lt; std::endl;</div><div class="line">    return 0;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>Page 280. 后续内容感觉不太常用，暂时跳过。</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2429,7 +2388,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-count">15</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
