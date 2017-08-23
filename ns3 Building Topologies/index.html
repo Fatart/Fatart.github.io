@@ -102,7 +102,7 @@
 <meta property="og:site_name" content="Fatart&#39;s blog">
 <meta property="og:description" content="详细内容请参考ns-3 tutorial Overviewns-3的CSMA device以一个简单以太网建模。一个实际的以太网使用CSMA/CD（Carrier Sense Multiple Access with Collision Detection）方案，有着指数增加的回退backoff以竞争（contend for）共享的传输媒介。 The file opens in  second.c">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-08-22T08:47:46.314Z">
+<meta property="og:updated_time" content="2017-08-22T08:53:21.583Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="ns3 Building Topologies second.cc">
 <meta name="twitter:description" content="详细内容请参考ns-3 tutorial Overviewns-3的CSMA device以一个简单以太网建模。一个实际的以太网使用CSMA/CD（Carrier Sense Multiple Access with Collision Detection）方案，有着指数增加的回退backoff以竞争（contend for）共享的传输媒介。 The file opens in  second.c">
@@ -439,7 +439,7 @@
 <h3 id="同样的可以使用cml-system改变-nCsma-参数"><a href="#同样的可以使用cml-system改变-nCsma-参数" class="headerlink" title="同样的可以使用cml system改变 nCsma 参数"></a>同样的可以使用cml system改变 nCsma 参数</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ ./waf --run &quot;scratch/mysecond --nCsma=4&quot;</div></pre></td></tr></table></figure>
 <h3 id="如果你对以一个旁观者角度在CSMA中得到trace-file不满意。你只想从一个单个device中获取trace-file。"><a href="#如果你对以一个旁观者角度在CSMA中得到trace-file不满意。你只想从一个单个device中获取trace-file。" class="headerlink" title="如果你对以一个旁观者角度在CSMA中得到trace file不满意。你只想从一个单个device中获取trace file。"></a>如果你对以一个旁观者角度在CSMA中得到trace file不满意。你只想从一个单个device中获取trace file。</h3><p>Go ahead and replace the EnablePcap calls with the calls below.</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">pointToPoint.EnablePcap (&quot;second&quot;, p2pNodes.Get (0)-&gt;GetId (), 0);</div><div class="line">csma.EnablePcap (&quot;second&quot;, csmaNodes.Get (nCsma)-&gt;GetId (), 0, false);</div><div class="line">csma.EnablePcap (&quot;second&quot;, csmaNodes.Get (nCsma-1)-&gt;GetId (), 0, false);</div></pre></td></tr></table></figure>
-<h2 id="如何获得node的号码？"><a href="#如何获得node的号码？" class="headerlink" title="如何获得node的号码？"></a>如何获得node的号码？</h2><p>//       10.1.1.0<br>// n0 ————– n1   n2   n3   n4<br>//    point-to-point  |    |    |    |<br>//                    ================<br>//                      LAN 10.1.2.0</p>
+<h2 id="如何获得node的号码？"><a href="#如何获得node的号码？" class="headerlink" title="如何获得node的号码？"></a>如何获得node的号码？</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">//       10.1.1.0</div><div class="line">// n0 -------------- n1   n2   n3   n4</div><div class="line">//    point-to-point  |    |    |    |</div><div class="line">//                    ================</div><div class="line">//                      LAN 10.1.2.0</div></pre></td></tr></table></figure>
 <ol>
 <li>节点在创建的时候是从0开始编号的，我们可以人工的记录节点创建的顺序,就如图上所示。</li>
 <li>使用Node对象的GetId()函数，它将会返回node ID，This unique id happens to be also the index of the Node into the NodeList.</li>
