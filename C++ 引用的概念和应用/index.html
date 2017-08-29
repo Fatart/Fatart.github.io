@@ -94,18 +94,18 @@
 
 
 
-<meta name="description" content="基本概念将用户在CMD窗口输入可执行文件名的方式启动程序时，跟在可执行文件名后面的那些字符串，称为“命令行参数”。命令行参数可以有多个，以空格分隔。比如，在CMD窗口敲： 1copy file1.txt file2.txt “copy”, “file1.txt”, “file2.txt”  就是命令行参数 如何在程序中获得命令行参数呢1234int main(int argc, char * ar">
+<meta name="description" content="PPT 基本概念下面的写法定义了一个引用，并将其初始化为引用某个变量。 1类型名 &amp;amp; 引用名 = 某变量名; 12int n = 4;int &amp;amp; r = n; // r引用了 n, r的类型是 int &amp;amp;  定义引用时一定要将其初始化成引用某个变量。 初始化后，它就一直引用该变量，不会再引用别的变量了。 引用只能引用变量，不能引用常量和表达式。  1234567891011">
 <meta name="keywords" content="C++,Program">
 <meta property="og:type" content="article">
-<meta property="og:title" content="C++ 命令行参数">
-<meta property="og:url" content="http://yoursite.com/C++ 命令行参数/index.html">
+<meta property="og:title" content="C++ 引用的概念和应用">
+<meta property="og:url" content="http://yoursite.com/C++ 引用的概念和应用/index.html">
 <meta property="og:site_name" content="Fatart&#39;s blog">
-<meta property="og:description" content="基本概念将用户在CMD窗口输入可执行文件名的方式启动程序时，跟在可执行文件名后面的那些字符串，称为“命令行参数”。命令行参数可以有多个，以空格分隔。比如，在CMD窗口敲： 1copy file1.txt file2.txt “copy”, “file1.txt”, “file2.txt”  就是命令行参数 如何在程序中获得命令行参数呢1234int main(int argc, char * ar">
+<meta property="og:description" content="PPT 基本概念下面的写法定义了一个引用，并将其初始化为引用某个变量。 1类型名 &amp;amp; 引用名 = 某变量名; 12int n = 4;int &amp;amp; r = n; // r引用了 n, r的类型是 int &amp;amp;  定义引用时一定要将其初始化成引用某个变量。 初始化后，它就一直引用该变量，不会再引用别的变量了。 引用只能引用变量，不能引用常量和表达式。  1234567891011">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-08-29T05:26:39.653Z">
+<meta property="og:updated_time" content="2017-08-29T06:42:52.283Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="C++ 命令行参数">
-<meta name="twitter:description" content="基本概念将用户在CMD窗口输入可执行文件名的方式启动程序时，跟在可执行文件名后面的那些字符串，称为“命令行参数”。命令行参数可以有多个，以空格分隔。比如，在CMD窗口敲： 1copy file1.txt file2.txt “copy”, “file1.txt”, “file2.txt”  就是命令行参数 如何在程序中获得命令行参数呢1234int main(int argc, char * ar">
+<meta name="twitter:title" content="C++ 引用的概念和应用">
+<meta name="twitter:description" content="PPT 基本概念下面的写法定义了一个引用，并将其初始化为引用某个变量。 1类型名 &amp;amp; 引用名 = 某变量名; 12int n = 4;int &amp;amp; r = n; // r引用了 n, r的类型是 int &amp;amp;  定义引用时一定要将其初始化成引用某个变量。 初始化后，它就一直引用该变量，不会再引用别的变量了。 引用只能引用变量，不能引用常量和表达式。  1234567891011">
 
 
 
@@ -134,13 +134,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/C++ 命令行参数/"/>
+  <link rel="canonical" href="http://yoursite.com/C++ 引用的概念和应用/"/>
 
 
 
 
 
-  <title>C++ 命令行参数 | Fatart's blog</title>
+  <title>C++ 引用的概念和应用 | Fatart's blog</title>
   
 
 
@@ -277,7 +277,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/C++ 命令行参数/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/C++ 引用的概念和应用/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -294,7 +294,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">C++ 命令行参数</h1>
+          <h1 class="post-title" itemprop="name headline">C++ 引用的概念和应用</h1>
         
 
         <div class="post-meta">
@@ -306,7 +306,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-29T13:22:25+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-29T14:01:25+08:00">
                 2017-08-29
               </time>
             
@@ -366,22 +366,29 @@
       
 
       
-        <h1 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h1><p>将用户在CMD窗口输入可执行文件名的方式启动程序时，跟在可执行文件名后面的那些字符串，称为“命令行参数”。命令行参数<br>可以有多个，以空格分隔。比如，在CMD窗口敲：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">copy file1.txt file2.txt</div></pre></td></tr></table></figure>
-<p>“copy”, “file1.txt”, “file2.txt”  就是命令行参数</p>
-<h3 id="如何在程序中获得命令行参数呢"><a href="#如何在程序中获得命令行参数呢" class="headerlink" title="如何在程序中获得命令行参数呢"></a>如何在程序中获得命令行参数呢</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">int main(int argc, char * argv[])</div><div class="line">&#123;</div><div class="line">……</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+        <p><a href="https://courses.edx.org/asset-v1:PekingX+04831750.1x+2015T1+type@asset+block@004%E5%BC%95%E7%94%A8.pdf" target="_blank" rel="external">PPT</a></p>
+<h1 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h1><p>下面的写法定义了一个引用，并将其初始化为引用某个变量。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">类型名 &amp; 引用名 = 某变量名;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">int n = 4;</div><div class="line">int &amp; r = n; // r引用了 n, r的类型是 int &amp;</div></pre></td></tr></table></figure>
 <ul>
-<li>argc: 代表启动程序时，命令行参数的个数。C/C++语言规定，可执行程序程序本身的文件名，也算一个命令行参数，因此，argc的值至少是1。</li>
-<li>argv: 指针数组，其中的每个元素都是一个char*类型的指针，该指针指向一个字符串，这个字符串里就存放着命令行参数。例如，argv[0]指向的字符串就是第一个命令行参数，即可执行程序的文件名，argv[1]指向第二个命令行参数，argv[2]指向第三个命令行参数……。</li>
+<li>定义引用时一定要将其初始化成引用某个变量。</li>
+<li>初始化后，它就一直引用该变量，不会再引用别的变量了。</li>
+<li>引用只能引用<strong>变量</strong>，<strong>不能</strong>引用常量和表达式。</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">#include &lt;stdio.h&gt;</div><div class="line">  int main(int argc, char * argv[])</div><div class="line">&#123;</div><div class="line">    for(int i = 0;i &lt; argc; i ++ )</div><div class="line">    printf( &quot;%s\n&quot;,argv[i]);</div><div class="line">    return 0;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>将上面的程序编译成sample.exe，然后在控制台<br>窗口敲:<br>sample para1 para2 s.txt 5 “hello world” </p>
-<p>输出结果就是：<br>sample</p>
-<p>para1</p>
-<p>para2</p>
-<p>s.txt</p>
-<p>5</p>
-<p>hello world</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">#include &lt;iostream&gt;</div><div class="line">using namespace std;</div><div class="line"></div><div class="line">int main()</div><div class="line">&#123;</div><div class="line">	double a = 4, b = 5;</div><div class="line">	double &amp;r1 = a;  //r1的类型为 double &amp;</div><div class="line">	double &amp;r2 = r1; //r2的类型为 double &amp;</div><div class="line">	r2 = 10;</div><div class="line">	cout &lt;&lt; a &lt;&lt; endl; //输出 10</div><div class="line">	r1 = b;           </div><div class="line">	cout &lt;&lt; a &lt;&lt; endl; //输出 5</div><div class="line"></div><div class="line">	return 0;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="引用应用的简单示例"><a href="#引用应用的简单示例" class="headerlink" title="引用应用的简单示例"></a>引用应用的简单示例</h2><p>C语言中，如何编写交换两个整型变量值的函数?</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">void swap( int * a, int * b)</div><div class="line">&#123;</div><div class="line">    int tmp;</div><div class="line">    tmp = * a; * a = * b; * b = tmp;</div><div class="line">&#125;</div><div class="line">int n1, n2;</div><div class="line">swap(&amp; n1,&amp; n2) ; // n1,n2的值被交换</div></pre></td></tr></table></figure>
+<p>有了C++的引用：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">void swap( int&amp; a, int&amp; b)</div><div class="line">&#123;</div><div class="line">    int tmp;</div><div class="line">    tmp = a; a = b; b = tmp;</div><div class="line">&#125;</div><div class="line">int n1, n2;</div><div class="line">swap(n1,n2) ; // n1,n2的值被交换</div></pre></td></tr></table></figure></p>
+<h2 id="引用作为函数的返回值"><a href="#引用作为函数的返回值" class="headerlink" title="引用作为函数的返回值"></a>引用作为函数的返回值</h2><p>这一节参考C++ primer 6.3节函数-引用返回左值<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">int n = 4;</div><div class="line">int &amp; SetValue() &#123; return n; &#125;</div><div class="line">int main()</div><div class="line">&#123;</div><div class="line">    SetValue() = 40;</div><div class="line">    cout &lt;&lt; n;</div><div class="line">    return 0;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>SetValue()返回类型为int&amp;，对SetValue()赋值就是对n进行赋值，相当于 n = 40;</p>
+<h2 id="常引用"><a href="#常引用" class="headerlink" title="常引用"></a>常引用</h2><p>定义引用时，前面加const关键字，即为“常引用”</p>
+<p>不能通过常引用去修改其引用的内容:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">int n;</div><div class="line">const int &amp; r = n; //r 的类型是 const int &amp;</div></pre></td></tr></table></figure>
+<h3 id="常引用和非常引用的转换"><a href="#常引用和非常引用的转换" class="headerlink" title="常引用和非常引用的转换"></a>常引用和非常引用的转换</h3><p>const T &amp; 和T &amp; 是不同的类型!!!</p>
+<ul>
+<li>T &amp; 类型的引用或T类型的变量可以用来初始化const T &amp; 类型的引用。</li>
+<li>const T 类型的常变量和const T &amp;类型的引用则不能用来初始化T&amp;类型的引用，除非进行强制类型转换。</li>
+</ul>
 
       
     </div>
@@ -443,8 +450,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/C++ 函数指针/" rel="next" title="C++ 函数指针">
-                <i class="fa fa-chevron-left"></i> C++ 函数指针
+              <a href="/C++ 位运算/" rel="next" title="C++ 位运算">
+                <i class="fa fa-chevron-left"></i> C++ 位运算
               </a>
             
           </div>
@@ -453,8 +460,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/C++ 位运算/" rel="prev" title="C++ 位运算">
-                C++ 位运算 <i class="fa fa-chevron-right"></i>
+              <a href="/C++ const关键字/" rel="prev" title="C++ 引用的概念和应用">
+                C++ 引用的概念和应用 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -589,7 +596,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#基本概念"><span class="nav-number">1.</span> <span class="nav-text">基本概念</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#如何在程序中获得命令行参数呢"><span class="nav-number">1.0.1.</span> <span class="nav-text">如何在程序中获得命令行参数呢</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#基本概念"><span class="nav-number">1.</span> <span class="nav-text">基本概念</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#引用应用的简单示例"><span class="nav-number">1.1.</span> <span class="nav-text">引用应用的简单示例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#引用作为函数的返回值"><span class="nav-number">1.2.</span> <span class="nav-text">引用作为函数的返回值</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#常引用"><span class="nav-number">1.3.</span> <span class="nav-text">常引用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#常引用和非常引用的转换"><span class="nav-number">1.3.1.</span> <span class="nav-text">常引用和非常引用的转换</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>

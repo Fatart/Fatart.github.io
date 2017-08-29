@@ -277,6 +277,325 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/C++ const关键字/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Fatart's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/C++ const关键字/" itemprop="url">C++ 引用的概念和应用</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-29T14:46:25+08:00">
+                2017-08-29
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/C/" itemprop="url" rel="index">
+                    <span itemprop="name">C++</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><a href="https://courses.edx.org/asset-v1:PekingX+04831750.1x+2015T1+type@asset+block@005const.pdf" target="_blank" rel="external">PPT</a><br>此外还可以参考C++ primer P53 const限定符一节</p>
+<h1 id="定义常量"><a href="#定义常量" class="headerlink" title="定义常量"></a>定义常量</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">const int MAX_VAL = 23；</div><div class="line">const string SCHOOL_NAME = “Peking University”</div></pre></td></tr></table></figure>
+<h2 id="定义指向常量的指针（pointer-to-const）"><a href="#定义指向常量的指针（pointer-to-const）" class="headerlink" title="定义指向常量的指针（pointer to const）"></a>定义指向常量的指针（pointer to const）</h2><h3 id="不可通过指向常量的指针修改其指向的内容"><a href="#不可通过指向常量的指针修改其指向的内容" class="headerlink" title="不可通过指向常量的指针修改其指向的内容"></a>不可通过指向常量的指针修改其指向的内容</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">int n,m;</div><div class="line">const int * p = &amp; n;    //*在指针上，p是一个指向常量的指针</div><div class="line">* p = 5;                //编译出错，不能通过p改变指向对象的值</div><div class="line">n = 4; //ok</div><div class="line">p = &amp;m; //ok,           指向常量指针的指向可以变化</div></pre></td></tr></table></figure>
+<h3 id="不能把指向常量的指针（pointer-to-const）赋值给非指向常量指针，反过来可以"><a href="#不能把指向常量的指针（pointer-to-const）赋值给非指向常量指针，反过来可以" class="headerlink" title="不能把指向常量的指针（pointer to const）赋值给非指向常量指针，反过来可以"></a>不能把指向常量的指针（pointer to const）赋值给非指向常量指针，反过来可以</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">const int * p1; int * p2; //pi是一个指向常量的指针，p2是一个普通指针</div><div class="line">p1 = p2; //ok</div><div class="line">p2 = p1; //error</div><div class="line">p2 = (int * ) p1; //ok,强制类型转换</div></pre></td></tr></table></figure>
+<h3 id="常量指针（const-pointer）和指向常量的指针还是要区分开来的！"><a href="#常量指针（const-pointer）和指向常量的指针还是要区分开来的！" class="headerlink" title="常量指针（const pointer）和指向常量的指针还是要区分开来的！"></a>常量指针（const pointer）和指向常量的指针还是要区分开来的！</h3><ul>
+<li>指向常量的指针(pointer to const):不能用于改变其所指向对象的值</li>
+<li>常量指针（const pointer）：(*放在const)前，说明指针本身是个常量，不能改变指向关系</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">int errNumb = 0;</div><div class="line">int *const curErr = &amp; errNumb;   //curErr是个常量指针，其只能指向errNumb地址，地址处存一个int对象</div><div class="line">const double pi = 3.14;</div><div class="line">const double *pi2 = &amp;pi;         //pi2是一个指向常量的指针，pi2不能够改变指向的对象的值</div><div class="line">const double *const pip = &amp; pi;  //pip是一个常量指针，只能指向pi地址，地址处存一个const double对象</div></pre></td></tr></table></figure>
+<h2 id="对常量的应用-reference-to-const-常被称为常量引用"><a href="#对常量的应用-reference-to-const-常被称为常量引用" class="headerlink" title="对常量的应用(reference to const),常被称为常量引用"></a>对常量的应用(reference to const),常被称为常量引用</h2><p>不能通过常引用修改其引用的变量</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">int n;</div><div class="line">const int &amp; r = n;</div><div class="line">r = 5; //error</div><div class="line">n = 4; //ok</div></pre></td></tr></table></figure>
+<h2 id="当使用了typedef时通常会造成误解-refer-to-Cpp-Primer-Page61"><a href="#当使用了typedef时通常会造成误解-refer-to-Cpp-Primer-Page61" class="headerlink" title="当使用了typedef时通常会造成误解(refer to Cpp Primer Page61)"></a>当使用了typedef时通常会造成误解(refer to Cpp Primer Page61)</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">typedef char *pstring;</div><div class="line">const pstring cstr = 0; //cstr是指向char的常量指针</div><div class="line">const pstring *ps;      //ps是一个指针，他的对象是指向char的常量指针</div></pre></td></tr></table></figure>
+<p>如果简单地将pstring替换成char<em>来理解，则为<br>const char</em> str = 0;  //str是一个指向常量（char型）的指针<br>实际上应该是这样的  char *const str = 0；str是常量指针</p>
+<p>这种理解是错误的</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/C++ 引用的概念和应用/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Fatart's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/C++ 引用的概念和应用/" itemprop="url">C++ 引用的概念和应用</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-29T14:01:25+08:00">
+                2017-08-29
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/C/" itemprop="url" rel="index">
+                    <span itemprop="name">C++</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><a href="https://courses.edx.org/asset-v1:PekingX+04831750.1x+2015T1+type@asset+block@004%E5%BC%95%E7%94%A8.pdf" target="_blank" rel="external">PPT</a></p>
+<h1 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h1><p>下面的写法定义了一个引用，并将其初始化为引用某个变量。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">类型名 &amp; 引用名 = 某变量名;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">int n = 4;</div><div class="line">int &amp; r = n; // r引用了 n, r的类型是 int &amp;</div></pre></td></tr></table></figure>
+<ul>
+<li>定义引用时一定要将其初始化成引用某个变量。</li>
+<li>初始化后，它就一直引用该变量，不会再引用别的变量了。</li>
+<li>引用只能引用<strong>变量</strong>，<strong>不能</strong>引用常量和表达式。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">#include &lt;iostream&gt;</div><div class="line">using namespace std;</div><div class="line"></div><div class="line">int main()</div><div class="line">&#123;</div><div class="line">	double a = 4, b = 5;</div><div class="line">	double &amp;r1 = a;  //r1的类型为 double &amp;</div><div class="line">	double &amp;r2 = r1; //r2的类型为 double &amp;</div><div class="line">	r2 = 10;</div><div class="line">	cout &lt;&lt; a &lt;&lt; endl; //输出 10</div><div class="line">	r1 = b;           </div><div class="line">	cout &lt;&lt; a &lt;&lt; endl; //输出 5</div><div class="line"></div><div class="line">	return 0;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="引用应用的简单示例"><a href="#引用应用的简单示例" class="headerlink" title="引用应用的简单示例"></a>引用应用的简单示例</h2><p>C语言中，如何编写交换两个整型变量值的函数?</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">void swap( int * a, int * b)</div><div class="line">&#123;</div><div class="line">    int tmp;</div><div class="line">    tmp = * a; * a = * b; * b = tmp;</div><div class="line">&#125;</div><div class="line">int n1, n2;</div><div class="line">swap(&amp; n1,&amp; n2) ; // n1,n2的值被交换</div></pre></td></tr></table></figure>
+<p>有了C++的引用：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">void swap( int&amp; a, int&amp; b)</div><div class="line">&#123;</div><div class="line">    int tmp;</div><div class="line">    tmp = a; a = b; b = tmp;</div><div class="line">&#125;</div><div class="line">int n1, n2;</div><div class="line">swap(n1,n2) ; // n1,n2的值被交换</div></pre></td></tr></table></figure></p>
+<h2 id="引用作为函数的返回值"><a href="#引用作为函数的返回值" class="headerlink" title="引用作为函数的返回值"></a>引用作为函数的返回值</h2><p>这一节参考C++ primer 6.3节函数-引用返回左值<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">int n = 4;</div><div class="line">int &amp; SetValue() &#123; return n; &#125;</div><div class="line">int main()</div><div class="line">&#123;</div><div class="line">    SetValue() = 40;</div><div class="line">    cout &lt;&lt; n;</div><div class="line">    return 0;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>SetValue()返回类型为int&amp;，对SetValue()赋值就是对n进行赋值，相当于 n = 40;</p>
+<h2 id="常引用"><a href="#常引用" class="headerlink" title="常引用"></a>常引用</h2><p>定义引用时，前面加const关键字，即为“常引用”</p>
+<p>不能通过常引用去修改其引用的内容:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">int n;</div><div class="line">const int &amp; r = n; //r 的类型是 const int &amp;</div></pre></td></tr></table></figure>
+<h3 id="常引用和非常引用的转换"><a href="#常引用和非常引用的转换" class="headerlink" title="常引用和非常引用的转换"></a>常引用和非常引用的转换</h3><p>const T &amp; 和T &amp; 是不同的类型!!!</p>
+<ul>
+<li>T &amp; 类型的引用或T类型的变量可以用来初始化const T &amp; 类型的引用。</li>
+<li>const T 类型的常变量和const T &amp;类型的引用则不能用来初始化T&amp;类型的引用，除非进行强制类型转换。</li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/C++ 位运算/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2032,344 +2351,11 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/C++ 函数调用的const形参（parameter）和非const形参/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Fatart's blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/C++ 函数调用的const形参（parameter）和非const形参/" itemprop="url">C++ 函数调用的const形参（parameter）和非const形参</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-19T20:46:25+08:00">
-                2017-08-19
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/C/" itemprop="url" rel="index">
-                    <span itemprop="name">C++</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h1><p>在程序设计中我们会经常调用函数，调用函数就会涉及参数的问题，那么在形参列表中const形参与非const形参对传递过来的实参有什么要求呢？<br>先来看一个简单的例子：</p>
-<p>C++函数中const形参与非const形参<br>2015-09-11 21:50 1346人阅读 评论(0) 收藏 举报<br>.<br> 分类：<br>C（53）<br>.<br>在程序设计中我们会经常调用函数，调用函数就会涉及参数的问题，那么在形参列表中const形参与非const形参对传递过来的实参有什么要求呢？<br>先来看一个简单的例子：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">#include &lt;iostream&gt;</div><div class="line">#include &lt;string&gt;</div><div class="line">using namespace std;</div><div class="line">void print_str(const string s)</div><div class="line">&#123;</div><div class="line">       cout&lt;&lt;s&lt;&lt;endl;</div><div class="line">&#125;</div><div class="line">int main()</div><div class="line">&#123;</div><div class="line">      print_str(&quot;hello world&quot;);</div><div class="line">      return 0;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h2 id="输出"><a href="#输出" class="headerlink" title="输出"></a>输出</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">hello world</div></pre></td></tr></table></figure>
-<h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><p>毫无疑问，const实参传递给const形参，正确调用函数，如果你将第4行代码中的const去掉，也能得到正确的结果。那么在去掉const的基础上将形参变为引用形参，会出现什么样的结果呢？看下面的代码：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">#include &lt;iostream&gt;</div><div class="line">#include &lt;string&gt;</div><div class="line"></div><div class="line">using namespace std;</div><div class="line">void print_str( string &amp; s)</div><div class="line">&#123;</div><div class="line">      cout&lt;&lt;s&lt;&lt;endl;</div><div class="line">&#125;</div><div class="line">int main()</div><div class="line">&#123;</div><div class="line">      print_str(&quot;hello world&quot;);</div><div class="line">      return 0;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h2 id="输出-1"><a href="#输出-1" class="headerlink" title="输出"></a>输出</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">error：将类型为 std::string&amp; 的非const引用初始化为类型为 const char*的临时变量无效</div></pre></td></tr></table></figure>
-<p>发现编译不通过，如果在第4行的string前加上一个const，就会通过编译。</p>
-<p>进一步研究我们会发现指针形参与引用形参会出现类似的情况。</p>
-<p><strong>普通形参加不加const限定符对实参没有影响，引用形参和指针形参前面没有const限定符时，实参必须是非const的，而前面有const限定符时对实参也没有什么影响。</strong></p>
-<h1 id="为什么会出现这种情况？"><a href="#为什么会出现这种情况？" class="headerlink" title="为什么会出现这种情况？"></a>为什么会出现这种情况？</h1><p>原因在于实参的传递方式不同，函数中的形参是普通形参的时，函数只是操纵的实参的副本，而无法去修改实参，实参会想，你形参反正改变不了我的值，那么你有没有const还有什么意义吗？<br>引用形参和指针形参就下不同了，函数是对实参直接操纵，没有const的形参时实参的值是可以改变的，这种情况下怎能用函数来操纵const实参呢。</p>
-<p><strong>顶层const : 指针或引用本身是个常量</strong><br><strong>底层const: 表示指针所指向的对象是个常量。</strong></p>
-<p>例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">const double *const pip = &amp;pi;</div></pre></td></tr></table></figure></p>
-<p>第一个const，底层const，不能通过pip改变指向的内容<br>第二个const，顶层cinst，修饰指针本身，指向关系不能改变</p>
-<p>在C++ primer p208中讲到重载和const形参的关系，总结：<br>顶层const不影响传入函数的对象，一个拥有顶层const的形参无法和没有顶层const的形参区分开。</p>
-<p>如 </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Record lookup(Phone);</div><div class="line">Record lookup(const Phone);</div></pre></td></tr></table></figure>
-<p>形参Phone没有加应用，它只是对实参的副本，所以它加不加const是一样的，另外一方面const是顶层const</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Record lookup(Phone*);</div><div class="line">Record lookup(Phone *const);</div></pre></td></tr></table></figure>
-<p>顶层const, Phone<em> 能够改变实参，Phone </em>const同样能，不能区分</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">int calc(int&amp;, int&amp;);</div><div class="line">int calc(const int&amp;, const int&amp;);</div></pre></td></tr></table></figure>
-<p>底层const，const int&amp; 的形参不能够去改变实参的值，但int&amp;形参能够去改变实参的值，能区分</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">int calc(int*, int*);</div><div class="line">int calc(const int*, const int*);</div></pre></td></tr></table></figure>
-<p>底层const，const int<em> 的形参指针不能够去改变实参的值，但int</em>形参指针能够去改变实参的值，能区分</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/ns3 命令行参数Command Line Argument/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Fatart's blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/ns3 命令行参数Command Line Argument/" itemprop="url">ns3 命令行参数Command Line Argument</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-18T16:28:25+08:00">
-                2017-08-18
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/NS3/" itemprop="url" rel="index">
-                    <span itemprop="name">NS3</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>详细内容请参考<a href="https://www.nsnam.org/docs/release/3.26/tutorial/html/tweaking.html" target="_blank" rel="external">ns-3 tutorial</a></p>
-<h1 id="Overriding-Default-Attributes"><a href="#Overriding-Default-Attributes" class="headerlink" title="Overriding Default Attributes"></a>Overriding Default Attributes</h1><p>我们可以通过 command line argument 改变 ns-3 代码的机制。以下代码提供了解析（parse）command line argument和基于这些参数自动设立局部和全部变量。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">int</div><div class="line">main (int argc, char *argv[])</div><div class="line">&#123;</div><div class="line">  ...</div><div class="line"></div><div class="line">  CommandLine cmd;</div><div class="line">  cmd.Parse (argc, argv);</div><div class="line"></div><div class="line">  ...</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>使用<em>PrintHelp</em></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ ./waf --run &quot;scratch/myfirst --PrintHelp&quot;</div></pre></td></tr></table></figure>
-<p>控制台输出</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">Waf: Entering directory `/home/craigdo/repos/ns-3-allinone/ns-3-dev/build&apos;</div><div class="line">Waf: Leaving directory `/home/craigdo/repos/ns-3-allinone/ns-3-dev/build&apos;</div><div class="line">&apos;build&apos; finished successfully (0.413s)</div><div class="line">TcpL4Protocol:TcpStateMachine()</div><div class="line">CommandLine:HandleArgument(): Handle arg name=PrintHelp value=</div><div class="line">--PrintHelp: Print this help message.     输出帮助信息</div><div class="line">--PrintGroups: Print the list of groups.  输出group列表，如Antenna,Aodv,Core,Wifi...，是和Source directory相关的</div><div class="line">--PrintTypeIds: Print all TypeIds.        输出所有的TypeId，如ns3::PointToPointChannel，ns3::PointToPointNetDevice</div><div class="line">--PrintGroup=[group]: Print all TypeIds of group. 输出group相关TypeId</div><div class="line">--PrintAttributes=[typeid]: Print all attributes of typeid. 输出typeId相关的Attribute</div><div class="line">--PrintGlobals: Print the list of globals. 输出全局变量列表</div></pre></td></tr></table></figure>
-<p>输入</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ ./waf --run &quot;scratch/myfirst --PrintAttributes=ns3::PointToPointNetDevice&quot;</div><div class="line">$ ./waf --run &quot;scratch/myfirst --PrintAttributes=ns3::PointToPointChannel&quot;</div></pre></td></tr></table></figure>
-<p>得到PointToPointNetDevice的默认Attributes值，这个值我们同样在可以在<a href="https://www.nsnam.org/docs/release/3.26/doxygen/classns3_1_1_point_to_point_net_device.html" target="_blank" rel="external">API-Attributes</a>查询得到。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">Attributes for TypeId ns3::PointToPointNetDevice</div><div class="line">    --ns3::PointToPointNetDevice::Address=[ff:ff:ff:ff:ff:ff]</div><div class="line">        The MAC address of this device.</div><div class="line">    --ns3::PointToPointNetDevice::DataRate=[32768bps]</div><div class="line">        The default data rate for point to point links</div><div class="line">    --ns3::PointToPointNetDevice::InterframeGap=[+0.0ns]</div><div class="line">        The time to wait between packet (frame) transmissions</div><div class="line">    --ns3::PointToPointNetDevice::Mtu=[1500]</div><div class="line">        The MAC-level Maximum Transmission Unit</div><div class="line">    --ns3::PointToPointNetDevice::ReceiveErrorModel=[0]</div><div class="line">        The receiver error model used to simulate packet loss</div><div class="line">    --ns3::PointToPointNetDevice::TxQueue=[0]</div><div class="line">        A queue to use as the transmit queue in the device.</div><div class="line">        </div><div class="line">Attributes for TypeId ns3::PointToPointChannel</div><div class="line">    --ns3::PointToPointChannel::Delay=[+0.0ns]</div><div class="line">        Propagation delay through the channel</div></pre></td></tr></table></figure>
-<p>于是我们可以用command line argument来修改 TypeId相关的参数Attributes值</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ ./waf --run &quot;scratch/myfirst --ns3::PointToPointNetDevice::DataRate=5Mbps&quot;</div><div class="line"></div><div class="line">$ ./waf --run &quot;scratch/myfirst --ns3::PointToPointNetDevice::DataRate=5Mbps --ns3::PointToPointChannel::Delay=2ms --ns3::UdpEchoClient::MaxPackets=2&quot;</div></pre></td></tr></table></figure>
-<h1 id="Hooking-Your-Own-Value"><a href="#Hooking-Your-Own-Value" class="headerlink" title="Hooking Your Own Value"></a>Hooking Your Own Value</h1><p>你也可以将自己定义的变量和command line系统结合，如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">int</div><div class="line">main (int argc, char *argv[])</div><div class="line">&#123;</div><div class="line">  uint32_t nPackets = 1;</div><div class="line"></div><div class="line">  CommandLine cmd;</div><div class="line">  cmd.AddValue(&quot;nPackets&quot;, &quot;Number of packets to echo&quot;, nPackets);</div><div class="line">  cmd.Parse (argc, argv);</div><div class="line"></div><div class="line">  ...</div></pre></td></tr></table></figure>
-<p>定义了一个变量nPackets，并在设置echo参数的地方改写代码如下</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">echoClient.SetAttribute (&quot;MaxPackets&quot;, UintegerValue (nPackets));</div></pre></td></tr></table></figure>
-<p>此时运行</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ ./waf --run &quot;scratch/myfirst --PrintHelp&quot;</div></pre></td></tr></table></figure>
-<p>输出</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">Program Arguments:</div><div class="line">    --nPackets:  Number of packets to echo [1]</div><div class="line"></div><div class="line">General Arguments:</div><div class="line">    --PrintGlobals:              Print the list of globals.</div><div class="line">    --PrintGroups:               Print the list of groups.</div><div class="line">    --PrintGroup=[group]:        Print all TypeIds of group.</div><div class="line">    --PrintTypeIds:              Print all TypeIds.</div><div class="line">    --PrintAttributes=[typeid]:  Print all attributes of typeid.</div><div class="line">    --PrintHelp:                 Print this help message.</div></pre></td></tr></table></figure>
-<p>这样我们就可以使用command line system在控制台改变nPackets的值，代码如下</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ ./waf --run &quot;scratch/myfirst --nPackets=2&quot;</div></pre></td></tr></table></figure>
-<p>结果输出</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">At time 2s client sent 1024 bytes to 10.1.1.2 port 9</div><div class="line">At time 2.00369s server received 1024 bytes from 10.1.1.1 port 49153</div><div class="line">At time 2.00369s server sent 1024 bytes to 10.1.1.1 port 49153</div><div class="line">At time 2.00737s client received 1024 bytes from 10.1.1.2 port 9</div><div class="line">At time 3s client sent 1024 bytes to 10.1.1.2 port 9</div><div class="line">At time 3.00369s server received 1024 bytes from 10.1.1.1 port 49153</div><div class="line">At time 3.00369s server sent 1024 bytes to 10.1.1.1 port 49153</div><div class="line">At time 3.00737s client received 1024 bytes from 10.1.1.2 port 9</div></pre></td></tr></table></figure>
-<p>可以看到client发送了两次packets</p>
-<p>我们通常使用command line argument 系统来控制全局变量和Attributes</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -2415,7 +2401,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">19</span>
+                <span class="site-state-item-count">21</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>

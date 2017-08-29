@@ -277,7 +277,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/Reading Section -Question Types/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/C++ 函数调用的const形参（parameter）和非const形参/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -296,7 +296,340 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/Reading Section -Question Types/" itemprop="url">Reading Section -Question Types</a></h1>
+                <a class="post-title-link" href="/C++ 函数调用的const形参（parameter）和非const形参/" itemprop="url">C++ 函数调用的const形参（parameter）和非const形参</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-19T20:46:25+08:00">
+                2017-08-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/C/" itemprop="url" rel="index">
+                    <span itemprop="name">C++</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h1><p>在程序设计中我们会经常调用函数，调用函数就会涉及参数的问题，那么在形参列表中const形参与非const形参对传递过来的实参有什么要求呢？<br>先来看一个简单的例子：</p>
+<p>C++函数中const形参与非const形参<br>2015-09-11 21:50 1346人阅读 评论(0) 收藏 举报<br>.<br> 分类：<br>C（53）<br>.<br>在程序设计中我们会经常调用函数，调用函数就会涉及参数的问题，那么在形参列表中const形参与非const形参对传递过来的实参有什么要求呢？<br>先来看一个简单的例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">#include &lt;iostream&gt;</div><div class="line">#include &lt;string&gt;</div><div class="line">using namespace std;</div><div class="line">void print_str(const string s)</div><div class="line">&#123;</div><div class="line">       cout&lt;&lt;s&lt;&lt;endl;</div><div class="line">&#125;</div><div class="line">int main()</div><div class="line">&#123;</div><div class="line">      print_str(&quot;hello world&quot;);</div><div class="line">      return 0;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="输出"><a href="#输出" class="headerlink" title="输出"></a>输出</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">hello world</div></pre></td></tr></table></figure>
+<h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><p>毫无疑问，const实参传递给const形参，正确调用函数，如果你将第4行代码中的const去掉，也能得到正确的结果。那么在去掉const的基础上将形参变为引用形参，会出现什么样的结果呢？看下面的代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">#include &lt;iostream&gt;</div><div class="line">#include &lt;string&gt;</div><div class="line"></div><div class="line">using namespace std;</div><div class="line">void print_str( string &amp; s)</div><div class="line">&#123;</div><div class="line">      cout&lt;&lt;s&lt;&lt;endl;</div><div class="line">&#125;</div><div class="line">int main()</div><div class="line">&#123;</div><div class="line">      print_str(&quot;hello world&quot;);</div><div class="line">      return 0;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="输出-1"><a href="#输出-1" class="headerlink" title="输出"></a>输出</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">error：将类型为 std::string&amp; 的非const引用初始化为类型为 const char*的临时变量无效</div></pre></td></tr></table></figure>
+<p>发现编译不通过，如果在第4行的string前加上一个const，就会通过编译。</p>
+<p>进一步研究我们会发现指针形参与引用形参会出现类似的情况。</p>
+<p><strong>普通形参加不加const限定符对实参没有影响，引用形参和指针形参前面没有const限定符时，实参必须是非const的，而前面有const限定符时对实参也没有什么影响。</strong></p>
+<h1 id="为什么会出现这种情况？"><a href="#为什么会出现这种情况？" class="headerlink" title="为什么会出现这种情况？"></a>为什么会出现这种情况？</h1><p>原因在于实参的传递方式不同，函数中的形参是普通形参的时，函数只是操纵的实参的副本，而无法去修改实参，实参会想，你形参反正改变不了我的值，那么你有没有const还有什么意义吗？<br>引用形参和指针形参就下不同了，函数是对实参直接操纵，没有const的形参时实参的值是可以改变的，这种情况下怎能用函数来操纵const实参呢。</p>
+<p><strong>顶层const : 指针或引用本身是个常量</strong><br><strong>底层const: 表示指针所指向的对象是个常量。</strong></p>
+<p>例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">const double *const pip = &amp;pi;</div></pre></td></tr></table></figure></p>
+<p>第一个const，底层const，不能通过pip改变指向的内容<br>第二个const，顶层cinst，修饰指针本身，指向关系不能改变</p>
+<p>在C++ primer p208中讲到重载和const形参的关系，总结：<br>顶层const不影响传入函数的对象，一个拥有顶层const的形参无法和没有顶层const的形参区分开。</p>
+<p>如 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Record lookup(Phone);</div><div class="line">Record lookup(const Phone);</div></pre></td></tr></table></figure>
+<p>形参Phone没有加应用，它只是对实参的副本，所以它加不加const是一样的，另外一方面const是顶层const</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Record lookup(Phone*);</div><div class="line">Record lookup(Phone *const);</div></pre></td></tr></table></figure>
+<p>顶层const, Phone<em> 能够改变实参，Phone </em>const同样能，不能区分</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">int calc(int&amp;, int&amp;);</div><div class="line">int calc(const int&amp;, const int&amp;);</div></pre></td></tr></table></figure>
+<p>底层const，const int&amp; 的形参不能够去改变实参的值，但int&amp;形参能够去改变实参的值，能区分</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">int calc(int*, int*);</div><div class="line">int calc(const int*, const int*);</div></pre></td></tr></table></figure>
+<p>底层const，const int<em> 的形参指针不能够去改变实参的值，但int</em>形参指针能够去改变实参的值，能区分</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/ns3 命令行参数Command Line Argument/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Fatart's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/ns3 命令行参数Command Line Argument/" itemprop="url">ns3 命令行参数Command Line Argument</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-18T16:28:25+08:00">
+                2017-08-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/NS3/" itemprop="url" rel="index">
+                    <span itemprop="name">NS3</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>详细内容请参考<a href="https://www.nsnam.org/docs/release/3.26/tutorial/html/tweaking.html" target="_blank" rel="external">ns-3 tutorial</a></p>
+<h1 id="Overriding-Default-Attributes"><a href="#Overriding-Default-Attributes" class="headerlink" title="Overriding Default Attributes"></a>Overriding Default Attributes</h1><p>我们可以通过 command line argument 改变 ns-3 代码的机制。以下代码提供了解析（parse）command line argument和基于这些参数自动设立局部和全部变量。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">int</div><div class="line">main (int argc, char *argv[])</div><div class="line">&#123;</div><div class="line">  ...</div><div class="line"></div><div class="line">  CommandLine cmd;</div><div class="line">  cmd.Parse (argc, argv);</div><div class="line"></div><div class="line">  ...</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>使用<em>PrintHelp</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ ./waf --run &quot;scratch/myfirst --PrintHelp&quot;</div></pre></td></tr></table></figure>
+<p>控制台输出</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">Waf: Entering directory `/home/craigdo/repos/ns-3-allinone/ns-3-dev/build&apos;</div><div class="line">Waf: Leaving directory `/home/craigdo/repos/ns-3-allinone/ns-3-dev/build&apos;</div><div class="line">&apos;build&apos; finished successfully (0.413s)</div><div class="line">TcpL4Protocol:TcpStateMachine()</div><div class="line">CommandLine:HandleArgument(): Handle arg name=PrintHelp value=</div><div class="line">--PrintHelp: Print this help message.     输出帮助信息</div><div class="line">--PrintGroups: Print the list of groups.  输出group列表，如Antenna,Aodv,Core,Wifi...，是和Source directory相关的</div><div class="line">--PrintTypeIds: Print all TypeIds.        输出所有的TypeId，如ns3::PointToPointChannel，ns3::PointToPointNetDevice</div><div class="line">--PrintGroup=[group]: Print all TypeIds of group. 输出group相关TypeId</div><div class="line">--PrintAttributes=[typeid]: Print all attributes of typeid. 输出typeId相关的Attribute</div><div class="line">--PrintGlobals: Print the list of globals. 输出全局变量列表</div></pre></td></tr></table></figure>
+<p>输入</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ ./waf --run &quot;scratch/myfirst --PrintAttributes=ns3::PointToPointNetDevice&quot;</div><div class="line">$ ./waf --run &quot;scratch/myfirst --PrintAttributes=ns3::PointToPointChannel&quot;</div></pre></td></tr></table></figure>
+<p>得到PointToPointNetDevice的默认Attributes值，这个值我们同样在可以在<a href="https://www.nsnam.org/docs/release/3.26/doxygen/classns3_1_1_point_to_point_net_device.html" target="_blank" rel="external">API-Attributes</a>查询得到。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">Attributes for TypeId ns3::PointToPointNetDevice</div><div class="line">    --ns3::PointToPointNetDevice::Address=[ff:ff:ff:ff:ff:ff]</div><div class="line">        The MAC address of this device.</div><div class="line">    --ns3::PointToPointNetDevice::DataRate=[32768bps]</div><div class="line">        The default data rate for point to point links</div><div class="line">    --ns3::PointToPointNetDevice::InterframeGap=[+0.0ns]</div><div class="line">        The time to wait between packet (frame) transmissions</div><div class="line">    --ns3::PointToPointNetDevice::Mtu=[1500]</div><div class="line">        The MAC-level Maximum Transmission Unit</div><div class="line">    --ns3::PointToPointNetDevice::ReceiveErrorModel=[0]</div><div class="line">        The receiver error model used to simulate packet loss</div><div class="line">    --ns3::PointToPointNetDevice::TxQueue=[0]</div><div class="line">        A queue to use as the transmit queue in the device.</div><div class="line">        </div><div class="line">Attributes for TypeId ns3::PointToPointChannel</div><div class="line">    --ns3::PointToPointChannel::Delay=[+0.0ns]</div><div class="line">        Propagation delay through the channel</div></pre></td></tr></table></figure>
+<p>于是我们可以用command line argument来修改 TypeId相关的参数Attributes值</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ ./waf --run &quot;scratch/myfirst --ns3::PointToPointNetDevice::DataRate=5Mbps&quot;</div><div class="line"></div><div class="line">$ ./waf --run &quot;scratch/myfirst --ns3::PointToPointNetDevice::DataRate=5Mbps --ns3::PointToPointChannel::Delay=2ms --ns3::UdpEchoClient::MaxPackets=2&quot;</div></pre></td></tr></table></figure>
+<h1 id="Hooking-Your-Own-Value"><a href="#Hooking-Your-Own-Value" class="headerlink" title="Hooking Your Own Value"></a>Hooking Your Own Value</h1><p>你也可以将自己定义的变量和command line系统结合，如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">int</div><div class="line">main (int argc, char *argv[])</div><div class="line">&#123;</div><div class="line">  uint32_t nPackets = 1;</div><div class="line"></div><div class="line">  CommandLine cmd;</div><div class="line">  cmd.AddValue(&quot;nPackets&quot;, &quot;Number of packets to echo&quot;, nPackets);</div><div class="line">  cmd.Parse (argc, argv);</div><div class="line"></div><div class="line">  ...</div></pre></td></tr></table></figure>
+<p>定义了一个变量nPackets，并在设置echo参数的地方改写代码如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">echoClient.SetAttribute (&quot;MaxPackets&quot;, UintegerValue (nPackets));</div></pre></td></tr></table></figure>
+<p>此时运行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ ./waf --run &quot;scratch/myfirst --PrintHelp&quot;</div></pre></td></tr></table></figure>
+<p>输出</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">Program Arguments:</div><div class="line">    --nPackets:  Number of packets to echo [1]</div><div class="line"></div><div class="line">General Arguments:</div><div class="line">    --PrintGlobals:              Print the list of globals.</div><div class="line">    --PrintGroups:               Print the list of groups.</div><div class="line">    --PrintGroup=[group]:        Print all TypeIds of group.</div><div class="line">    --PrintTypeIds:              Print all TypeIds.</div><div class="line">    --PrintAttributes=[typeid]:  Print all attributes of typeid.</div><div class="line">    --PrintHelp:                 Print this help message.</div></pre></td></tr></table></figure>
+<p>这样我们就可以使用command line system在控制台改变nPackets的值，代码如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ ./waf --run &quot;scratch/myfirst --nPackets=2&quot;</div></pre></td></tr></table></figure>
+<p>结果输出</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">At time 2s client sent 1024 bytes to 10.1.1.2 port 9</div><div class="line">At time 2.00369s server received 1024 bytes from 10.1.1.1 port 49153</div><div class="line">At time 2.00369s server sent 1024 bytes to 10.1.1.1 port 49153</div><div class="line">At time 2.00737s client received 1024 bytes from 10.1.1.2 port 9</div><div class="line">At time 3s client sent 1024 bytes to 10.1.1.2 port 9</div><div class="line">At time 3.00369s server received 1024 bytes from 10.1.1.1 port 49153</div><div class="line">At time 3.00369s server sent 1024 bytes to 10.1.1.1 port 49153</div><div class="line">At time 3.00737s client received 1024 bytes from 10.1.1.2 port 9</div></pre></td></tr></table></figure>
+<p>可以看到client发送了两次packets</p>
+<p>我们通常使用command line argument 系统来控制全局变量和Attributes</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/reading section -tips/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Fatart's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/reading section -tips/" itemprop="url">Reading Section -Tips</a></h1>
         
 
         <div class="post-meta">
@@ -475,7 +808,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/reading section -tips/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/Reading Section -Question Types/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -494,7 +827,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/reading section -tips/" itemprop="url">Reading Section -Tips</a></h1>
+                <a class="post-title-link" href="/Reading Section -Question Types/" itemprop="url">Reading Section -Question Types</a></h1>
         
 
         <div class="post-meta">
@@ -1088,7 +1421,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/Visual Studio Shortcut/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/IO库/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -1107,7 +1440,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/Visual Studio Shortcut/" itemprop="url">Visual Studio Shortcut</a></h1>
+                <a class="post-title-link" href="/IO库/" itemprop="url">IO 库</a></h1>
         
 
         <div class="post-meta">
@@ -1181,32 +1514,145 @@
       
         
           
-            <table>
+            <p>本节对应C++ Primer第八章</p>
+<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>C++通过定义在标准库中的类型来处理IO</p>
+<table>
 <thead>
 <tr>
-<th>Shortcut</th>
+<th>说明</th>
+<th>头文件</th>
+<th>类型</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>读写基本流类型</td>
+<td>iostream</td>
+<td>istream,wsitream</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>ostream,wostream</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>iostream</td>
+</tr>
+<tr>
+<td>读写文件类型</td>
+<td>fstream</td>
+<td>ifstream,wifstream</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>ofstream,wofstream</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>fstream,wfstream</td>
+</tr>
+<tr>
+<td>读写内存string</td>
+<td>sstream</td>
+<td>istringstream,wistringstream</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>ostringstream,wostringstream</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>stringstream,wstringstream</td>
+</tr>
+</tbody>
+</table>
+<p>tips：宽字符版本的类型和函数以w开始。类型之间为 <strong>继承机制(inheritance)</strong>，基类为istream,ostream,iostream</p>
+<h1 id="IO条件状态"><a href="#IO条件状态" class="headerlink" title="IO条件状态"></a>IO条件状态</h1><p>IO类提供函数和标志用来判断流的<strong>条件状态(condition state)</strong></p>
+<table>
+<thead>
+<tr>
+<th>condition state</th>
 <th>illustration</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Ctrl+T</td>
-<td>By using the Go To feature (Ctrl+T) you can quickly get to where you need to go</td>
+<td>strm::iostate</td>
+<td>strm是一种IO类型，iOstate是一种机器相关类型，提供表达条件状态的完整功能</td>
 </tr>
 <tr>
-<td>Ctrl+G</td>
-<td>Use the Ctrl+G shortcut to go to line xx</td>
+<td>strm::badbit</td>
+<td>strm::badbit 用来指示流崩溃</td>
 </tr>
 <tr>
-<td>Alt+F12</td>
-<td>Peek into definitions, use ESC to cancal</td>
+<td>strm::failbit</td>
+<td>strm::failbit 指示一个IO操作失败</td>
 </tr>
 <tr>
-<td>F12</td>
-<td>GO directly to definition</td>
+<td>strm::eofbit</td>
+<td>指出流到达了文件结束</td>
+</tr>
+<tr>
+<td>strm::goodbit</td>
+<td>流未处于错误状态。此值保证为0</td>
+</tr>
+<tr>
+<td>s.eof()</td>
+<td>若流s的eofbit置位，返回true</td>
+</tr>
+<tr>
+<td>s.fail()</td>
+<td>failbit</td>
+</tr>
+<tr>
+<td>s.bad()</td>
+<td>badbit</td>
+</tr>
+<tr>
+<td>s.good()</td>
+<td>goodbit</td>
+</tr>
+<tr>
+<td>s.clear()</td>
+<td>将流s中所有条件状态位复位，将流的状态设置为有效，返回void</td>
+</tr>
+<tr>
+<td>s.clear(flag)</td>
+<td>根据给定的flags标志，将流s中对应条件状态位复位，flag类型为strm::iostate,返回void</td>
+</tr>
+<tr>
+<td>s.setstate(flag)</td>
+<td>将流s中对应条件状态位置位</td>
+</tr>
+<tr>
+<td>s.rdstate()</td>
+<td>返回流的当前条件状态，返回值类型strm::iostate</td>
 </tr>
 </tbody>
 </table>
+<p>例：使用cin.rdstate()获得流的当前条件状态，并复位failbit和badbit标志位</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">cin.clear( cin.rdstate() &amp; ~cin.failbit &amp; ~cin.badbit);</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">#include &lt;iostream&gt;</div><div class="line">using std::istream;</div><div class="line"></div><div class="line">istream&amp; func(istream &amp;is)</div><div class="line">&#123;</div><div class="line">    std::string buf;</div><div class="line">    while (is &gt;&gt; buf)</div><div class="line">        std::cout &lt;&lt; buf &lt;&lt; std::endl;</div><div class="line">    is.clear();</div><div class="line">    return is;</div><div class="line">&#125;</div><div class="line"></div><div class="line">int main()</div><div class="line">&#123;</div><div class="line">    istream&amp; is = func(std::cin);</div><div class="line">    std::cout &lt;&lt; is.rdstate() &lt;&lt; std::endl;</div><div class="line">    return 0;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h1 id="使用istringstream"><a href="#使用istringstream" class="headerlink" title="使用istringstream"></a>使用istringstream</h1><p>使用istringstream对行内的某些单词做处理，通常可以使用istringstream</p>
+<h2 id="例1"><a href="#例1" class="headerlink" title="例1"></a>例1</h2><p>简单的学生信息处理程序实现</p>
+<h3 id="描述"><a href="#描述" class="headerlink" title="描述"></a>描述</h3><p>在一个学生信息处理程序中，要求实现一个代表学生的类，并且所有成员变量都应该是私有的。</p>
+<p>（注：评测系统无法自动判断变量是否私有。我们会在结束之后统一对作业进行检查，请同学们严格按照题目要求完成，否则可能会影响作业成绩。）</p>
+<h3 id="输入"><a href="#输入" class="headerlink" title="输入"></a>输入</h3><p>姓名，年龄，学号，第一学年平均成绩，第二学年平均成绩，第三学年平均成绩，第四学年平均成绩。</p>
+<p>其中姓名、学号为字符串，不含空格和逗号；年龄为正整数；成绩为非负整数。</p>
+<p>各部分内容之间均用单个英文逗号”,”隔开，无多余空格。</p>
+<h3 id="输出"><a href="#输出" class="headerlink" title="输出"></a>输出</h3><p>一行，按顺序输出：姓名，年龄，学号，四年平均成绩（向下取整）。</p>
+<p>各部分内容之间均用单个英文逗号”,”隔开，无多余空格。</p>
+<h3 id="样例输入"><a href="#样例输入" class="headerlink" title="样例输入"></a>样例输入</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Tom,18,7817,80,80,90,70</div></pre></td></tr></table></figure>
+<h3 id="样例输出"><a href="#样例输出" class="headerlink" title="样例输出"></a>样例输出</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Tom,18,7817,80</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div></pre></td><td class="code"><pre><div class="line">#include &lt;string&gt;</div><div class="line">#include&lt;sstream&gt;</div><div class="line">#include &lt;iostream&gt;</div><div class="line"></div><div class="line">using namespace std;</div><div class="line"></div><div class="line">class student</div><div class="line">&#123;</div><div class="line">public:</div><div class="line"></div><div class="line">//constructor</div><div class="line">	student() = default;</div><div class="line">	student(const string &amp; p1, const unsigned int &amp; p2, const string &amp; p3, const unsigned int &amp;p4, const unsigned int &amp;p5,</div><div class="line">		const unsigned int &amp;p6, const unsigned int &amp;p7) :name(p1), age(p2), number(p3), first_year_avr_grade(p4),</div><div class="line">		second_year_avr_grade(p5), third_year_avr_grade(p6), fourth_year_avr_grade(p7) &#123;&#125;;</div><div class="line">// menber function</div><div class="line">	unsigned int avr_grade();</div><div class="line">	void print_info();</div><div class="line"></div><div class="line">private:</div><div class="line">	string name;</div><div class="line">	unsigned int age;</div><div class="line">	string number;</div><div class="line">	unsigned int first_year_avr_grade;</div><div class="line">	unsigned int second_year_avr_grade;</div><div class="line">	unsigned int third_year_avr_grade;</div><div class="line">	unsigned int fourth_year_avr_grade;</div><div class="line">&#125;;</div><div class="line"></div><div class="line">unsigned int student::avr_grade()</div><div class="line">&#123;</div><div class="line">	return (first_year_avr_grade + second_year_avr_grade + third_year_avr_grade + fourth_year_avr_grade) / 4;</div><div class="line">&#125;</div><div class="line">void student::print_info()</div><div class="line">&#123;</div><div class="line">	std::cout &lt;&lt; name &lt;&lt; &quot;,&quot; &lt;&lt; age &lt;&lt; &quot;,&quot; &lt;&lt; number &lt;&lt; &quot;,&quot; &lt;&lt; this-&gt;avr_grade() &lt;&lt; endl;</div><div class="line">&#125;</div><div class="line"></div><div class="line">int main()</div><div class="line">&#123;</div><div class="line">	</div><div class="line">	string name;</div><div class="line">	unsigned int age;</div><div class="line">	string number;</div><div class="line">	unsigned int first_year_avr_grade;</div><div class="line">	unsigned int second_year_avr_grade;</div><div class="line">	unsigned int third_year_avr_grade;</div><div class="line">	unsigned int fourth_year_avr_grade;</div><div class="line">	//unsigned int avr_grade;</div><div class="line"></div><div class="line">	string s;</div><div class="line">	getline(cin, s);</div><div class="line">	for (auto &amp; c : s)</div><div class="line">	&#123;</div><div class="line">		if (ispunct(c))</div><div class="line">			c = &apos; &apos;;</div><div class="line">	&#125;</div><div class="line">	istringstream is(s);</div><div class="line">	</div><div class="line">	is &gt;&gt; name &gt;&gt; age &gt;&gt; number &gt;&gt; first_year_avr_grade &gt;&gt; second_year_avr_grade &gt;&gt; third_year_avr_grade &gt;&gt; fourth_year_avr_grade;</div><div class="line"></div><div class="line">	student a1 = &#123;name,age,number,first_year_avr_grade ,second_year_avr_grade,third_year_avr_grade ,fourth_year_avr_grade &#125;;</div><div class="line">	a1.print_info();</div><div class="line"></div><div class="line">	return 0;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="例2"><a href="#例2" class="headerlink" title="例2"></a>例2</h2><p>c++读取以逗号为分隔符的一串数字</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">#include&lt;iostream&gt;</div><div class="line">#include&lt;vector&gt;</div><div class="line">#include&lt;sstream&gt;</div><div class="line"></div><div class="line">using namespace std;</div><div class="line">int main()</div><div class="line">&#123;</div><div class="line">    string s;</div><div class="line">    vector&lt;int&gt; v;</div><div class="line">    getline(cin, s);</div><div class="line">    istringstream is(s);</div><div class="line">    int inter;</div><div class="line">    char ch;</div><div class="line">    while (is &gt;&gt; inter)</div><div class="line">    &#123;</div><div class="line">         v.push_back(inter);</div><div class="line">         is &gt;&gt; ch;</div><div class="line">    &#125;</div><div class="line">    for(int i=0;i&lt;v.size();i++)</div><div class="line">        cout&lt;&lt;v[i]&lt;&lt;&quot; &quot;;</div><div class="line">    cout&lt;&lt;endl;</div><div class="line">    return 0;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 
           
         
@@ -1426,7 +1872,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/IO库/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/Visual Studio Shortcut/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -1445,7 +1891,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/IO库/" itemprop="url">IO 库</a></h1>
+                <a class="post-title-link" href="/Visual Studio Shortcut/" itemprop="url">Visual Studio Shortcut</a></h1>
         
 
         <div class="post-meta">
@@ -1519,132 +1965,32 @@
       
         
           
-            <p>本节对应C++ Primer第八章</p>
-<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>C++通过定义在标准库中的类型来处理IO</p>
-<table>
+            <table>
 <thead>
 <tr>
-<th>说明</th>
-<th>头文件</th>
-<th>类型</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>读写基本流类型</td>
-<td>iostream</td>
-<td>istream,wsitream</td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td>ostream,wostream</td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td>iostream</td>
-</tr>
-<tr>
-<td>读写文件类型</td>
-<td>fstream</td>
-<td>ifstream,wifstream</td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td>ofstream,wofstream</td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td>fstream,wfstream</td>
-</tr>
-<tr>
-<td>读写内存string</td>
-<td>sstream</td>
-<td>istringstream,wistringstream</td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td>ostringstream,wostringstream</td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td>stringstream,wstringstream</td>
-</tr>
-</tbody>
-</table>
-<p>tips：宽字符版本的类型和函数以w开始。类型之间为 <strong>继承机制(inheritance)</strong>，基类为istream,ostream,iostream</p>
-<h1 id="IO条件状态"><a href="#IO条件状态" class="headerlink" title="IO条件状态"></a>IO条件状态</h1><p>IO类提供函数和标志用来判断流的<strong>条件状态(condition state)</strong></p>
-<table>
-<thead>
-<tr>
-<th>condition state</th>
+<th>Shortcut</th>
 <th>illustration</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>strm::iostate</td>
-<td>strm是一种IO类型，iOstate是一种机器相关类型，提供表达条件状态的完整功能</td>
+<td>Ctrl+T</td>
+<td>By using the Go To feature (Ctrl+T) you can quickly get to where you need to go</td>
 </tr>
 <tr>
-<td>strm::badbit</td>
-<td>strm::badbit 用来指示流崩溃</td>
+<td>Ctrl+G</td>
+<td>Use the Ctrl+G shortcut to go to line xx</td>
 </tr>
 <tr>
-<td>strm::failbit</td>
-<td>strm::failbit 指示一个IO操作失败</td>
+<td>Alt+F12</td>
+<td>Peek into definitions, use ESC to cancal</td>
 </tr>
 <tr>
-<td>strm::eofbit</td>
-<td>指出流到达了文件结束</td>
-</tr>
-<tr>
-<td>strm::goodbit</td>
-<td>流未处于错误状态。此值保证为0</td>
-</tr>
-<tr>
-<td>s.eof()</td>
-<td>若流s的eofbit置位，返回true</td>
-</tr>
-<tr>
-<td>s.fail()</td>
-<td>failbit</td>
-</tr>
-<tr>
-<td>s.bad()</td>
-<td>badbit</td>
-</tr>
-<tr>
-<td>s.good()</td>
-<td>goodbit</td>
-</tr>
-<tr>
-<td>s.clear()</td>
-<td>将流s中所有条件状态位复位，将流的状态设置为有效，返回void</td>
-</tr>
-<tr>
-<td>s.clear(flag)</td>
-<td>根据给定的flags标志，将流s中对应条件状态位复位，flag类型为strm::iostate,返回void</td>
-</tr>
-<tr>
-<td>s.setstate(flag)</td>
-<td>将流s中对应条件状态位置位</td>
-</tr>
-<tr>
-<td>s.rdstate()</td>
-<td>返回流的当前条件状态，返回值类型strm::iostate</td>
+<td>F12</td>
+<td>GO directly to definition</td>
 </tr>
 </tbody>
 </table>
-<p>例：使用cin.rdstate()获得流的当前条件状态，并复位failbit和badbit标志位</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">cin.clear( cin.rdstate() &amp; ~cin.failbit &amp; ~cin.badbit);</div></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">#include &lt;iostream&gt;</div><div class="line">using std::istream;</div><div class="line"></div><div class="line">istream&amp; func(istream &amp;is)</div><div class="line">&#123;</div><div class="line">    std::string buf;</div><div class="line">    while (is &gt;&gt; buf)</div><div class="line">        std::cout &lt;&lt; buf &lt;&lt; std::endl;</div><div class="line">    is.clear();</div><div class="line">    return is;</div><div class="line">&#125;</div><div class="line"></div><div class="line">int main()</div><div class="line">&#123;</div><div class="line">    istream&amp; is = func(std::cin);</div><div class="line">    std::cout &lt;&lt; is.rdstate() &lt;&lt; std::endl;</div><div class="line">    return 0;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>Page 280. 后续内容感觉不太常用，暂时跳过。</p>
 
           
         
@@ -2059,192 +2405,11 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/C++ 类的静态成员/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Fatart's blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/C++ 类的静态成员/" itemprop="url">C++ 类的静态成员</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-14T20:46:25+08:00">
-                2017-08-14
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/C/" itemprop="url" rel="index">
-                    <span itemprop="name">C++</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>类的静态成员是和类的<strong>本身</strong>直接相关，而不是与类的各个对象保持关联，所以我们可以将类的静态成员看成是和类相关的一个全局变量，每一个类的对象又有各自的成员变量，但类的静态成员是<strong>唯一</strong>的。</p>
-<h2 id="声明静态成员"><a href="#声明静态成员" class="headerlink" title="声明静态成员"></a>声明静态成员</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">class Account&#123;</div><div class="line">    public:</div><div class="line">        void calculate() &#123;amount += amount * interestRate;&#125;</div><div class="line">        static double rate() &#123;return interestRate;&#125;</div><div class="line">        static void rate(double);</div><div class="line">    private:</div><div class="line">        std::string owner;          //每一个对象拥有一个</div><div class="line">        double amount;              //每一个对象拥有一个</div><div class="line">        static double interestRate; //一个类拥有一个</div><div class="line">        static double initRate();</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
-<h3 id="静态成员变量"><a href="#静态成员变量" class="headerlink" title="静态成员变量"></a>静态成员变量</h3><p>在类成员声明之前，加上 static 关键字。</p>
-<h3 id="静态成员函数"><a href="#静态成员函数" class="headerlink" title="静态成员函数"></a>静态成员函数</h3><p>：不能声明成const类型，不能在函数体内使用this指针</p>
-<h2 id="使用类的静态成员"><a href="#使用类的静态成员" class="headerlink" title="使用类的静态成员"></a>使用类的静态成员</h2><h3 id="1-使用类作用域运算符直接访问静态成员"><a href="#1-使用类作用域运算符直接访问静态成员" class="headerlink" title="1. 使用类作用域运算符直接访问静态成员"></a>1. 使用类作用域运算符直接访问静态成员</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">double r;</div><div class="line">r = Account::rate();</div></pre></td></tr></table></figure>
-<h3 id="2-使用类的对象，指针，引用访问静态成员"><a href="#2-使用类的对象，指针，引用访问静态成员" class="headerlink" title="2. 使用类的对象，指针，引用访问静态成员"></a>2. 使用类的对象，指针，引用访问静态成员</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">Account ac1;</div><div class="line">Account *ac2 = &amp; ac1;</div><div class="line">r = ac1.rate();</div><div class="line">r = ac2-&gt;rate();</div></pre></td></tr></table></figure>
-<h3 id="3-类的成员函数访问静态成员"><a href="#3-类的成员函数访问静态成员" class="headerlink" title="3. 类的成员函数访问静态成员"></a>3. 类的成员函数访问静态成员</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">public:</div><div class="line">        void calculate() &#123;amount += amount * interestRate;&#125;</div></pre></td></tr></table></figure>
-<p>interestRate是静态成员变量，成员函数直接使用，无需作用域运算符</p>
-<h2 id="静态成员类外初始化"><a href="#静态成员类外初始化" class="headerlink" title="静态成员类外初始化"></a>静态成员类外初始化</h2><p>一般来说，静态数据成员不属于类的任何一个对象，所以他们并不是在创建类的对象时被定义的（其不能够被类的构造函数初始化），所以一般：类内声明静态成员，类外定义</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">1. 类内声明</div><div class="line">   static double interestRate; //一个类拥有一个</div><div class="line">2. 类外定义</div><div class="line">   double Account::interestRate = 1.0;</div></pre></td></tr></table></figure>
-<p>完整的代码如下</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">class Account </div><div class="line">&#123;</div><div class="line">public:</div><div class="line">	void calculate() &#123; amount += amount * interestRate; &#125;</div><div class="line">	static double rate() &#123; return interestRate; &#125;</div><div class="line">	static void rate(double);</div><div class="line">private:</div><div class="line">	std::string owner;          //每一个对象拥有一个</div><div class="line">	double amount;              //每一个对象拥有一个</div><div class="line">	static double interestRate; //一个类拥有一个</div><div class="line">	//static double initRate();</div><div class="line">&#125;;</div><div class="line"></div><div class="line">void Account::rate(double newRate)</div><div class="line">&#123;</div><div class="line">	interestRate = newRate;</div><div class="line">&#125;</div><div class="line"></div><div class="line">double Account::interestRate = 1.0;</div></pre></td></tr></table></figure>
-<p>如果在上述代码中少了最后一行的类外静态成员变量定义，编译将会出错。</p>
-<h2 id="静态成员类内初始化"><a href="#静态成员类内初始化" class="headerlink" title="静态成员类内初始化"></a>静态成员类内初始化</h2><p>一般来说，关于C++类静态成员类外的初始化，并不会让人感到难以理解，但是提到C++静态成员的”类内初始化”那就容易迷糊了，静态成员变量不是只能类内声明吗，如何初始化？</p>
-<p>  我们来看下面的代码</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">//example.h </div><div class="line">#include&lt;iostream&gt;</div><div class="line">#include&lt;vector&gt;</div><div class="line">using namespace std;</div><div class="line">class Example&#123; </div><div class="line">public: </div><div class="line">    static double rate = 6.5;</div><div class="line">    static const int vecSize = 20;</div><div class="line">    static vector&lt;double&gt; vec(vecSize); </div><div class="line">&#125;; </div><div class="line"></div><div class="line">//example.cpp</div><div class="line">#include &quot;example.h&quot; </div><div class="line">double Example::rate;</div><div class="line">vector&lt;double&gt; Example::vec;</div></pre></td></tr></table></figure>
-<h3 id="代码分析"><a href="#代码分析" class="headerlink" title="代码分析"></a>代码分析</h3><p>我们需要判断上面的静态数据成员的声明和定义有没有错误，并解释原因。</p>
-<p>首先，要谨记：通常情况下，<strong>不</strong>应该在类内部初始化成员，无论是否为静态成员。</p>
-<p>其次，若一定要在类内初始化静态成员，那么就必须满足如下条件才行：</p>
-<h3 id="类内初始化条件"><a href="#类内初始化条件" class="headerlink" title="类内初始化条件"></a>类内初始化条件</h3><h4 id="1-静态成员的类型必须为字面值常量类型的constexpr。"><a href="#1-静态成员的类型必须为字面值常量类型的constexpr。" class="headerlink" title="1. 静态成员的类型必须为字面值常量类型的constexpr。"></a>1. 静态成员的类型必须为字面值常量类型的constexpr。</h4><p>   所谓的字面值类型就是通常遇到的：算术类型，引用，指针等。</p>
-<p>   字面值常量类型就是const型的算术类型，引用，指针等。</p>
-<p>   所谓的constexpr，就是常量表达式，指<strong>值不会改变且在编译过程中就能得到计算结果的表达式</strong>。比如字面值，或者用常量表达式初始化的const对象也是常量表达式。为了帮助用户检查自己声明/定义的变量的值是否为一个常量表达式，C++11新规定，允许将变量声明为constexpr类型，以便由编译器来进行验证变量是否为常量表达式。</p>
-<h4 id="2-给静态成员提供的初始值，必须为常量表达式"><a href="#2-给静态成员提供的初始值，必须为常量表达式" class="headerlink" title="2. 给静态成员提供的初始值，必须为常量表达式"></a>2. 给静态成员提供的初始值，必须为常量表达式</h4><p>有了这两条原则，我们就可以对上面的代码进行验证了。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">1)static double rate = 6.5;</div></pre></td></tr></table></figure>
-<p>不满足(1)，rate不是字面值常量类型，可以改成</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">static constexpr double rate = 6.5</div></pre></td></tr></table></figure>
-<p>ps: 如果我们不再这里加入constexprt修饰符的话，编译器会提示错误<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">：error: ‘constexpr’ needed for in-class initialization of static data member ‘const double Example::rate’ of non-integral type [-fpermissive]</div></pre></td></tr></table></figure></p>
-<p>大体意思就是，对于非const整数类型的初始值，如果它是常量表达式的话，我们需要手工在前面添加修饰符constexprt。<br>至于Example.cpp文件中的定义部分，由于我们已经在类内部进行了初始化，就不需要再在类外部进行定义了。如果非要定义的话，必须采用如下格式：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">//example.cpp</div><div class="line">constexpr const double Example::rate;</div></pre></td></tr></table></figure>
-<p>其中的const是可以删除的，因为constexprt本身就包含了const</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">2)static const int vecSize = 20;</div></pre></td></tr></table></figure>
-<p>vecSize是const int类型的，且为常量表达式——满足第一条；提供的初始值为20，是一个常量表达式——满足第二条！且由于是const int型的，前面可以不用修饰符constexpr</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">3）static vector&lt;double&gt; vec(vecSize);</div></pre></td></tr></table></figure>
-<p>错误！vector是模板不是字面值常量类型，所以不满足第一条。应该改为<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">static vector&lt;double&gt; vec;</div></pre></td></tr></table></figure></p>
-<p> //仅仅且只能进行声明，不能定义<br>然后在Example.cpp中进行定义：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">static vector&lt;double&gt; vec(Example::vecSize);</div></pre></td></tr></table></figure>
-<p>现在我们可以在Example.cpp中添加测试代码进行测试了：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">#include &quot;example.h&quot; </div><div class="line">vector&lt;double&gt; Example::vec(Example::vecSize);  constexpr const double Example::rate; </div><div class="line">int main()&#123; </div><div class="line">Example::vec.push_back(10.5); </div><div class="line">cout &lt;&lt; Example::vec.back() &lt;&lt; endl; </div><div class="line">cout &lt;&lt; Example::rate &lt;&lt; endl; </div><div class="line">cout &lt;&lt; Example::vecSize &lt;&lt; endl; </div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>执行结果：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">10.5 </div><div class="line">6.5 </div><div class="line">20</div></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -2290,7 +2455,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">19</span>
+                <span class="site-state-item-count">21</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
