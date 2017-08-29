@@ -102,7 +102,7 @@
 <meta property="og:site_name" content="Fatart&#39;s blog">
 <meta property="og:description" content="详细内容请参考ns-3 tutorial Models, Attributes and Reality一个模型在定义上是现实的抽象。最终是由代码的作者决定所谓的“抽象的范围”以及“可用性”。 在某些情况下，比如csma，确定没有被建模的部分是相当容易的。通过阅读模块描述（csma.h）发现其没有冲突检测。 如你所见的，ns-3提供了一些用户能够直接改变模块行为的Attributes。考虑CsmaN">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-08-23T13:43:03.545Z">
+<meta property="og:updated_time" content="2017-08-24T03:10:26.415Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="ns3 Building a Wireless Network Topology">
 <meta name="twitter:description" content="详细内容请参考ns-3 tutorial Models, Attributes and Reality一个模型在定义上是现实的抽象。最终是由代码的作者决定所谓的“抽象的范围”以及“可用性”。 在某些情况下，比如csma，确定没有被建模的部分是相当容易的。通过阅读模块描述（csma.h）发现其没有冲突检测。 如你所见的，ns-3提供了一些用户能够直接改变模块行为的Attributes。考虑CsmaN">
@@ -431,6 +431,11 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">/NodeList/7/$ns3::MobilityModel/CourseChange</div></pre></td></tr></table></figure>
 <p>我们将node 7 的trace source和我们编写的trace sink函数（coursechange）链接起来，使用Config::Connect函数。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line">&apos;build&apos; finished successfully (5.989s)</div><div class="line">/NodeList/7/$ns3::MobilityModel/CourseChange x = 10, y = 0</div><div class="line">/NodeList/7/$ns3::MobilityModel/CourseChange x = 10.3841, y = 0.923277</div><div class="line">/NodeList/7/$ns3::MobilityModel/CourseChange x = 10.2049, y = 1.90708</div><div class="line">/NodeList/7/$ns3::MobilityModel/CourseChange x = 10.8136, y = 1.11368</div><div class="line">/NodeList/7/$ns3::MobilityModel/CourseChange x = 10.8452, y = 2.11318</div><div class="line">/NodeList/7/$ns3::MobilityModel/CourseChange x = 10.9797, y = 3.10409</div><div class="line">At time 2s client sent 1024 bytes to 10.1.2.4 port 9</div><div class="line">At time 2.01796s server received 1024 bytes from 10.1.3.3 port 49153</div><div class="line">At time 2.01796s server sent 1024 bytes to 10.1.3.3 port 49153</div><div class="line">At time 2.03364s client received 1024 bytes from 10.1.2.4 port 9</div><div class="line">/NodeList/7/$ns3::MobilityModel/CourseChange x = 11.3273, y = 4.04175</div><div class="line">/NodeList/7/$ns3::MobilityModel/CourseChange x = 12.013, y = 4.76955</div><div class="line">/NodeList/7/$ns3::MobilityModel/CourseChange x = 12.4317, y = 5.67771</div><div class="line">/NodeList/7/$ns3::MobilityModel/CourseChange x = 11.4607, y = 5.91681</div><div class="line">/NodeList/7/$ns3::MobilityModel/CourseChange x = 12.0155, y = 6.74878</div><div class="line">/NodeList/7/$ns3::MobilityModel/CourseChange x = 13.0076, y = 6.62336</div><div class="line">/NodeList/7/$ns3::MobilityModel/CourseChange x = 12.6285, y = 5.698</div><div class="line">/NodeList/7/$ns3::MobilityModel/CourseChange x = 13.32, y = 4.97559</div><div class="line">/NodeList/7/$ns3::MobilityModel/CourseChange x = 13.1134, y = 3.99715</div><div class="line">/NodeList/7/$ns3::MobilityModel/CourseChange x = 13.8359, y = 4.68851</div><div class="line">/NodeList/7/$ns3::MobilityModel/CourseChange x = 13.5953, y = 3.71789</div><div class="line">/NodeList/7/$ns3::MobilityModel/CourseChange x = 12.7595, y = 4.26688</div><div class="line">/NodeList/7/$ns3::MobilityModel/CourseChange x = 11.7629, y = 4.34913</div><div class="line">/NodeList/7/$ns3::MobilityModel/CourseChange x = 11.2292, y = 5.19485</div><div class="line">/NodeList/7/$ns3::MobilityModel/CourseChange x = 10.2344, y = 5.09394</div><div class="line">/NodeList/7/$ns3::MobilityModel/CourseChange x = 9.3601, y = 4.60846</div><div class="line">/NodeList/7/$ns3::MobilityModel/CourseChange x = 8.40025, y = 4.32795</div><div class="line">/NodeList/7/$ns3::MobilityModel/CourseChange x = 9.14292, y = 4.99761</div><div class="line">/NodeList/7/$ns3::MobilityModel/CourseChange x = 9.08299, y = 5.99581</div><div class="line">/NodeList/7/$ns3::MobilityModel/CourseChange x = 8.26068, y = 5.42677</div><div class="line">/NodeList/7/$ns3::MobilityModel/CourseChange x = 8.35917, y = 6.42191</div><div class="line">/NodeList/7/$ns3::MobilityModel/CourseChange x = 7.66805, y = 7.14466</div><div class="line">/NodeList/7/$ns3::MobilityModel/CourseChange x = 6.71414, y = 6.84456</div><div class="line">/NodeList/7/$ns3::MobilityModel/CourseChange x = 6.42489, y = 7.80181</div></pre></td></tr></table></figure>
+<h1 id="Config-path-Tips"><a href="#Config-path-Tips" class="headerlink" title="Config path Tips"></a>Config path Tips</h1><p>Suppose you type in:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">oss &lt;&lt; &quot;/NodeList/&quot; &lt;&lt; wifiStaNodes.Get (nWifi - 1)-&gt;GetId () &lt;&lt; “$ns-3::MobilityModel/CourseChange&quot;;</div></pre></td></tr></table></figure>
+<p>instead of </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">oss &lt;&lt; &quot;/NodeList/&quot; &lt;&lt; wifiStaNodes.Get (nWifi - 1)-&gt;GetId () &lt;&lt; &quot;/$ns-3::MobilityModel/CourseChange&quot;;</div></pre></td></tr></table></figure>
+<p><strong>With the first version： no error message， but none of the “/NodeList/7/$ns-3::MobilityModel/CourseChange x = …, y = …” are printed out!!</strong></p>
 
       
     </div>
@@ -501,6 +506,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/C++ 函数指针/" rel="prev" title="C++ 函数指针">
+                C++ 函数指针 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -577,7 +586,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">16</span>
+                <span class="site-state-item-count">17</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -634,7 +643,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Models-Attributes-and-Reality"><span class="nav-number">1.</span> <span class="nav-text">Models, Attributes and Reality</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Building-a-Wireless-Network-Topology"><span class="nav-number">2.</span> <span class="nav-text">Building a Wireless Network Topology</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#include-wifi-and-mobility-headfiles"><span class="nav-number">2.0.0.1.</span> <span class="nav-text">include wifi and mobility headfiles</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#移动模块"><span class="nav-number">2.0.1.</span> <span class="nav-text">移动模块</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#运行代码"><span class="nav-number">2.1.</span> <span class="nav-text">运行代码</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#修改MobilityModel-trace-source"><span class="nav-number">3.</span> <span class="nav-text">修改MobilityModel trace source</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Models-Attributes-and-Reality"><span class="nav-number">1.</span> <span class="nav-text">Models, Attributes and Reality</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Building-a-Wireless-Network-Topology"><span class="nav-number">2.</span> <span class="nav-text">Building a Wireless Network Topology</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#include-wifi-and-mobility-headfiles"><span class="nav-number">2.0.0.1.</span> <span class="nav-text">include wifi and mobility headfiles</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#移动模块"><span class="nav-number">2.0.1.</span> <span class="nav-text">移动模块</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#运行代码"><span class="nav-number">2.1.</span> <span class="nav-text">运行代码</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#修改MobilityModel-trace-source"><span class="nav-number">3.</span> <span class="nav-text">修改MobilityModel trace source</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Config-path-Tips"><span class="nav-number">4.</span> <span class="nav-text">Config path Tips</span></a></li></ol></div>
             
 
           </div>

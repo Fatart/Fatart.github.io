@@ -277,6 +277,203 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/C++ 函数指针/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Fatart's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/C++ 函数指针/" itemprop="url">C++ 函数指针</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-29T12:46:25+08:00">
+                2017-08-29
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/C/" itemprop="url" rel="index">
+                    <span itemprop="name">C++</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h1><p>程序运行期间，每个函数都会占用一段连续的内存空间。而函数名就是该函数所占内存区域的起始地址(也称“入口地址”)。我们可以将函数的入口地址赋给一个指针变量，使该指针变量指向该函数。然后通过指针变量就可以调用这个函数。这种指向函数的指针变量称为“函数指针”。</p>
+<h2 id="定义形式"><a href="#定义形式" class="headerlink" title="定义形式"></a>定义形式</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">类型名 (* 指针变量名)(参数类型1, 参数类型2,…);</div></pre></td></tr></table></figure>
+<p>例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">int (*pf)(int ,char);</div></pre></td></tr></table></figure>
+<p>表示pf是一个函数指针，它所指向的函数，返回值类型应是int，该函数应有两个参数，第一个是int 类型，第二个是char类型。</p>
+<h2 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h2><p>可以用一个原型匹配的函数的名字给一个函数指针赋值。</p>
+<p>要通过函数指针调用它所指向的函数，写法为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">函数指针名(实参表);</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">#include &lt;stdio.h&gt;</div><div class="line">void PrintMin(int a,int b) &#123;</div><div class="line"> if( a&lt;b )</div><div class="line">    printf(&quot;%d&quot;,a);</div><div class="line"> else</div><div class="line">    printf(&quot;%d&quot;,b);</div><div class="line">&#125;</div><div class="line">int main() &#123;</div><div class="line"> void (* pf)(int ,int);</div><div class="line"> int x = 4, y = 5;</div><div class="line"> pf = PrintMin;</div><div class="line"> pf(x,y); //输出结果4</div><div class="line"> return 0;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="函数指针应用"><a href="#函数指针应用" class="headerlink" title="函数指针应用"></a>函数指针应用</h2><table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>a[0]</td>
+<td>a[1]</td>
+<td>…</td>
+<td>a[i]</td>
+<td>…</td>
+<td>a[n-1]</td>
+</tr>
+</tbody>
+</table>
+<p>C语言快速排序库函数：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">void qsort(void *base, int nelem, unsigned int width,</div><div class="line">int ( * pfCompare)( const void *, const void *));</div></pre></td></tr></table></figure>
+<p>可以对任意类型的数组进行排序</p>
+<p>对数组排序，需要知道：</p>
+<ul>
+<li>数组起始地址</li>
+<li>数组元素的个数</li>
+<li>每个元素的大小（由此可以算出每个元素的地址） </li>
+<li>元素谁在前谁在后的规则</li>
+</ul>
+<p>在函数中</p>
+<ul>
+<li>base: 待排序数组的起始地址，</li>
+<li>nelem: 待排序数组的元素个数，</li>
+<li>width: 待排序数组的每个元素的大小（以字节为单位）</li>
+<li>pfCompare :比较函数的地址</li>
+</ul>
+<p>pfCompare: 函数指针，它指向一个“比较函数”。<br>该比较函数应为以下形式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">int 比较函数名(const void * elem1, const void * elem2);</div></pre></td></tr></table></figure>
+<p>比较函数是程序员自己编写的</p>
+<p>排序就是一个不断比较并交换位置的过程。<br>qsort函数在执行期间，会通过pfCompare指针调用 “比较函数”，调用时将要比较的两个元素的地址传给“比较函数”,然后根据“比较函数”返回值判断两个元素哪个更应该排在前面。</p>
+<p>比较函数编写规则：<br>1) 如果 <em> elem1应该排在 </em> elem2前面，则函数返回值是负整数<br>2) 如果 <em> elem1和</em> elem2哪个排在前面都行，那么函数返回0<br>3) 如果 <em> elem1应该排在 </em> elem2后面，则函数返回值是正整数</p>
+<h2 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h2><p>下面的程序，功能是调用qsort库函数，将一个unsigned int数组按照个位数从小到大进行排序。比如 8，23，15三个数，按个位数从小到大排序，就应该是 23，15，8</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">#include &lt;stdio.h&gt;</div><div class="line">#include &lt;stdlib.h&gt;</div><div class="line">int MyCompare( const void * elem1, const void * elem2 )</div><div class="line">&#123;</div><div class="line">    unsigned int * p1, * p2;</div><div class="line">    p1 = (unsigned int *) elem1; // “* elem1” 非法，*elem1无定义，需要转换成 unsigned int*</div><div class="line">    p2 = (unsigned int *) elem2; // “* elem2” 非法</div><div class="line">    return (* p1 % 10) - (* p2 % 10 );</div><div class="line">&#125;</div><div class="line">#define NUM 5</div><div class="line">int main()</div><div class="line">&#123;</div><div class="line">    unsigned int an[NUM] = &#123; 8,123,11,10,4 &#125;;</div><div class="line">    qsort( an,NUM,sizeof(unsigned int), MyCompare);</div><div class="line">    for( int i = 0;i &lt; NUM; i ++ )</div><div class="line">    printf(&quot;%d &quot;,an[i]); //输出结果：10 11 123 4 8</div><div class="line">    return 0;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="思考，如果从大到小排序给出程序？"><a href="#思考，如果从大到小排序给出程序？" class="headerlink" title="思考，如果从大到小排序给出程序？"></a>思考，如果从大到小排序给出程序？</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">#include &lt;stdio.h&gt;</div><div class="line">#include &lt;stdlib.h&gt;</div><div class="line">int MyCompare(const void * elem1, const void * elem2)</div><div class="line">&#123;</div><div class="line">	unsigned int * p1, *p2;</div><div class="line">	p1 = (unsigned int *)elem1; // “* elem1” 非法，*elem1无定义，需要转换成 unsigned int*</div><div class="line">	p2 = (unsigned int *)elem2; // “* elem2” 非法</div><div class="line">	return (*p2 % 10) - (*p1 % 10); //不同处</div><div class="line">&#125;</div><div class="line">#define NUM 5</div><div class="line">int main()</div><div class="line">&#123;</div><div class="line">	unsigned int an[NUM] = &#123; 8,123,11,10,4 &#125;;</div><div class="line">	qsort(an, NUM, sizeof(unsigned int), MyCompare);</div><div class="line">	for (int i = 0; i &lt; NUM; i++)</div><div class="line">		printf(&quot;%d &quot;, an[i]); //输出结果：10 11 123 4 8</div><div class="line">	return 0;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/ns3 Building a Wireless Network Topology/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -435,6 +632,11 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">/NodeList/7/$ns3::MobilityModel/CourseChange</div></pre></td></tr></table></figure>
 <p>我们将node 7 的trace source和我们编写的trace sink函数（coursechange）链接起来，使用Config::Connect函数。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line">&apos;build&apos; finished successfully (5.989s)</div><div class="line">/NodeList/7/$ns3::MobilityModel/CourseChange x = 10, y = 0</div><div class="line">/NodeList/7/$ns3::MobilityModel/CourseChange x = 10.3841, y = 0.923277</div><div class="line">/NodeList/7/$ns3::MobilityModel/CourseChange x = 10.2049, y = 1.90708</div><div class="line">/NodeList/7/$ns3::MobilityModel/CourseChange x = 10.8136, y = 1.11368</div><div class="line">/NodeList/7/$ns3::MobilityModel/CourseChange x = 10.8452, y = 2.11318</div><div class="line">/NodeList/7/$ns3::MobilityModel/CourseChange x = 10.9797, y = 3.10409</div><div class="line">At time 2s client sent 1024 bytes to 10.1.2.4 port 9</div><div class="line">At time 2.01796s server received 1024 bytes from 10.1.3.3 port 49153</div><div class="line">At time 2.01796s server sent 1024 bytes to 10.1.3.3 port 49153</div><div class="line">At time 2.03364s client received 1024 bytes from 10.1.2.4 port 9</div><div class="line">/NodeList/7/$ns3::MobilityModel/CourseChange x = 11.3273, y = 4.04175</div><div class="line">/NodeList/7/$ns3::MobilityModel/CourseChange x = 12.013, y = 4.76955</div><div class="line">/NodeList/7/$ns3::MobilityModel/CourseChange x = 12.4317, y = 5.67771</div><div class="line">/NodeList/7/$ns3::MobilityModel/CourseChange x = 11.4607, y = 5.91681</div><div class="line">/NodeList/7/$ns3::MobilityModel/CourseChange x = 12.0155, y = 6.74878</div><div class="line">/NodeList/7/$ns3::MobilityModel/CourseChange x = 13.0076, y = 6.62336</div><div class="line">/NodeList/7/$ns3::MobilityModel/CourseChange x = 12.6285, y = 5.698</div><div class="line">/NodeList/7/$ns3::MobilityModel/CourseChange x = 13.32, y = 4.97559</div><div class="line">/NodeList/7/$ns3::MobilityModel/CourseChange x = 13.1134, y = 3.99715</div><div class="line">/NodeList/7/$ns3::MobilityModel/CourseChange x = 13.8359, y = 4.68851</div><div class="line">/NodeList/7/$ns3::MobilityModel/CourseChange x = 13.5953, y = 3.71789</div><div class="line">/NodeList/7/$ns3::MobilityModel/CourseChange x = 12.7595, y = 4.26688</div><div class="line">/NodeList/7/$ns3::MobilityModel/CourseChange x = 11.7629, y = 4.34913</div><div class="line">/NodeList/7/$ns3::MobilityModel/CourseChange x = 11.2292, y = 5.19485</div><div class="line">/NodeList/7/$ns3::MobilityModel/CourseChange x = 10.2344, y = 5.09394</div><div class="line">/NodeList/7/$ns3::MobilityModel/CourseChange x = 9.3601, y = 4.60846</div><div class="line">/NodeList/7/$ns3::MobilityModel/CourseChange x = 8.40025, y = 4.32795</div><div class="line">/NodeList/7/$ns3::MobilityModel/CourseChange x = 9.14292, y = 4.99761</div><div class="line">/NodeList/7/$ns3::MobilityModel/CourseChange x = 9.08299, y = 5.99581</div><div class="line">/NodeList/7/$ns3::MobilityModel/CourseChange x = 8.26068, y = 5.42677</div><div class="line">/NodeList/7/$ns3::MobilityModel/CourseChange x = 8.35917, y = 6.42191</div><div class="line">/NodeList/7/$ns3::MobilityModel/CourseChange x = 7.66805, y = 7.14466</div><div class="line">/NodeList/7/$ns3::MobilityModel/CourseChange x = 6.71414, y = 6.84456</div><div class="line">/NodeList/7/$ns3::MobilityModel/CourseChange x = 6.42489, y = 7.80181</div></pre></td></tr></table></figure>
+<h1 id="Config-path-Tips"><a href="#Config-path-Tips" class="headerlink" title="Config path Tips"></a>Config path Tips</h1><p>Suppose you type in:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">oss &lt;&lt; &quot;/NodeList/&quot; &lt;&lt; wifiStaNodes.Get (nWifi - 1)-&gt;GetId () &lt;&lt; “$ns-3::MobilityModel/CourseChange&quot;;</div></pre></td></tr></table></figure>
+<p>instead of </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">oss &lt;&lt; &quot;/NodeList/&quot; &lt;&lt; wifiStaNodes.Get (nWifi - 1)-&gt;GetId () &lt;&lt; &quot;/$ns-3::MobilityModel/CourseChange&quot;;</div></pre></td></tr></table></figure>
+<p><strong>With the first version： no error message， but none of the “/NodeList/7/$ns-3::MobilityModel/CourseChange x = …, y = …” are printed out!!</strong></p>
 
           
         
@@ -1838,204 +2040,6 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/reading section -tips/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Fatart's blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/reading section -tips/" itemprop="url">Reading Section -Tips</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-18T10:06:44+08:00">
-                2017-08-18
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/TOEFL/" itemprop="url" rel="index">
-                    <span itemprop="name">TOEFL</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>本节为<a href="https://courses.edx.org/courses/course-v1:ETSx+TOEFLx+3T2017/courseware/9826c1abf9a840afb74c9f0d55319dfc/2b1c21019ca34da3b550f8be8bbaba83/?child=first" target="_blank" rel="external">courses</a>课程第二周笔记</p>
-<h1 id="Reading-Tips"><a href="#Reading-Tips" class="headerlink" title="Reading Tips"></a>Reading Tips</h1><p>There are several key skills that you’ll need to be successful in the Reading section. You should be able to: </p>
-<ol>
-<li><p><strong>Synthesize</strong> information presented in the text </p>
-<p> This means that you can read chunks of text and identify main ideas being expressed. You should be able to draw connections between individual sentences and <strong>paraphrase</strong> the information that is presented.</p>
-</li>
-<li><p>Identify the author’s <strong>rhetorical</strong> purpose</p>
-<p>When you read a piece of information, you should be able to understand why the author has included it. Is it an example of a phenomenon, a supporting detail for an argument, or perhaps the introduction of a new idea? Understanding the structure of each paragraph and the whole passage is critical to understanding its contents. </p>
-</li>
-<li><p>Scan the text to find specific pieces of information</p>
-<p>In order to put together the big picture about what’s going on in a passage, you will also need to <strong>comprehend</strong> the little pieces that fit together to make that big picture. It is important to be able to quickly locate a sentence or portion of a paragraph that discusses a particular point. Once you’ve found that sentence, you can re-read it in order to understand exactly what is being expressed.</p>
-</li>
-<li><p>Understand academic vocabulary used in the passage</p>
-<p>A newspaper or magazine article might use more everyday language—the sort of thing you hear in conversations and read in emails. But an academic text, regardless of the subject, contains certain vocabulary that is standard in academic <strong>discourse</strong>. There might be words related to presenting theories: “propose”, “hypothesis”, “scenario”. Or there could be words that connect two sentences: “however”, “in addition”, “thus”. A good reader should be familiar with this type of vocabulary.</p>
-</li>
-</ol>
-<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><table>
-<thead>
-<tr>
-<th>new words</th>
-<th>pronunciation</th>
-<th>meaning</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>synthesize</td>
-<td>/ˈsɪnθɪsaɪz/</td>
-<td>to combine separate things into a complete whole</td>
-</tr>
-<tr>
-<td>paraphrase</td>
-<td>/ˈpærəfreɪz/</td>
-<td>to express in a shorter, clearer, or different way what someone has said or written,syn=summarize</td>
-</tr>
-<tr>
-<td>rhetorical</td>
-<td>/rɪˈtɔːrɪkl/</td>
-<td>If you ask a rhetorical question it means you don’t necessarily expect an answer, but you do want an occasion to talk about something.</td>
-</tr>
-<tr>
-<td>comprehend</td>
-<td>/ˌkɒmprɪˈhend/</td>
-<td>to understand something that is complicated or difficult</td>
-</tr>
-<tr>
-<td>discourse</td>
-<td>/ˈdɪskɔːs /</td>
-<td>a serious speech or piece of writing on a particular subject</td>
-</tr>
-<tr>
-<td>hypothesis</td>
-<td>/haɪˈpɒθəsɪs/</td>
-<td>an idea that is suggested as an explanation for something, but that has not yet been proved to be true,syn=theory</td>
-</tr>
-</tbody>
-</table>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/Reading Section -Question Types/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2234,7 +2238,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/ns3 日志模块（Logging Module）的使用/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/reading section -tips/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -2253,7 +2257,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/ns3 日志模块（Logging Module）的使用/" itemprop="url">ns3 日志模块(Logging Module)的使用</a></h1>
+                <a class="post-title-link" href="/reading section -tips/" itemprop="url">Reading Section -Tips</a></h1>
         
 
         <div class="post-meta">
@@ -2265,8 +2269,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-17T21:28:25+08:00">
-                2017-08-17
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-18T10:06:44+08:00">
+                2017-08-18
               </time>
             
 
@@ -2288,8 +2292,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/NS3/" itemprop="url" rel="index">
-                    <span itemprop="name">NS3</span>
+                  <a href="/categories/TOEFL/" itemprop="url" rel="index">
+                    <span itemprop="name">TOEFL</span>
                   </a>
                 </span>
 
@@ -2327,74 +2331,63 @@
       
         
           
-            <p>详细内容请参考<a href="https://www.nsnam.org/docs/release/3.26/tutorial/html/tweaking.html" target="_blank" rel="external">ns-3 tutorial</a></p>
-<h1 id="Logging总览"><a href="#Logging总览" class="headerlink" title="Logging总览"></a>Logging总览</h1><p>在一些情况下，只有错误信息才被记录到操作控制台（operator  console）。在其他的系统中，警告消息以及详细信息都会被输出。<br>ns-3考虑到了所有的冗余等级（verbosity level）都是有用的，所以提供了一个可选择的，多个等级的方法来进行消息日志。<br>日志功能可以完全逐个元件地关闭，开启，全部开启，并且提供了可选择的冗余等级。<br>ns-3同样提供了一个通用机制（general purpose mechanism）-tracing，用来从模型获得数据，tracing被推荐用来作为仿真的输出。</p>
-<p>目前有其中不同的log 等级，以冗余等级（verbosity level）递增define 如下</p>
-<table>
+            <p>本节为<a href="https://courses.edx.org/courses/course-v1:ETSx+TOEFLx+3T2017/courseware/9826c1abf9a840afb74c9f0d55319dfc/2b1c21019ca34da3b550f8be8bbaba83/?child=first" target="_blank" rel="external">courses</a>课程第二周笔记</p>
+<h1 id="Reading-Tips"><a href="#Reading-Tips" class="headerlink" title="Reading Tips"></a>Reading Tips</h1><p>There are several key skills that you’ll need to be successful in the Reading section. You should be able to: </p>
+<ol>
+<li><p><strong>Synthesize</strong> information presented in the text </p>
+<p> This means that you can read chunks of text and identify main ideas being expressed. You should be able to draw connections between individual sentences and <strong>paraphrase</strong> the information that is presented.</p>
+</li>
+<li><p>Identify the author’s <strong>rhetorical</strong> purpose</p>
+<p>When you read a piece of information, you should be able to understand why the author has included it. Is it an example of a phenomenon, a supporting detail for an argument, or perhaps the introduction of a new idea? Understanding the structure of each paragraph and the whole passage is critical to understanding its contents. </p>
+</li>
+<li><p>Scan the text to find specific pieces of information</p>
+<p>In order to put together the big picture about what’s going on in a passage, you will also need to <strong>comprehend</strong> the little pieces that fit together to make that big picture. It is important to be able to quickly locate a sentence or portion of a paragraph that discusses a particular point. Once you’ve found that sentence, you can re-read it in order to understand exactly what is being expressed.</p>
+</li>
+<li><p>Understand academic vocabulary used in the passage</p>
+<p>A newspaper or magazine article might use more everyday language—the sort of thing you hear in conversations and read in emails. But an academic text, regardless of the subject, contains certain vocabulary that is standard in academic <strong>discourse</strong>. There might be words related to presenting theories: “propose”, “hypothesis”, “scenario”. Or there could be words that connect two sentences: “however”, “in addition”, “thus”. A good reader should be familiar with this type of vocabulary.</p>
+</li>
+</ol>
+<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><table>
 <thead>
 <tr>
-<th>Level</th>
-<th>illustration</th>
+<th>new words</th>
+<th>pronunciation</th>
+<th>meaning</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>LOG_ERROR</td>
-<td>Log error messages (associated macro: NS_LOG_ERROR);</td>
+<td>synthesize</td>
+<td>/ˈsɪnθɪsaɪz/</td>
+<td>to combine separate things into a complete whole</td>
 </tr>
 <tr>
-<td>LOG_WARN</td>
-<td>Log warning messages (associated macro: NS_LOG_WARN);</td>
+<td>paraphrase</td>
+<td>/ˈpærəfreɪz/</td>
+<td>to express in a shorter, clearer, or different way what someone has said or written,syn=summarize</td>
 </tr>
 <tr>
-<td>LOG_DEBUG</td>
-<td>Log relatively rare, ad-hoc debugging messages (associated macro: NS_LOG_DEBUG);</td>
+<td>rhetorical</td>
+<td>/rɪˈtɔːrɪkl/</td>
+<td>If you ask a rhetorical question it means you don’t necessarily expect an answer, but you do want an occasion to talk about something.</td>
 </tr>
 <tr>
-<td>LOG_INFO</td>
-<td>Log informational messages about program progress (associated macro: NS_LOG_INFO);</td>
+<td>comprehend</td>
+<td>/ˌkɒmprɪˈhend/</td>
+<td>to understand something that is complicated or difficult</td>
 </tr>
 <tr>
-<td>LOG_FUNCTION</td>
-<td>Log a message describing each function called (two associated macros:</td>
+<td>discourse</td>
+<td>/ˈdɪskɔːs /</td>
+<td>a serious speech or piece of writing on a particular subject</td>
 </tr>
 <tr>
-<td>LOG_LOGIC</td>
-<td>Log messages describing logical flow within a function (associated macro: NS_LOG_LOGIC);</td>
-</tr>
-<tr>
-<td>LOG_ALL</td>
-<td>Log everything mentioned above (no associated macro)</td>
+<td>hypothesis</td>
+<td>/haɪˈpɒθəsɪs/</td>
+<td>an idea that is suggested as an explanation for something, but that has not yet been proved to be true,syn=theory</td>
 </tr>
 </tbody>
 </table>
-<p>对于每一个LOG_TYPE，都与一个LOG_LEVEL_TYPE,作用是使能在其level以及之上的level.(as a consequence，LOG_ERROR 和LOG_LEVEL_ERROR在功能上是等价的（function equivalent），LOG_LEVEL_ALL和LOG_ALL同样也是)。</p>
-<p><em>For example, enabling LOG_INFO will only enable messages provided by NS_LOG_INFO macro,<br>while enabling LOG_LEVEL_INFO will also enable messages provided by NS_LOG_DEBUG, NS_LOG_WARN and NS_LOG_ERROR macros。</em></p>
-<p><strong>NS_LOG_UNCOND</strong> 无条件（unconditionally）记录相关信息（不和log level先关）。<br>每一个level都能够被单一的或累计请求并且日志能够使用一个shell 环境变量（NS_LOG）来设立或者通过日志系统函数调用。</p>
-<h1 id="Enabling-Logging"><a href="#Enabling-Logging" class="headerlink" title="Enabling Logging"></a>Enabling Logging</h1><h2 id="开始"><a href="#开始" class="headerlink" title="开始"></a>开始</h2><p>运行以前的first1.cc</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ ./waf --run scratch/myfirst</div></pre></td></tr></table></figure>
-<p>得到和上一节相同的结果</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">$ Waf: Entering directory `/home/craigdo/repos/ns-3-allinone/ns-3-dev/build&apos;</div><div class="line">Waf: Leaving directory `/home/craigdo/repos/ns-3-allinone/ns-3-dev/build&apos;</div><div class="line">&apos;build&apos; finished successfully (0.413s)</div><div class="line">Sent 1024 bytes to 10.1.1.2</div><div class="line">Received 1024 bytes from 10.1.1.1</div><div class="line">Received 1024 bytes from 10.1.1.2</div></pre></td></tr></table></figure>
-<p>Sent 和 Received 消息都是从 UdpEchoClientApplication和 UdpEchoServerApplication中获得，见以下代码：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">LogComponentEnable(&quot;UdpEchoClientApplication&quot;, LOG_LEVEL_INFO);</div></pre></td></tr></table></figure>
-<h3 id="1-增加日志level，不去改变script代码和不要重新编译，设定-NS-LOG-环境变量如下"><a href="#1-增加日志level，不去改变script代码和不要重新编译，设定-NS-LOG-环境变量如下" class="headerlink" title="1. 增加日志level，不去改变script代码和不要重新编译，设定 NS_LOG 环境变量如下"></a>1. 增加日志level，不去改变script代码和不要重新编译，设定 NS_LOG 环境变量如下</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ export NS_LOG=UdpEchoClientApplication=level_all</div></pre></td></tr></table></figure>
-<p>赋值号assignment左边的是我们想去设置的日志组件，右边是我们想要设置的attribute，在上一行代码中我们将去开启该应用的全部level。<br>如果你再次运行该script，ns-3的logging system将会采用这个改变然后你将会看到一下的输出。</p>
-<h3 id="2-或上-prefix-func-语句来得到每一条语句输出的模块来源。"><a href="#2-或上-prefix-func-语句来得到每一条语句输出的模块来源。" class="headerlink" title="2. 或上 prefix_func 语句来得到每一条语句输出的模块来源。"></a>2. 或上 <em>prefix_func</em> 语句来得到每一条语句输出的模块来源。</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ export &apos;NS_LOG=UdpEchoClientApplication=level_all|prefix_func:UdpEchoServerApplication=level_all|prefix_func&apos;</div></pre></td></tr></table></figure>
-<p>运行后会在echo client和server应用都输出日志消息。</p>
-<h3 id="3-如果你想知道仿真的运行时间，你可以在shell中加入-prefix-time"><a href="#3-如果你想知道仿真的运行时间，你可以在shell中加入-prefix-time" class="headerlink" title="3. 如果你想知道仿真的运行时间，你可以在shell中加入 |prefix_time"></a>3. 如果你想知道仿真的运行时间，你可以在shell中加入 |prefix_time</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ export &apos;NS_LOG=UdpEchoClientApplication=level_all|prefix_func|prefix_time:</div><div class="line">               UdpEchoServerApplication=level_all|prefix_func|prefix_time&apos;</div></pre></td></tr></table></figure>
-<h3 id="4-开启所有log细节，并保存到文档中，适合调试"><a href="#4-开启所有log细节，并保存到文档中，适合调试" class="headerlink" title="4. 开启所有log细节，并保存到文档中，适合调试"></a>4. 开启所有log细节，并保存到文档中，适合调试</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ export &apos;NS_LOG=*=level_all|prefix_func|prefix_time</div><div class="line">$ ./waf --run scratch/myfirst &gt; log.out 2&gt;&amp;1</div></pre></td></tr></table></figure>
-<h2 id="Adding-Logging-to-your-code"><a href="#Adding-Logging-to-your-code" class="headerlink" title="Adding Logging to your code"></a>Adding Logging to your code</h2><p>由前面我们可以知道使用 NS_LOG 环境变量可以改变日志等级。我们在<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">NodeContainer nodes；</div></pre></td></tr></table></figure></p>
-<p>代码前插入：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">NS_LOG_INFO (&quot;Creating Topology&quot;);</div></pre></td></tr></table></figure>
-<p>然后build并清除之前的NS_LOG设定</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ ./waf</div><div class="line">$ export NS_LOG=</div></pre></td></tr></table></figure>
-<p>运行代码</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ ./waf --run scratch/myfirst</div></pre></td></tr></table></figure>
-<p>运行后发现控制台并没有输出了我们自己定义的内容</p>
-<h3 id="思考为什么在运行前需要加上以下代码？"><a href="#思考为什么在运行前需要加上以下代码？" class="headerlink" title="思考为什么在运行前需要加上以下代码？"></a>思考为什么在运行前需要加上以下代码？</h3><p>you will not see your new message since its associated logging component (FirstScriptExample) has not been enabled. In order to see your message you will have to enable the FirstScriptExample logging component with a level greater than or equal to NS_LOG_INFO. If you just want to see this particular level of logging, you can enable it by,</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ export NS_LOG=FirstScriptExample=info</div></pre></td></tr></table></figure>
-<p>加上代码后，运行<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">Waf: Entering directory `/home/craigdo/repos/ns-3-allinone/ns-3-dev/build&apos;</div><div class="line">Waf: Leaving directory `/home/craigdo/repos/ns-3-allinone/ns-3-dev/build&apos;</div><div class="line">&apos;build&apos; finished successfully (0.404s)</div><div class="line">Creating Topology</div><div class="line">Sent 1024 bytes to 10.1.1.2</div><div class="line">Received 1024 bytes from 10.1.1.1</div><div class="line">Received 1024 bytes from 10.1.1.2</div></pre></td></tr></table></figure></p>
-<p>运行后发现控制台输出了我们自己定义的内容</p>
 
           
         
@@ -2480,7 +2473,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">16</span>
+                <span class="site-state-item-count">17</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>

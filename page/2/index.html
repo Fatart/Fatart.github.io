@@ -277,6 +277,215 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/ns3 日志模块（Logging Module）的使用/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Fatart's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/ns3 日志模块（Logging Module）的使用/" itemprop="url">ns3 日志模块(Logging Module)的使用</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-17T21:28:25+08:00">
+                2017-08-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/NS3/" itemprop="url" rel="index">
+                    <span itemprop="name">NS3</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>详细内容请参考<a href="https://www.nsnam.org/docs/release/3.26/tutorial/html/tweaking.html" target="_blank" rel="external">ns-3 tutorial</a></p>
+<h1 id="Logging总览"><a href="#Logging总览" class="headerlink" title="Logging总览"></a>Logging总览</h1><p>在一些情况下，只有错误信息才被记录到操作控制台（operator  console）。在其他的系统中，警告消息以及详细信息都会被输出。<br>ns-3考虑到了所有的冗余等级（verbosity level）都是有用的，所以提供了一个可选择的，多个等级的方法来进行消息日志。<br>日志功能可以完全逐个元件地关闭，开启，全部开启，并且提供了可选择的冗余等级。<br>ns-3同样提供了一个通用机制（general purpose mechanism）-tracing，用来从模型获得数据，tracing被推荐用来作为仿真的输出。</p>
+<p>目前有其中不同的log 等级，以冗余等级（verbosity level）递增define 如下</p>
+<table>
+<thead>
+<tr>
+<th>Level</th>
+<th>illustration</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>LOG_ERROR</td>
+<td>Log error messages (associated macro: NS_LOG_ERROR);</td>
+</tr>
+<tr>
+<td>LOG_WARN</td>
+<td>Log warning messages (associated macro: NS_LOG_WARN);</td>
+</tr>
+<tr>
+<td>LOG_DEBUG</td>
+<td>Log relatively rare, ad-hoc debugging messages (associated macro: NS_LOG_DEBUG);</td>
+</tr>
+<tr>
+<td>LOG_INFO</td>
+<td>Log informational messages about program progress (associated macro: NS_LOG_INFO);</td>
+</tr>
+<tr>
+<td>LOG_FUNCTION</td>
+<td>Log a message describing each function called (two associated macros:</td>
+</tr>
+<tr>
+<td>LOG_LOGIC</td>
+<td>Log messages describing logical flow within a function (associated macro: NS_LOG_LOGIC);</td>
+</tr>
+<tr>
+<td>LOG_ALL</td>
+<td>Log everything mentioned above (no associated macro)</td>
+</tr>
+</tbody>
+</table>
+<p>对于每一个LOG_TYPE，都与一个LOG_LEVEL_TYPE,作用是使能在其level以及之上的level.(as a consequence，LOG_ERROR 和LOG_LEVEL_ERROR在功能上是等价的（function equivalent），LOG_LEVEL_ALL和LOG_ALL同样也是)。</p>
+<p><em>For example, enabling LOG_INFO will only enable messages provided by NS_LOG_INFO macro,<br>while enabling LOG_LEVEL_INFO will also enable messages provided by NS_LOG_DEBUG, NS_LOG_WARN and NS_LOG_ERROR macros。</em></p>
+<p><strong>NS_LOG_UNCOND</strong> 无条件（unconditionally）记录相关信息（不和log level先关）。<br>每一个level都能够被单一的或累计请求并且日志能够使用一个shell 环境变量（NS_LOG）来设立或者通过日志系统函数调用。</p>
+<h1 id="Enabling-Logging"><a href="#Enabling-Logging" class="headerlink" title="Enabling Logging"></a>Enabling Logging</h1><h2 id="开始"><a href="#开始" class="headerlink" title="开始"></a>开始</h2><p>运行以前的first1.cc</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ ./waf --run scratch/myfirst</div></pre></td></tr></table></figure>
+<p>得到和上一节相同的结果</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">$ Waf: Entering directory `/home/craigdo/repos/ns-3-allinone/ns-3-dev/build&apos;</div><div class="line">Waf: Leaving directory `/home/craigdo/repos/ns-3-allinone/ns-3-dev/build&apos;</div><div class="line">&apos;build&apos; finished successfully (0.413s)</div><div class="line">Sent 1024 bytes to 10.1.1.2</div><div class="line">Received 1024 bytes from 10.1.1.1</div><div class="line">Received 1024 bytes from 10.1.1.2</div></pre></td></tr></table></figure>
+<p>Sent 和 Received 消息都是从 UdpEchoClientApplication和 UdpEchoServerApplication中获得，见以下代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">LogComponentEnable(&quot;UdpEchoClientApplication&quot;, LOG_LEVEL_INFO);</div></pre></td></tr></table></figure>
+<h3 id="1-增加日志level，不去改变script代码和不要重新编译，设定-NS-LOG-环境变量如下"><a href="#1-增加日志level，不去改变script代码和不要重新编译，设定-NS-LOG-环境变量如下" class="headerlink" title="1. 增加日志level，不去改变script代码和不要重新编译，设定 NS_LOG 环境变量如下"></a>1. 增加日志level，不去改变script代码和不要重新编译，设定 NS_LOG 环境变量如下</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ export NS_LOG=UdpEchoClientApplication=level_all</div></pre></td></tr></table></figure>
+<p>赋值号assignment左边的是我们想去设置的日志组件，右边是我们想要设置的attribute，在上一行代码中我们将去开启该应用的全部level。<br>如果你再次运行该script，ns-3的logging system将会采用这个改变然后你将会看到一下的输出。</p>
+<h3 id="2-或上-prefix-func-语句来得到每一条语句输出的模块来源。"><a href="#2-或上-prefix-func-语句来得到每一条语句输出的模块来源。" class="headerlink" title="2. 或上 prefix_func 语句来得到每一条语句输出的模块来源。"></a>2. 或上 <em>prefix_func</em> 语句来得到每一条语句输出的模块来源。</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ export &apos;NS_LOG=UdpEchoClientApplication=level_all|prefix_func:UdpEchoServerApplication=level_all|prefix_func&apos;</div></pre></td></tr></table></figure>
+<p>运行后会在echo client和server应用都输出日志消息。</p>
+<h3 id="3-如果你想知道仿真的运行时间，你可以在shell中加入-prefix-time"><a href="#3-如果你想知道仿真的运行时间，你可以在shell中加入-prefix-time" class="headerlink" title="3. 如果你想知道仿真的运行时间，你可以在shell中加入 |prefix_time"></a>3. 如果你想知道仿真的运行时间，你可以在shell中加入 |prefix_time</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ export &apos;NS_LOG=UdpEchoClientApplication=level_all|prefix_func|prefix_time:</div><div class="line">               UdpEchoServerApplication=level_all|prefix_func|prefix_time&apos;</div></pre></td></tr></table></figure>
+<h3 id="4-开启所有log细节，并保存到文档中，适合调试"><a href="#4-开启所有log细节，并保存到文档中，适合调试" class="headerlink" title="4. 开启所有log细节，并保存到文档中，适合调试"></a>4. 开启所有log细节，并保存到文档中，适合调试</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ export &apos;NS_LOG=*=level_all|prefix_func|prefix_time</div><div class="line">$ ./waf --run scratch/myfirst &gt; log.out 2&gt;&amp;1</div></pre></td></tr></table></figure>
+<h2 id="Adding-Logging-to-your-code"><a href="#Adding-Logging-to-your-code" class="headerlink" title="Adding Logging to your code"></a>Adding Logging to your code</h2><p>由前面我们可以知道使用 NS_LOG 环境变量可以改变日志等级。我们在<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">NodeContainer nodes；</div></pre></td></tr></table></figure></p>
+<p>代码前插入：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">NS_LOG_INFO (&quot;Creating Topology&quot;);</div></pre></td></tr></table></figure>
+<p>然后build并清除之前的NS_LOG设定</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ ./waf</div><div class="line">$ export NS_LOG=</div></pre></td></tr></table></figure>
+<p>运行代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ ./waf --run scratch/myfirst</div></pre></td></tr></table></figure>
+<p>运行后发现控制台并没有输出了我们自己定义的内容</p>
+<h3 id="思考为什么在运行前需要加上以下代码？"><a href="#思考为什么在运行前需要加上以下代码？" class="headerlink" title="思考为什么在运行前需要加上以下代码？"></a>思考为什么在运行前需要加上以下代码？</h3><p>you will not see your new message since its associated logging component (FirstScriptExample) has not been enabled. In order to see your message you will have to enable the FirstScriptExample logging component with a level greater than or equal to NS_LOG_INFO. If you just want to see this particular level of logging, you can enable it by,</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ export NS_LOG=FirstScriptExample=info</div></pre></td></tr></table></figure>
+<p>加上代码后，运行<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">Waf: Entering directory `/home/craigdo/repos/ns-3-allinone/ns-3-dev/build&apos;</div><div class="line">Waf: Leaving directory `/home/craigdo/repos/ns-3-allinone/ns-3-dev/build&apos;</div><div class="line">&apos;build&apos; finished successfully (0.404s)</div><div class="line">Creating Topology</div><div class="line">Sent 1024 bytes to 10.1.1.2</div><div class="line">Received 1024 bytes from 10.1.1.1</div><div class="line">Received 1024 bytes from 10.1.1.2</div></pre></td></tr></table></figure></p>
+<p>运行后发现控制台输出了我们自己定义的内容</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/ns3 概念总览/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -435,6 +644,173 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ ./waf --run scratch/myfirst</div></pre></td></tr></table></figure>
 <p>You should see some output:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">Waf: Entering directory `/home/craigdo/repos/ns-3-allinone/ns-3-dev/build&apos;</div><div class="line">Waf: Leaving directory `/home/craigdo/repos/ns-3-allinone/ns-3-dev/build&apos;</div><div class="line">&apos;build&apos; finished successfully (0.418s)</div><div class="line">Sent 1024 bytes to 10.1.1.2</div><div class="line">Received 1024 bytes from 10.1.1.1</div><div class="line">Received 1024 bytes from 10.1.1.2</div></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/Visual Studio Shortcut/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Fatart's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/Visual Studio Shortcut/" itemprop="url">Visual Studio Shortcut</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-15T20:46:25+08:00">
+                2017-08-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/C/" itemprop="url" rel="index">
+                    <span itemprop="name">C++</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <table>
+<thead>
+<tr>
+<th>Shortcut</th>
+<th>illustration</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Ctrl+T</td>
+<td>By using the Go To feature (Ctrl+T) you can quickly get to where you need to go</td>
+</tr>
+<tr>
+<td>Ctrl+G</td>
+<td>Use the Ctrl+G shortcut to go to line xx</td>
+</tr>
+<tr>
+<td>Alt+F12</td>
+<td>Peek into definitions, use ESC to cancal</td>
+</tr>
+<tr>
+<td>F12</td>
+<td>GO directly to definition</td>
+</tr>
+</tbody>
+</table>
 
           
         
@@ -702,173 +1078,6 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">cin.clear( cin.rdstate() &amp; ~cin.failbit &amp; ~cin.badbit);</div></pre></td></tr></table></figure>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">#include &lt;iostream&gt;</div><div class="line">using std::istream;</div><div class="line"></div><div class="line">istream&amp; func(istream &amp;is)</div><div class="line">&#123;</div><div class="line">    std::string buf;</div><div class="line">    while (is &gt;&gt; buf)</div><div class="line">        std::cout &lt;&lt; buf &lt;&lt; std::endl;</div><div class="line">    is.clear();</div><div class="line">    return is;</div><div class="line">&#125;</div><div class="line"></div><div class="line">int main()</div><div class="line">&#123;</div><div class="line">    istream&amp; is = func(std::cin);</div><div class="line">    std::cout &lt;&lt; is.rdstate() &lt;&lt; std::endl;</div><div class="line">    return 0;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>Page 280. 后续内容感觉不太常用，暂时跳过。</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/Visual Studio Shortcut/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Fatart's blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/Visual Studio Shortcut/" itemprop="url">Visual Studio Shortcut</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-15T20:46:25+08:00">
-                2017-08-15
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/C/" itemprop="url" rel="index">
-                    <span itemprop="name">C++</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <table>
-<thead>
-<tr>
-<th>Shortcut</th>
-<th>illustration</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Ctrl+T</td>
-<td>By using the Go To feature (Ctrl+T) you can quickly get to where you need to go</td>
-</tr>
-<tr>
-<td>Ctrl+G</td>
-<td>Use the Ctrl+G shortcut to go to line xx</td>
-</tr>
-<tr>
-<td>Alt+F12</td>
-<td>Peek into definitions, use ESC to cancal</td>
-</tr>
-<tr>
-<td>F12</td>
-<td>GO directly to definition</td>
-</tr>
-</tbody>
-</table>
 
           
         
@@ -1685,7 +1894,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">16</span>
+                <span class="site-state-item-count">17</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
