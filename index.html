@@ -1131,6 +1131,410 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/AI-Network survery/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Fatart's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/AI-Network survery/" itemprop="url">Emerging Heterogeneous Networks</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-25T10:46:25+08:00">
+                2017-08-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/AI-Network/" itemprop="url" rel="index">
+                    <span itemprop="name">AI-Network</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="ABSTRACT"><a href="#ABSTRACT" class="headerlink" title="ABSTRACT"></a>ABSTRACT</h1><p>目前出现的移动异构网络(mobile heterogeneous network HetNets)在复杂的系统资源上存在:有效组织，管理，维护，优化相关的许多技术难题。<br>学术界和工业界研究使用AI(artificial intelligence)相关的技术（如机器学习machine learing，仿生算法bio-inspired algorithm，模糊神经网络fuzzy neural network…）</p>
+<p>这篇文章主要讲的是HetNets网络架构和系统演进中相关的AI技术的前沿知识，重点是研究网络的自我配置(self-configuration),自我修复(self-healing),自我优化(self-optimization)。</p>
+<p>通过讨论使用基于AI的技术来处理HetNets不同问题的利弊(pros and cons)时，将会给出HetNet AI 技术详细分类（taxonomy）。<br>开放性研究问题和待解决的挑战(pending challenge)也包含在内，它们能为未来研究工作提供指导(guideline)。</p>
+<h1 id="Index-terms"><a href="#Index-terms" class="headerlink" title="Index terms"></a>Index terms</h1><p>Artificial intelligence      人工智能</p>
+<p>genetic algorithm            遗传算法</p>
+<p>ant colony algorithm         蚁群算法</p>
+<p>self-organization networks   自组织网络</p>
+<p>heterogeneous neworks        异构网络</p>
+<h1 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h1><p>由于当代Internet和移动通信的迅速发展，近年来移动流量有着爆炸性的增长。因此（accordingly）,移动网络运行商(mobile network operators-MNOs)系统已经设计改造，其有着更加复杂(complexity)的架构和各种各样的相关设备和资源，以及更多动态的网络形式。它们正在向有前途(promising)的未来网络模式发展，异构网络(HetNets).</p>
+<p>异构网络(Heterogeneous networks)有许多不同类型的小区(cell)，各个小区有着不同的传输能量，覆盖范围以及工作机制(mechanism)。如图1</p>
+<p><img src="http://fatart.space/%E5%9B%BE%E7%89%87/network/1.png" alt="image"></p>
+<ul>
+<li><p>比如说宏小区macrocell，在WiMax（Worldwide Interoperability for Mocrowave access）中的基站base station(BS)，以及在LTE(long-term evolution)中的enhanced NodeBs(eNBs).这些宏小区有着最大的传输能量，能覆盖室外约几十千米。</p>
+</li>
+<li><p>picocell微微小区的覆盖范围相对较小，主要覆盖大楼室内环境。</p>
+</li>
+<li><p>femtocell毫微微小区有着小型体积、低功耗、低功率、用户设定的接入点ap，接入点一般位于办公室和家里。</p>
+</li>
+<li><p>中继relay是MNO(mobile network operator)移动运行商布置的AP，其只负责路由 macro cell 和 覆盖性能差的地区、不能覆盖到的地区的之间的路由。</p>
+</li>
+</ul>
+<p>因此，由于网络架构的复杂，将导致有效组织，管理和优化网络资源的问题非常复杂。与此同时，飞速增长(skyrocket)的移动流量的需求产生了巨大的压力。尽管已经提出一些技术来直接改善HetNets性能，如何通过其他改进的技术和算法来自动地处理HetNet的复杂性是一个研究热点。</p>
+<p><em>Brains exist because the distribution of resources necessary for survival and the hazards that threaten survival vary in space and time。</em></p>
+<p>智能的存在是因为生存需要和威胁生存资源的分配在时间和空间上不停地变化，将AI引入HetNet是一样的，HetNet动态性、异构型、大规模、复杂性不停增加，所以很长一段时间，研究者不遗余力（spare no effort）地将AI技术引入，以实现HetNet的自动管理和优化。</p>
+<p>AI技术包括机器学习machine learning，仿生算法bio-inspired algorithm，模糊神经网络fuzzy neural network等多学科技术。它们已经被研究并运用到优化各种不同的场和复杂环境下的计算机系统和网络。</p>
+<p>已经证明，AI技术能够获得杰出的性能，因为他们的大部分都是从自然发现启发或者人类思维方式推动的。它们通常是相对地复杂性的，通过循环基于(recursive)反馈学习和局部交互，因此，和一般的技术相比，求解sub-optimal结论的速度更快。因此，结合AI技术以设计智能网络架构是一个非常有前途趋势，能够有效解决HetNet的问题，诸如cell planning，fault-trolerance,reource management以及优化。</p>
+<p>从降低MNO移动运营商的操作和资金开支（opex and capex），基于AI的技术能够大大(substantially)降低操作性任务中人工参与并能优化网络容量、覆盖和服务质量Qos。</p>
+<p>根据在自组网（self-orgnizing network）中讨论的先进特征：</p>
+<ol>
+<li><p>self configuration </p>
+<p> 新部署的各种小区在进行操作任务前都是自动配置、更新。</p>
+</li>
+<li><p>self healing</p>
+<p> 小区和网络能自动检测并从错位中恢复，甚至当错误发生时，执行补偿机制（compensation machanism）</p>
+</li>
+<li><p>self optimization</p>
+<p> 蜂窝系统能够测量网络状态并优化设定以增强如覆盖面积、带宽、冲突避免以及QoS，与此同时相关的如系统可拓展性、能量转化也会考虑在内。</p>
+</li>
+</ol>
+<p>这篇文章调查了基于AI的前沿技术，该技术用于增强HetNet架构和系统的智能。讨论了研究者如何将机器学习machine learning，遗传算法genetic algorithm，蚁群优化的人工神经网络ant colony optimization artifical neural networks，模糊系统fuzzy system，马尔科夫模型Markov ，贝叶斯模型Bayesian Models，这些技术用来增加智能度、效率、性能和网络服务质量QoS。</p>
+<p>文章架构如下：</p>
+<ul>
+<li>为什么intelligence在发展HetNet是需要的(第二节)</li>
+<li>HetNet能够从AI技术获益的一些相关问题(第三节)</li>
+<li>总结了用于HetNet的AI技术(第四节)</li>
+<li>新的挑战和机遇(第五节)</li>
+<li>总结</li>
+</ul>
+<h1 id="HetNet的兴起"><a href="#HetNet的兴起" class="headerlink" title="HetNet的兴起"></a>HetNet的兴起</h1><p>新兴的移动网络变得更加动态、异构、大规模、系统复杂，因此新兴的HetNet在架构上包含了各种不同容量、限制和操作函数的无线接入技术。</p>
+<p>在最新发布的LTE-A中设想了是一个多层架构，包括macro-cell，pico-cell，femto-cell，relay station， remote radio heads。</p>
+<p>Macro-cell base station: 宏小区基站使用专用回传信道(dedicated backhaul),提供有保证的带宽。</p>
+<p>Pico-cell，femto-cell：它们都是小型（small-size）、低价格（low cost）、低能耗（low power）、用户部署（user deployed）的建筑和房屋内的接入点，在本地卸载数据流量。</p>
+<p>Relay：中继是MNO部署的接入点，只用于传送宏小区到处在覆盖性能差或无法覆盖到的终端用户的信号，反之亦然。</p>
+<p>RRH：Remote radio head是紧凑型（compact-size），高功率、低质量的单元，安装在传统宏基站的外面，并且通常通过用于创建分布式基站的光纤电缆与其连接。</p>
+<p>marco BS: 负责控制和基带信号处理，一些射频电路转移到了RRHS</p>
+<p>部署如此多类型的小区cell旨为流量负载从覆盖、位置、环境特征以及用户动态性方面减荷，为了有效提高频谱利用率。</p>
+<p>因此，HetNet能够大大减少MNO（mobile network operator）移动网络运营商的OPEX/CAPEX。然而，hetnet带来了巨大设计挑战和问题，结合AI和自组网的Hetnet是迈向未来移动网络的最有效方式。</p>
+<h2 id="self-evolution-in-HetNets"><a href="#self-evolution-in-HetNets" class="headerlink" title="self-evolution in HetNets"></a>self-evolution in HetNets</h2><p>在最近几年，SONs(Self-organization Network)经历了研究上的爆炸性增长。<strong>自组织网络</strong>通过降低人工干预降低了OPEX(operation expenditure)。自组织网络的思想是结合网络规划、配置，优化。</p>
+<p>AI技术或许能够为HetNet(异构网络)上实现SON（自组织网络）提供有效的解决方案。</p>
+<p><strong>HetNet-SONSs最主要的特征包括：self-configuration，self-optimization以及self-healing。</strong></p>
+<p>使得HetNet具有自我进化的特征。self-planning和self-organization有时会和self-configuration分开来讲，但在这篇文章中，我们认为它们都是实现核心自动化的初始阶段，我们将会从上述三个特征介绍在HetNets中自组织网络相关的AI技术，适用于HetNet的SONs在图2中描述。<br><img src="http://fatart.space/%E5%9B%BE%E7%89%87/network/2.png" alt="image"></p>
+<p>已经有许多研究关注于SONs的三个特征。研究[8]提出了在异构网络中(HetNet)用于Radio Access Network(RAN)的SONs，有着集中式的覆盖和容量优化方法，还有基于混合邻居式的小区停电检测，中心化的小区停电补偿。</p>
+<p>研究[3]调查了不同的群智能启发的机制以及它们的设计准则，并且在HetNet上的人工SONs系统上验证了不同的优化算法。我们将在以下部分中详细介绍最新的相关文献，以提高HetNets的自我“X”能力。</p>
+<h2 id="A-self-Configuration"><a href="#A-self-Configuration" class="headerlink" title="A self-Configuration"></a>A self-Configuration</h2><p>在HetNet的设计阶段，基站base station的位置(或者其他类型的小区基站)，基站之间的连接，以及相关的不同网络设备以及相关参数（输出概率，天线仰角等等）应该在所有设备都实际安装之前被确定好。但是，由于在HetNet中如此多类型的小区共存(coexistence)以及用户和服务的高度动态性，越来越多的参数需要管理和优化。一个很好的规划(planning)能够最佳地规划小区覆盖以及能够防止严重的小区边缘传播损耗(propagation loss),因此自动地获取到优化的参数设定是非常重要的，这样在HetNet中人类劳动会被降低。</p>
+<p>基于AI的技术（如 遗传算法Genetic Algorithm）能够使用导频功率调整(pilot power adjustment)轻松地进行<strong>小区规划和覆盖优化</strong>。以及在HetNet中，最开始的阶段(the most initialisation phase)是<strong>自动化的物理小区标识分配</strong>（physical cwll identifier assignment）以及<strong>无线资源配置</strong>（radio resource configuration）。在规划（planning）和部署（placement）阶段后的配置阶段（configuration phase）中，新部署的小区基站（以及相关硬件）应当在进入到操作状态前，能够进行自动配置、彻底（throughly）测试以及通过下载和运行fireware/software进行自动验证，这个叫做”plug-and-play”模式。</p>
+<p>已经有一些研究关于于HetNet的自动配置，大多是都是研究从具体的HetNet场景中提取出合适参数的方法。比如。研究[11]解决（address）了在5GHetNet网络中智能低功率节点的部署问题，通过结合认知无线电（cognitive radio）和小区间冲突协调（inter-cell interference coordination）,提出在使用自适应SON时，将合适的扇区和无线资源分配结合起来。以及，中继的部署也需要复杂的建模和配置，就像在研究[12]中，为了最大化系统容量而不需要去进行长久（protracted）的系统仿真研究，以确定有限干扰下的中继信道管理的参数。</p>
+<p>还有一些研究关注于HetNet中<strong>分布式的beamforing配置</strong>，以获得一些优化的覆盖和信号质量的突破。和传统的beaming技术需要知道发送端信道的先验知识相比，仿生鲁棒自适应随机搜索算法被提出用来确保分布式发送端数量和收敛时间的线性关系。</p>
+<h2 id="Self-Healing"><a href="#Self-Healing" class="headerlink" title="Self-Healing"></a>Self-Healing</h2><p>对于商业HetNet来说，<strong>鲁棒性</strong>是最重要的问题之一，MNOs需要稳定地支持大量的不同设备以及不同的用户。HetNet中的SON功能提供了必要的自我修复能力，基于主动跟踪、被动探测，错误更好的监测，恰当的后续补救（remedial）行动，如重新启动，失败后回退到备份系统，不补救设备转换等等。SON(self-organizated network)也提供一些方法来自动升级网络设备的软件，以修复遗留的bug（legacy bug）和问题，和调整参数使其自适应地避免错误。self-healing为网络系统的维护节省了大量的人工介入，并且能尽可能地从网络错误中恢复。</p>
+<p>因此，AI技术能够方便地应用于自我修复，来保证网络服务和资源的可获得性（availability）。作为一个用于<strong>小区停电补偿cell outage compensation</strong>的代表性工作，提议[15]提出了一种自主粒子群补偿算法（autonomic particle swarm compensation algorithm)，在LTE HetNet中产生一个中心化的小区断电补偿方案，以缓和（mitigate）小区断电带来的性能恶化（degradation）</p>
+<p>自动重新配置(autonomous re-configuration)也被认为是HetNet的SON一个关键特性。通过观察用户和网络状况的改变，HetNet在不停止移动服务的前提下，以一个实时的方式需要进行必要的重新配置。这些已经在[16]中研究，其已经提出了一个自适应的基于策略（policy）的动态重配置框架，根据重配置的需求动态创建并更新策略。尽管使用了Reinforcement Learning mrthodology，事前设定的策略在基于两层策略的框架下动态更新。然而，并没有考虑到网络控制机制的适应性和新的策略规则的即时（on-the-fly）推导。</p>
+<h2 id="Self-Optimization"><a href="#Self-Optimization" class="headerlink" title="Self-Optimization"></a>Self-Optimization</h2><p>考虑到无线特性、流量动态性和用户服务的需求，HetNet的性能可以从多个方面增强，如<strong>负载均衡（load balance）、功率适应（power adaptation）、邻居维护（neighbourhood maintenance）、移动性管理（moblity management）</strong>。然而，真正的（practically）实时的优化（real-time optimization）是非常困难的，因为将涉及到非常繁重的工作负载来进行综合测量、统计学习、优化问题求解以及基于参数的决策。</p>
+<h3 id="a-Automatic-coverage-optimization-and-load-balancing"><a href="#a-Automatic-coverage-optimization-and-load-balancing" class="headerlink" title="a) Automatic coverage optimization and load balancing"></a>a) Automatic coverage optimization and load balancing</h3><ul>
+<li>调整天线参数</li>
+<li>调整handover parameter来从逻辑上改变小区大小 </li>
+</ul>
+<p>自动化的覆盖优化旨在：通过协调调整相关小区之间的天线倾斜角和导频功率，最大化系统容量并保证邻小区之间合理的重叠（overlap）。</p>
+<p>研究[17]提出了通过使用基于协调增强学习算法(cooperative reinforcement learnging)的fuzzy neural network optimization来对天线倾角(tilt)和功率进行self-optimization。</p>
+<h3 id="b-Mobility-optimization"><a href="#b-Mobility-optimization" class="headerlink" title="b) Mobility optimization"></a>b) Mobility optimization</h3><p>通过自动调整小区重新选择(re-selection)和切换(handover)的阈值(thresholds)，以相关减少不必要的handover并提供合适的handover时机。</p>
+<p>移动性优化也和load balance优化相关，可以调整参数阈值，自动地使得拥挤小区的边缘用户向邻居不拥塞小区reselect或handover。</p>
+<p>移动性优化高度依赖于有效的邻小区维护，用户能够重刷新并重新配置邻小区列表，以保持漫游所需的最少小区集。</p>
+<h3 id="c-Link-quality-estimation"><a href="#c-Link-quality-estimation" class="headerlink" title="c) Link quality estimation"></a>c) Link quality estimation</h3><p>必须始终以高可靠性执行链路质量估计，以便于在HetNets中进行具有鲁棒性的安全传输。</p>
+<p>不是采用简单的移动平均估计器的传统静态链路质量感知路由度量，可以利用基于神经网络范例的生物启发式估计器来提高链路质量估计的有效性[18]。</p>
+<h3 id="d-Device-to-Device-communications"><a href="#d-Device-to-Device-communications" class="headerlink" title="d) Device-to-Device communications"></a>d) Device-to-Device communications</h3><p>通过有效的干扰管理，通过利用有组织的设备到设备链路，设备到设备通信为HetNets提供了更高的可扩展性和大容量。</p>
+<p>所需的资源分配可以从基于AI的技术中受益匪浅。例如，[19]的研究提出了蚁群优化基础智能管理，D2D对可以有效，自主，共同选择合适的资源块，调整功率，保证所有用户的信号质量。</p>
+<h3 id="e-Relay-based-multi-hop-transmission"><a href="#e-Relay-based-multi-hop-transmission" class="headerlink" title="e) Relay-based multi-hop transmission"></a>e) Relay-based multi-hop transmission</h3><p>leverage 利用中间中继节点</p>
+<ul>
+<li>有效拓展服务范围</li>
+<li>增强HetNet的可持续性</li>
+</ul>
+<h3 id="f-Virtical-Handoff-VHO"><a href="#f-Virtical-Handoff-VHO" class="headerlink" title="f) Virtical Handoff (VHO)"></a>f) Virtical Handoff (VHO)</h3><p>VHO作用“用户分布在RANs不同链路层技术的小区时，实现无缝(seamless)切换。</p>
+<h2 id="HetNet中AI相关SON技术分类"><a href="#HetNet中AI相关SON技术分类" class="headerlink" title="HetNet中AI相关SON技术分类"></a>HetNet中AI相关SON技术分类</h2><h3 id="A-Maching-learning"><a href="#A-Maching-learning" class="headerlink" title="A) Maching learning"></a>A) Maching learning</h3><p>机器学习（ML）是从AI领域的模式识别和计算学习理论的研究而演变而来的[26]。它有效地学习人脑的方式，探索算法的构建和研究，并进行数据驱动的预测或决策[6]。 在许多ML技术中，强化学习（RL）是由行为主义心理学启发的一种特殊的学习算法，涉及到软件代理应该如何在环境中采取措施，以最大限度地提高一些累积值的概念。</p>
+<p>从图3的图示中，RL(reinforcement learninf)旨在找到在一定时间段内使所观察到的值（即，payoff）最大化的策略，并且它经常用于网络系统中的信道接入和发射功率分配。</p>
+<p>Q-learning是RL的一种形式，它是一种无模型的RL技术，可以为任何给定（有限）马尔可夫决策过程找到动作选择策略的最优质量值（Q值）[29]。因此，它能够对大部分HetNet中的自我优化对象使用，例如，在载波聚合期间具有定位信息的基于Q学习的动态资源分配和[30]和[31]中HetNets的不协调部署。由于hetnet中设备的不同，hetnet中干扰管理策略也能从Q-learning中收益[33]。</p>
+<p>模糊强化学习(Fuzzy-reinforcement learning)是通过对HetNets中的不确定环境进行模糊状态表示和模糊目标的整合来进一步研究RL技术。</p>
+<h3 id="B-Genetic-algorithm"><a href="#B-Genetic-algorithm" class="headerlink" title="B) Genetic algorithm"></a>B) Genetic algorithm</h3><p>GA采用基因演化程序，包括两个主要任务，交叉crossover，有利于获得最优解，突变mutation，防止落入区域最优解。后代在交叉操作中继承了优良染色体的基因，通过竞争消除了不良染色体。</p>
+<p>通过多年的研究证明，GA有效解决潜在解决方案范围太大的问题，无法在合理的时间内彻底搜索，并且在大多数情况下可以在更短的时间内适当地收敛到最佳（或次优）结果，与其他情况生物启发bio-inspired的方法相比。</p>
+<p>因此，GA能够轻松解决多目标问题，GA经常被用来解决Hetnet中的cell palnning和节点placement 优化问题，在此问题中需要评估大量的参数。</p>
+<p>比如，研究[47]提出了多目标GA来解决异构网络多目标通信节点（比如天线和信道）安置问题，旨在最大化通信覆盖范围以及全部的容量带宽并且最小化的配置消耗。通过<br>自适应地调节导频功率，GA能够被用来改进小区覆盖优化。</p>
+<h3 id="C-群智能swarm-intelligence-and-ant-colony-蚁群"><a href="#C-群智能swarm-intelligence-and-ant-colony-蚁群" class="headerlink" title="C) 群智能swarm intelligence and ant colony 蚁群"></a>C) 群智能swarm intelligence and ant colony 蚁群</h3><p>Ant colony optimization ACO是一个流行的群体智能(swarm intelligence)算法。在一个蚁群中，大量的蚂蚁使用基于以前积累的现象来发现导向食物的最佳路径。因为网络系统和蚁群的相似性，数据包和蚁群，网络路由和蚁群路径。<br>Ant colony optimization在HetNet在广泛的研究，作为一种有效的方法来处理冲突管理、路由以及覆盖</p>
+<p>为了缓解小区间以及跨层的干扰协调，为信道分配，研究[51]探究了使用ACO的动态子信道分配。</p>
+<p>网络路由能够从群体智能中获得大量的增强，因为其固有的路径优化策略。HetNet中的大多数路由问题发生在多跳传输中，ACO算法能够解决多目标路由优化问题，使用网络性能测量诸如延时delay、距离hop distance、负载load、费用cost以及可信度reliability。</p>
+<p>研究[55]使用蚁群算法，通过发现每一个小区的最佳导频发射功率最小化费用函数(cost function)，来解决HetNet中的密集小区覆盖优化问题。</p>
+<h3 id="D-artificial-neural-network"><a href="#D-artificial-neural-network" class="headerlink" title="D) artificial neural network"></a>D) artificial neural network</h3><p>artificial neural  network ANN是一种统计学习模型，从人脑的生物神经网络启发得到。<br>ANN一般地表现为包含着内部互联的神经元系统，有着数字权重的数值，其能够调谐以使得ANN适应于输入并且功能胜任学习的工作。</p>
+<h3 id="Fuzzy-system"><a href="#Fuzzy-system" class="headerlink" title="Fuzzy system"></a>Fuzzy system</h3><p>模糊系统是基于模糊逻辑的控制系统，其数学分析了在0和1之间连续值的逻辑变量的模拟输入值[59]。模糊逻辑能够通过从不精确、不确定，或者不可靠的信息来创建规则。因此，它能够规则的集合，从基于HetNet中大量具有不同物理信息和不同变化条件、特征的系统化资源，来快速帮助做出决策。</p>
+<h3 id="Markov-models-and-bayesian-based-games"><a href="#Markov-models-and-bayesian-based-games" class="headerlink" title="Markov models and bayesian-based games"></a>Markov models and bayesian-based games</h3><p>虽然马尔科夫模型[65]和贝叶斯方法[66]不完全是AI技术，但仍然为具有一定自动优化能力的HetNets提供统计解决方案。随着马尔科夫模型状态之间的随机转换（transition）以及基于贝叶斯学习，HetNet中定位和移动问题，基于决策书的预测可以改进HetNet中的本地化和移动性问题。</p>
+<p>Hidden Markov Model（HMM）通常用来建模信号强度以获得精确的定位。研究[68]提出了Hetnet中是内还看优选的室内移动路由模型，基于HMM来实现移动建模和学习。</p>
+<h1 id="Future-challenge"><a href="#Future-challenge" class="headerlink" title="Future challenge"></a>Future challenge</h1><p>移动网络已经从传统的中心化架构向分布式、分层次的异构网络转变，有着自动化、协调的、智能的新特性。在不久的未来，小区（基站）装配有某种自动化的机制，根据业务动态、用户需求，以及物理环境干扰条件进行最佳重新定位。</p>
+<h2 id="A-optimization-on-virtual-resource-in-the-data-center-for-cloud-based-hetnets"><a href="#A-optimization-on-virtual-resource-in-the-data-center-for-cloud-based-hetnets" class="headerlink" title="A optimization on virtual resource in the data center for cloud-based hetnets"></a>A optimization on virtual resource in the data center for cloud-based hetnets</h2><p>5G演进的一个重要方向就是基于云计算技术的弹性、动态资源分类的资源虚拟化。不仅RRHs会和基于云RAN的虚拟资源合作，在HetNet中同样如此，无线接入和处理的计算密集性任务的大量计算负载将会被卸荷到MNO数据中心的集中式的云中。</p>
+<p>举例来说，提议[75]引入了云协作的异构蜂窝网络(cloud cooperated heterogeneous cellular network-C-HetNet)的概念,在架构中，覆盖在宏小区之上的femtocell和picocell和云无线接入网络连接来实现协作。在研究[76]发展了一个理论上的HetNet部署代价框架，来探究C-RAN是否是代价最有效的。</p>
+<h2 id="B-Utilizaing-the-intelligence-of-software-defined-network-in-5G-HetNets"><a href="#B-Utilizaing-the-intelligence-of-software-defined-network-in-5G-HetNets" class="headerlink" title="B Utilizaing the intelligence of software defined network in 5G HetNets"></a>B Utilizaing the intelligence of software defined network in 5G HetNets</h2><p>SDN提供实时数据包报告以及业务流特征的re-activityh功能，并为网络带来的基本的智能。</p>
+<p>此外，SDN的精细数据包分类器以及在网络硬件上的数据平面和控制平面分离能够提供集中式的控制能力以及给力的可编程性能，通过网络资源分配。</p>
+<p>因此，基于SDN用于业务识别以及实时可编程的固有数据包分类器,设计合适的方法和算法来处理网络失败恢复（self-healing）来保证服务和资源的可访问是大有潜力的。比如，研究[79]旨在通过在SDN辅助的相关接入点之间进行用户独立的安全上下文信息共享，来简化HetNet全局管理的鉴权切换。</p>
+<p>仿生算法，如ACO和GA，它们通常是用来进行路由优化，能够利用SDN的可编程性加速业务流优化。</p>
+<h2 id="C-distribute-edge-intelligence-in-hetnet"><a href="#C-distribute-edge-intelligence-in-hetnet" class="headerlink" title="C distribute edge intelligence in hetnet"></a>C distribute edge intelligence in hetnet</h2><p>将当下的移动网络去中心化并不是简单地将虚拟计算负载置入云数据中心，而是优先考虑将服务移动到网络边缘。<br>这种趋势的意义在于两个方面：</p>
+<ul>
+<li>降低了用户延时，服务提供商也能够在异构网络中享受到更多的收入机会（revenue opportunity），比如，本地化的内容，本地化的无线资源管理，以及在网路边缘的增值数据处理</li>
+<li>降低核心网络拥塞,由于媒体密集型应用的激增(proliferation),网络拥塞越来越成为一个危机。</li>
+</ul>
+<p>此外，在新兴的HetNet中一些重要的问题，如不同设备之间的协调和管理。</p>
+<p>边缘智能的一个技术问题是Base sation caching，通过这种方法，内容传输的大部分内容能够由在微小区的基站缓存获得。</p>
+<p>初步的研究[83]通过利用丰富的上下文信息（如用户内容浏览历史，社会关系），为异构网路小区基站提出了一个基于学习的传输cache方案,该方案能够通过利用前沿的ML以及方式技术更长远的拓展。</p>
+<h2 id="D-AI-techniques-for-managing-machine-to-machine-M2M-communication-and-internrt-of-things-Iot-in-HetNet"><a href="#D-AI-techniques-for-managing-machine-to-machine-M2M-communication-and-internrt-of-things-Iot-in-HetNet" class="headerlink" title="D AI techniques for managing machine-to-machine(M2M) communication and internrt of things(Iot) in HetNet"></a>D AI techniques for managing machine-to-machine(M2M) communication and internrt of things(Iot) in HetNet</h2><p>HetNet不仅仅促进(facilitate)移动用户的移动贴心服务，也结合了M2M通信和Iot技术，其实现智能设备间的信息交互。如穿戴式无线传感器，建筑内，室外环境，甚至平常难以到达地区的嵌入式智能设备。但是，为了支持如此多数量的嵌入式设备，传统网络方法在高度异构的、可拓展的以及复杂的环境下，似乎不再适合。</p>
+<h1 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h1><ul>
+<li>结合基于AI的SON特征，异构网络有足够的潜能来增强移动服务性能</li>
+</ul>
+<h1 id="Words"><a href="#Words" class="headerlink" title="Words"></a>Words</h1><table>
+<thead>
+<tr>
+<th>words</th>
+<th>pronounce</th>
+<th>meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>taxonomy</td>
+<td>tækˈsɑːnəmi</td>
+<td>the scientific process of classifyingthings 分类</td>
+</tr>
+<tr>
+<td>pending</td>
+<td>ˈpendɪŋ</td>
+<td>while waiting for something, or until something happens:</td>
+</tr>
+<tr>
+<td>genetic</td>
+<td>dʒɪˈnetɪk</td>
+<td>connected with genes遗传</td>
+</tr>
+<tr>
+<td>colony</td>
+<td>ˈkɑːləni</td>
+<td>a group of plants or animals that live together or grow in the same place 群</td>
+</tr>
+<tr>
+<td>skyrocket</td>
+<td>ˈskaɪˌrɒkət</td>
+<td>if a price or an amount skyrockets, it greatly increases very quickly</td>
+</tr>
+<tr>
+<td>substantially</td>
+<td>səbˈstænʃəli</td>
+<td>very much or a lot</td>
+</tr>
+<tr>
+<td>compensation</td>
+<td>ˌkɑːmpenˈseɪʃn</td>
+<td>Compensation means “making up for a something，补偿</td>
+</tr>
+<tr>
+<td>compact</td>
+<td>ˈkɑːmpækt</td>
+<td>smaller than is usual for things of the same kind</td>
+</tr>
+<tr>
+<td>effectuate</td>
+<td>ɪˈfektʃueɪt</td>
+<td>to make sth happen</td>
+</tr>
+<tr>
+<td>particle</td>
+<td>ˈpɑːtɪkəl</td>
+<td>a very small piece of something:</td>
+<td>ˈmɪtɪɡeɪt     </td>
+</tr>
+<tr>
+<td>mitigate</td>
+<td>ˈmɪtɪɡeɪt</td>
+<td>to make a situation or the effects of something less unpleasant, harmful, or serious</td>
+</tr>
+<tr>
+<td>degradation</td>
+<td>ˌdeɡrəˈdeɪʃn</td>
+<td>the process of sth being damaged or made worse 恶化</td>
+</tr>
+<tr>
+<td>on the fly</td>
+<td></td>
+<td>if you do sth on the fly,you do it quickly while sth else is happening</td>
+</tr>
+<tr>
+<td>derivation</td>
+<td>ˌderɪˈveɪʃən</td>
+<td>the origin or development of sth, especially a word （尤指詞語的）起源，由來，派生</td>
+</tr>
+<tr>
+<td>practically</td>
+<td>ˈpræktɪkli</td>
+<td>syn=almost</td>
+</tr>
+<tr>
+<td>entail</td>
+<td>ɪnˈteɪl</td>
+<td>Entail means what something involves.</td>
+</tr>
+<tr>
+<td>roam</td>
+<td>roʊm</td>
+<td>to walk or travel around an area without any definite aim or direction,漫游</td>
+<td>rɪˈmiːdiəl</td>
+</tr>
+<tr>
+<td>leverage</td>
+<td>ˈlevərɪdʒ</td>
+<td>to get as much advantage or profit as possible from sth that you have 充分利用</td>
+</tr>
+<tr>
+<td>mutation</td>
+<td>mjuːˈteɪʃən</td>
+<td>a change in the form or structure of sth 突变</td>
+</tr>
+<tr>
+<td>chromosome</td>
+<td>ˈkroʊməsoʊm</td>
+<td>A chromosome is a strand of DNA染色体</td>
+</tr>
+<tr>
+<td>remedial</td>
+<td>rɪˈmiːdiəl</td>
+<td>intended to cure a problem with someone’s health补救</td>
+</tr>
+<tr>
+<td>elastic</td>
+<td>ɪˈlæstɪk</td>
+<td>a type of rubber material that can stretch and then return to its usual length or 弹性</td>
+</tr>
+<tr>
+<td>proliferation</td>
+<td>prəˌlɪfəˈreɪʃn</td>
+<td>the sudden increase in the number or amount of sth</td>
+</tr>
+<tr>
+<td>facilitate</td>
+<td>fəˈsɪlɪteɪt</td>
+<td>to make an action or a process possible or easier</td>
+</tr>
+<tr>
+<td>boost</td>
+<td>buːst</td>
+<td>to increase or improve something and make it more successful:</td>
+</tr>
+</tbody>
+</table>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/ns3 Building a Wireless Network Topology/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2031,326 +2435,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/Reading Section -Question Types(2)/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Fatart's blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/Reading Section -Question Types(2)/" itemprop="url">Reading Section -Question Types-2</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-21T10:06:44+08:00">
-                2017-08-21
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/TOEFL/" itemprop="url" rel="index">
-                    <span itemprop="name">TOEFL</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>本节为<a href="https://courses.edx.org/courses/course-v1:ETSx+TOEFLx+3T2017/courseware/9826c1abf9a840afb74c9f0d55319dfc/2b1c21019ca34da3b550f8be8bbaba83/?child=first" target="_blank" rel="external">courses</a>课程第二周笔记</p>
-<h1 id="Factual-Negtive-Factual-Questions"><a href="#Factual-Negtive-Factual-Questions" class="headerlink" title="Factual/Negtive Factual Questions"></a>Factual/Negtive Factual Questions</h1><h3 id="Factual-Information-and-Negtive-Factual-information-questions-ask-about-facts-details-definitions-or-other-information-presented-by-the-author"><a href="#Factual-Information-and-Negtive-Factual-information-questions-ask-about-facts-details-definitions-or-other-information-presented-by-the-author" class="headerlink" title="Factual Information and Negtive Factual information questions ask about facts,details,definitions or other information presented by the author."></a>Factual Information and Negtive Factual information questions ask about facts,details,definitions or other information presented by the author.</h3><p>Paragraph 1: The body that impacted Earth at the end of the <strong>Cretaceous</strong> period was a <strong>meteorite</strong> with a mass of more than a trillion tons and a <strong>diameter</strong> of at least 19 kilometers. Scientists first identified this impact in 1980 from the worldwide layer of <strong>sediment</strong> deposited from the dust cloud that enveloped the planet after the impact. This sediment layer is enriched in the rare metal <strong>iridium</strong> and other elements that are relatively abundant in a meteorite but very rare in the <strong>crust</strong> of Earth.Even <strong>diluted</strong> by the terrestrial material excavated from the crater, this component of meteorites is easy identified.</p>
-<h4 id="Factual-Question-According-to-the-paragraph-how-did-scientists-determinr-that-a-large-meteorite-had-impacted-Earth"><a href="#Factual-Question-According-to-the-paragraph-how-did-scientists-determinr-that-a-large-meteorite-had-impacted-Earth" class="headerlink" title="Factual Question: According to the paragraph, how did scientists determinr that a large meteorite had impacted Earth?"></a>Factual Question: According to the paragraph, how did scientists determinr that a large meteorite had impacted Earth?</h4><p>Paragraph 2: This impact released an enormous amount of energy, excavating a crater about twice as large as the <strong>lunar</strong> crater Tycho. The explosion lifted about 100 trillion tons of dust into the atmosphere, as can be determined by measuring the thickness of the sediment layer formed when this dust settled to the surface. Such a quantity of material would have blocked the sunlight completely from reaching the surface, plunging Earth into a period of cold and darkness that lasted at least several months. The explosion also calculated to have produced vast quantities of nitric <strong>acid</strong> and melted rock that sprayed out over much of Earth, starting widespread fires that must have consumed most terrestrial forests and grassland.Presumably, those environmental disasters could have been responsiblr for mass extinction,including the death of the dinosaurs.</p>
-<h4 id="Negtive-Factual-Question-According-to-paragraph-all-of-the-following-statements-are-true-of-the-impact-at-the-end-of-the-cretaceous-period-EXCEPT"><a href="#Negtive-Factual-Question-According-to-paragraph-all-of-the-following-statements-are-true-of-the-impact-at-the-end-of-the-cretaceous-period-EXCEPT" class="headerlink" title="Negtive Factual Question: According to paragraph, all of the following statements are true of the impact at the end of the cretaceous period EXCEPT:?"></a>Negtive Factual Question: According to paragraph, all of the following statements are true of the impact at the end of the cretaceous period EXCEPT:?</h4><h4 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h4><table>
-<thead>
-<tr>
-<th>new words</th>
-<th>pronunciation</th>
-<th>meaning</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>meteorite</td>
-<td>/ˈmiːtiəraɪt/</td>
-<td>a piece of rock or metal from space that has landed on Earth 陨石</td>
-</tr>
-<tr>
-<td>Cretaceous</td>
-<td>/krɪˈteɪʃəs/</td>
-<td>period between around 146 to 65 million years ago, when dinosaurs lived (until they died out);白堊紀</td>
-</tr>
-<tr>
-<td>diameter</td>
-<td>/daɪˈæmɪtər/</td>
-<td>直徑</td>
-</tr>
-<tr>
-<td>sediment</td>
-<td>/ˈsedɪmənt/</td>
-<td>solid substances that settle at the bottom of a liquid: 沉淀</td>
-</tr>
-<tr>
-<td>envelope</td>
-<td>/ˈenvəloʊp/</td>
-<td>1.信封，2.包围</td>
-</tr>
-<tr>
-<td>iridium</td>
-<td>/ɪˈrɪdiəm/</td>
-<td>the rare metal iridium 稀有金属銥</td>
-</tr>
-<tr>
-<td>crust</td>
-<td>/krʌst/</td>
-<td>the crust of Earth 地壳</td>
-</tr>
-<tr>
-<td>dilute</td>
-<td>/dɪˈluːt/</td>
-<td>to make a liquid weaker by adding water or another liquid ⇨ water down:</td>
-</tr>
-<tr>
-<td>excavate</td>
-<td>/ˈekskəveɪt/</td>
-<td>to dig in the ground to look for old buildings or objects 挖掘</td>
-</tr>
-<tr>
-<td>crater</td>
-<td>/ˈkreɪtər/</td>
-<td>a large hole in the top of a volcano 火山口</td>
-</tr>
-<tr>
-<td>lunar</td>
-<td>/ˈluːnər/</td>
-<td>connected with the moon 月球的；月亮的</td>
-</tr>
-<tr>
-<td>acid</td>
-<td>/ˈæsɪd /</td>
-<td>that has a bitter sharp taste 酸；酸味的</td>
-</tr>
-<tr>
-<td>extinction</td>
-<td>/ɪkˈstɪŋkʃn /</td>
-<td>a situation in which a plant, an animal, a way of life, etc. stops existing</td>
-</tr>
-</tbody>
-</table>
-<h1 id="Inference-and-Rhetorical-Questions"><a href="#Inference-and-Rhetorical-Questions" class="headerlink" title="Inference and Rhetorical Questions"></a>Inference and Rhetorical Questions</h1><h3 id="Inference-questions-ask-about-ideas-and-arguments-that-are-not-explicitly-stated-in-the-text"><a href="#Inference-questions-ask-about-ideas-and-arguments-that-are-not-explicitly-stated-in-the-text" class="headerlink" title="Inference questions ask about ideas and arguments that are not explicitly stated in the text."></a>Inference questions ask about ideas and arguments that are not explicitly stated in the text.</h3><h3 id="Rhetorical-Purpose-questions-are-similar-they-ask-about-why-the-author-presents-a-piece-of-information"><a href="#Rhetorical-Purpose-questions-are-similar-they-ask-about-why-the-author-presents-a-piece-of-information" class="headerlink" title="Rhetorical Purpose questions are similar, they ask about why the author presents a piece of information."></a>Rhetorical Purpose questions are similar, they ask about why the author presents a piece of information.</h3><h4 id="Inference-Question-Which-of-the-following-can-be-inferred-from-paragraph-1-about-the-location-of-the-meteorite-impact-in-Mexico"><a href="#Inference-Question-Which-of-the-following-can-be-inferred-from-paragraph-1-about-the-location-of-the-meteorite-impact-in-Mexico" class="headerlink" title="Inference Question: Which of the following can be inferred from paragraph 1 about the location of the meteorite impact in Mexico?"></a>Inference Question: Which of the following can be inferred from paragraph 1 about the location of the meteorite impact in Mexico?</h4><h4 id="Rhetorical-Purpose-Question-In-paragraph-2-why-does-the-author-include-the-informatio-that-dinosaurs-had-flourished-for-tens-of-millions-of-years-and-then-suddently-disappeared"><a href="#Rhetorical-Purpose-Question-In-paragraph-2-why-does-the-author-include-the-informatio-that-dinosaurs-had-flourished-for-tens-of-millions-of-years-and-then-suddently-disappeared" class="headerlink" title="Rhetorical Purpose Question: In paragraph 2, why does the author include the informatio that dinosaurs had flourished for tens of millions of years and then suddently disappeared?"></a>Rhetorical Purpose Question: In paragraph 2, why does the author include the informatio that dinosaurs had flourished for tens of millions of years and then suddently disappeared?</h4><h3 id="Rhetorical-purpose-Key-words"><a href="#Rhetorical-purpose-Key-words" class="headerlink" title="Rhetorical purpose Key words:"></a>Rhetorical purpose Key words:</h3><ul>
-<li>to illustrate</li>
-<li>to explain</li>
-<li>to constrast</li>
-<li>to refute  (to prove that a statement or idea is not correct )</li>
-<li>to support</li>
-</ul>
-<h1 id="Vocabulary"><a href="#Vocabulary" class="headerlink" title="Vocabulary"></a>Vocabulary</h1><h3 id="Vocabulary-questions-measure-whether-you-know-the-meaning-of-important-words-in-a-reading-passage"><a href="#Vocabulary-questions-measure-whether-you-know-the-meaning-of-important-words-in-a-reading-passage" class="headerlink" title="Vocabulary questions measure whether you know the meaning of important words in a reading passage."></a>Vocabulary questions measure whether you know the meaning of important words in a reading passage.</h3><h3 id="Example"><a href="#Example" class="headerlink" title="Example"></a>Example</h3><p>There is increasing evidence that the impacts of meteorites have had important effects on Earth, particularly in the field of biological evolution. Such impacts continue to <strong>pose</strong> a natural hazard to life on Earth.</p>
-<p>pose = present</p>
-<h1 id="Reference-Questions"><a href="#Reference-Questions" class="headerlink" title="Reference Questions"></a>Reference Questions</h1><h3 id="Reference-questions-look-similar-to-vocabulary-questions-A-word-or-phrase-is-highlighted-in-the-passage-and-you-are-asked-what-the-word-refers-to"><a href="#Reference-questions-look-similar-to-vocabulary-questions-A-word-or-phrase-is-highlighted-in-the-passage-and-you-are-asked-what-the-word-refers-to" class="headerlink" title="Reference questions look similar to vocabulary questions. A word or phrase is highlighted in the passage, and you are asked what the word refers to."></a>Reference questions look similar to vocabulary questions. A word or phrase is highlighted in the passage, and you are asked what the word refers to.</h3><p>Usually the word is a pronoun, like “she”,”they” or “it”.</p>
-<p>It could also be a relative pronoun, like “which,” “that” or “whom”.</p>
-<p><em>In classic research Paul Ekman took photographs of people exhibiting the emotions of anger, disgust, fear, happiness, and sadness. He then asked people around the world to indicate what emotions were being depicted in <strong>them</strong>.</em></p>
-<p>The word “them” in the passage refers to:</p>
-<p>A.   emotions</p>
-<p>B.    people</p>
-<p>C.   photographs</p>
-<p>D.   cultures</p>
-<p>The answer is C, photographs.</p>
-<h1 id="Sentence-simplification-questions"><a href="#Sentence-simplification-questions" class="headerlink" title="Sentence simplification questions"></a>Sentence simplification questions</h1><h3 id="Sentence-Simplification-questions-ask-you-to-choose-a-sentence-with-the-same-meaning-as-a-given-sentence"><a href="#Sentence-Simplification-questions-ask-you-to-choose-a-sentence-with-the-same-meaning-as-a-given-sentence" class="headerlink" title="Sentence Simplification questions ask you to choose a sentence with the same meaning as a given sentence."></a>Sentence Simplification questions ask you to choose a sentence with the same meaning as a given sentence.</h3><h1 id="Insert-Text-Questions"><a href="#Insert-Text-Questions" class="headerlink" title="Insert Text Questions"></a>Insert Text Questions</h1><h3 id="For-Insert-Text-questions-you-are-given-a-new-sentence-and-asked-where-in-the-passage-it-would-best-fit-These-questions-require-you-to-understand-the-logic-of-the-passage-and-the-grammatical-connections-between-sentences"><a href="#For-Insert-Text-questions-you-are-given-a-new-sentence-and-asked-where-in-the-passage-it-would-best-fit-These-questions-require-you-to-understand-the-logic-of-the-passage-and-the-grammatical-connections-between-sentences" class="headerlink" title="For Insert Text questions, you are given a new sentence and asked where in the passage it would best fit. These questions require you to understand the logic of the passage and the grammatical connections between sentences."></a>For Insert Text questions, you are given a new sentence and asked where in the passage it would best fit. These questions require you to understand the logic of the passage and the grammatical connections between sentences.</h3><h1 id="Prose-Summary-and-Fill-in-a-Table-Questions"><a href="#Prose-Summary-and-Fill-in-a-Table-Questions" class="headerlink" title="Prose Summary and Fill in a Table Questions"></a>Prose Summary and Fill in a Table Questions</h1><h3 id="Prose-Summary-questions-ask-you-to-select-the-major-ideas-from-a-passage-by-distinguishing-them-from-minor-points-or-ideas-that-are-not-in-the-passage-Fill-in-a-Table-questions-ask-you-to-correctly-categorize-facts-presented-in-the-passage"><a href="#Prose-Summary-questions-ask-you-to-select-the-major-ideas-from-a-passage-by-distinguishing-them-from-minor-points-or-ideas-that-are-not-in-the-passage-Fill-in-a-Table-questions-ask-you-to-correctly-categorize-facts-presented-in-the-passage" class="headerlink" title="Prose Summary questions ask you to select the major ideas from a passage by distinguishing them from minor points or ideas that are not in the passage. Fill in a Table questions ask you to correctly categorize facts presented in the passage."></a>Prose Summary questions ask you to select the major ideas from a passage by distinguishing them from minor points or ideas that are not in the passage. Fill in a Table questions ask you to correctly categorize facts presented in the passage.</h3><p>Prose summary: 6 answer choices - 3 correct choices express the most important ideas.</p>
-<h1 id="Reading-Practice-Test"><a href="#Reading-Practice-Test" class="headerlink" title="Reading Practice Test"></a>Reading Practice Test</h1><h2 id="Directions-Read-the-passage-Then-answer-the-questions-Give-yourself-20-minutes-to-complete-this-practice-set"><a href="#Directions-Read-the-passage-Then-answer-the-questions-Give-yourself-20-minutes-to-complete-this-practice-set" class="headerlink" title="Directions: Read the passage. Then answer the questions. Give yourself 20 minutes to complete this practice set."></a>Directions: Read the passage. Then answer the questions. Give yourself 20 minutes to complete this practice set.</h2><h3 id="Pastoralism-in-Ancient-Inner-Eurasia"><a href="#Pastoralism-in-Ancient-Inner-Eurasia" class="headerlink" title="Pastoralism in Ancient Inner Eurasia"></a>Pastoralism in Ancient Inner Eurasia</h3><p><img src="https://d37djvu3ytnwxt.cloudfront.net/assets/courseware/v1/c44e0659b8715855f2d4c68d8de441c6/asset-v1:ETSx+TOEFLx+3T2017+type@asset+block/MAP_Of_Eurasia.GIF" alt="image"></p>
-<p><strong>Pastoralism</strong> is a lifestyle in which economic activity is based primarily on <strong>livestock</strong>. <strong>Archaeological</strong> evidence suggests that by 3,000 B.C., and perhaps even earlier, there had emerged on the steppes of Inner Eurasia the distinctive types of pastoralism that were to dominate the region’s history for several <strong>millennia</strong>. Here, the horse was already becoming the animal of prestige in many regions, though sheep, goats, and cattle could also play a vital role. It is the use of horses for transportation and warfare that explains why Inner Eurasian pastoralism proved the most mobile and the most militaristic of all major forms of pastoralism. The emergence and spread of pastoralism had a profound impact on the history of Inner Eurasia, and also, indirectly, on the parts of Asia and Europe just outside this area. In particular, pastoralism favors a mobile lifestyle, and this mobility helps to explain the impact of pastoralist societies on this part of the world.</p>
-<p>The mobility of pastoralist societies reflects their dependence on animal-based foods. While agriculturalists rely on <strong>domesticated</strong> plants, pastoralists rely on domesticated animals. As a result, pastoralists, like carnivores in general, occupy a higher position on the food chain. All else being equal, this means they must exploit larger areas of land than do agriculturalists to secure the same amount of food, clothing, and other <strong>necessities</strong>. So pastoralism is a more extensive lifeway than farming is. However, the larger the <strong>terrain</strong> used to support a group, the harder it is to exploit that terrain while remaining in one place. So, basic ecological principles imply a strong tendency within pastoralist lifeways toward nomadism (a mobile lifestyle). As the archaeologist Roger Cribb puts it, “The greater the degree of pastoralism, the stronger the tendency toward nomadism.” A modern Turkic nomad interviewed by Cribb commented: “The more animals you have, the farther you have to move.”      </p>
-<p>Nomadism has further consequences. It means that pastoralist societies occupy and can influence very large <strong>territories</strong>. This is particularly true of the horse pastoralism that emerged in the Inner Eurasian steppes, for this was the most mobile of all major forms of pastoralism. So, it is no accident that with the appearance of pastoralist societies there appear large areas that share similar cultural, ecological, and even linguistic features. By the late fourth millennium B.C., there is already evidence of large culture zones reaching from Eastern Europe to the western borders of Mongolia. Perhaps the most striking sign of mobility is the fact that by the third millennium B.C., most pastoralists in this huge region spoke related languages ancestral to the modern Indo-European languages. The remarkable mobility and range of pastoral societies explain, in part, why so many linguists have argued that the Indo-European languages began their <strong>astonishing</strong> expansionist career not among farmers in Anatolia (present-day Turkey), but among early pastoralists from Inner Eurasia. Such theories imply that the Indo-European languages evolved not in Neolithic (10,000 to 3,000 B.C.) Anatolia, but among the foraging communities of the cultures in the region of the Don and Dnieper rivers, which took up <strong>stock</strong> breeding and began to exploit the neighboring <strong>steppes</strong>. </p>
-<p>Nomadism also subjects pastoralist communities to strict rules of <strong>portability</strong>. If you are constantly on the move, you cannot afford to accumulate large material surpluses. Such rules limit variations in accumulated material goods between pastoralist households (though they may also encourage a taste for portable goods of high value such as silks or jewelry). So, by and large, nomadism implies a high degree of self-sufficiency and inhibits the appearance of an extensive division of labor. Inequalities of wealth and rank certainly exist, and have probably existed in most pastoralist societies, but except in periods of military conquest, they are normally too slight to generate the stable, hereditary hierarchies that are usually implied by the use of the term class. Inequalities of gender have also existed in pastoralist societies, but they seem to have been softened by the absence of steep hierarchies of wealth in most communities, and also by the requirement that women acquire most of the skills of men, including, often, their military skills.</p>
-<h1 id="Words"><a href="#Words" class="headerlink" title="Words"></a>Words</h1><table>
-<thead>
-<tr>
-<th>words</th>
-<th>pronounce</th>
-<th>meaning</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>pastoralism</td>
-<td>/ˈpæstərəlɪzəm/</td>
-<td>a way of keeping animals that involves moving them from place to place to find water and food</td>
-</tr>
-<tr>
-<td>livestock</td>
-<td>/ˈlaɪvstɒk/</td>
-<td>animals such as cows and sheep that are kept on a farm ⇨ cattle</td>
-</tr>
-<tr>
-<td>stock</td>
-<td>/stɑːk/</td>
-<td>animals, especially cattle</td>
-</tr>
-<tr>
-<td>archaeological</td>
-<td>/ˌɑːkiəˈlɒdʒɪkəl/</td>
-<td>the study of ancient societies by examining what remains of their buildings, graves, tools etc</td>
-</tr>
-<tr>
-<td>millennia</td>
-<td>/ mɪˈleniə/</td>
-<td>a period of 1000 years</td>
-</tr>
-<tr>
-<td>presitge</td>
-<td>/preˈstiːʒ/</td>
-<td>the respect and admiration that someone or something gets because of their success or important position in society</td>
-</tr>
-<tr>
-<td>domesticate</td>
-<td>/dəˈmestɪkeɪt /</td>
-<td>make a wild animal working for humans, grow plants or crops for humans</td>
-</tr>
-<tr>
-<td>terrain</td>
-<td>/təˈreɪn/</td>
-<td>used to refer to an area of land when you are mentioning its natural features, for example, if it is rough,flat,etc</td>
-</tr>
-<tr>
-<td>territory</td>
-<td>/ˈterətɔːri /</td>
-<td>land that is under the control of a particular country or ruler</td>
-</tr>
-<tr>
-<td>astonish</td>
-<td>/əˈstɑːnɪʃ/</td>
-<td>to surprise sb very much</td>
-</tr>
-<tr>
-<td>steppe</td>
-<td>/step/</td>
-<td>a large area of land without trees, especially in Russia, Asia, and eastern Europe</td>
-</tr>
-<tr>
-<td>portability</td>
-<td>/ˌpɔːtəˈbɪləti/</td>
-<td>able to be carried or moved easily</td>
-</tr>
-<tr>
-<td>necessity</td>
-<td>/nɪˈsesəti/</td>
-<td>something that you need to have in order to live</td>
-</tr>
-</tbody>
-</table>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2401,7 +2485,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">21</span>
+                <span class="site-state-item-count">22</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -2412,7 +2496,7 @@
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-count">5</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -2423,7 +2507,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-count">10</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
